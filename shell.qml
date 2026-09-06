@@ -33,6 +33,10 @@ ShellRoot {
 
     // Initialize BatteryMonitor service
     property var _batteryMonitor: BatteryMonitor
+
+    // Keep DisplayService loaded so it can auto-enable the only output
+    // after an external display is unplugged.
+    property var _displayService: DisplayService
 }
 
 // hot-reload touch 2

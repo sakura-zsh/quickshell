@@ -104,6 +104,14 @@ QtObject {
             readonly property string component: "extra/ExtraPane.qml"
             readonly property string category: "extra"
         },
+        // --- Display ---
+        QtObject {
+            readonly property string id: "display"
+            readonly property string label: "显示器"
+            readonly property string icon: "monitor"
+            readonly property string component: "display/DisplayPane.qml"
+            readonly property string category: "display"
+        },
         // --- System ---
         QtObject {
             readonly property string id: "system"
@@ -123,6 +131,7 @@ QtObject {
         { id: "alerts", label: "通知" },
         { id: "security", label: "系统" },
         { id: "extra", label: "附加" },
+        { id: "display", label: "显示器" },
         { id: "system", label: "系统" }
     ]
 
