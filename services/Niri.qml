@@ -111,24 +111,24 @@ Singleton {
         if (!_lockKeysInitialized || !Config.utilities.toasts.capsLockChanged)
             return;
         if (capsLock)
-            Toaster.toast(qsTr("Caps lock enabled"), qsTr("Caps lock is currently enabled"), "keyboard_capslock_badge");
+            Toaster.toast(qsTr("大写锁定已开启"), qsTr("大写锁定当前已开启"), "keyboard_capslock_badge");
         else
-            Toaster.toast(qsTr("Caps lock disabled"), qsTr("Caps lock is currently disabled"), "keyboard_capslock");
+            Toaster.toast(qsTr("大写锁定已关闭"), qsTr("大写锁定当前已关闭"), "keyboard_capslock");
     }
 
     onNumLockChanged: {
         if (!_lockKeysInitialized || !Config.utilities.toasts.numLockChanged)
             return;
         if (numLock)
-            Toaster.toast(qsTr("Num lock enabled"), qsTr("Num lock is currently enabled"), "looks_one");
+            Toaster.toast(qsTr("数字锁定已开启"), qsTr("数字锁定当前已开启"), "looks_one");
         else
-            Toaster.toast(qsTr("Num lock disabled"), qsTr("Num lock is currently disabled"), "timer_1");
+            Toaster.toast(qsTr("数字锁定已关闭"), qsTr("数字锁定当前已关闭"), "timer_1");
     }
 
     onKbLayoutChanged: {
         if (!_lockKeysInitialized || !Config.utilities.toasts.kbLayoutChanged)
             return;
-        Toaster.toast(qsTr("Keyboard layout changed"), qsTr("Layout changed to: %1").arg(kbLayout), "keyboard");
+        Toaster.toast(qsTr("键盘布局已更改"), qsTr("布局已更改为：%1").arg(kbLayout), "keyboard");
     }
 
     // --- Initialization ---

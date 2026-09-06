@@ -24,12 +24,12 @@ ColumnLayout {
     StyledText {
         Layout.topMargin: Appearance.padding.md
         Layout.rightMargin: Appearance.padding.xs
-        text: qsTr("Wifi %1").arg(Nmcli.wifiEnabled ? "enabled" : "disabled")
+        text: qsTr("WiFi %1").arg(Nmcli.wifiEnabled ? "已启用" : "已禁用")
         font.weight: 500
     }
 
     Toggle {
-        label: qsTr("Enabled")
+        label: qsTr("已启用")
         checked: Nmcli.wifiEnabled
         toggle.onToggled: Nmcli.enableWifi(checked)
     }
@@ -37,7 +37,7 @@ ColumnLayout {
     StyledText {
         Layout.topMargin: Appearance.spacing.sm
         Layout.rightMargin: Appearance.padding.xs
-        text: qsTr("%1 networks available").arg(Nmcli.networks.length)
+        text: qsTr("%1 个网络可用").arg(Nmcli.networks.length)
         color: Colours.palette.m3onSurfaceVariant
         font.pointSize: Appearance.font.size.labelLarge
     }
@@ -180,7 +180,7 @@ ColumnLayout {
             }
 
             StyledText {
-                text: qsTr("Rescan networks")
+                text: qsTr("重新扫描网络")
                 color: Colours.palette.m3onPrimaryContainer
             }
 

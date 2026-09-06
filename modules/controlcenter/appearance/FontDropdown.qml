@@ -126,7 +126,7 @@ ColumnLayout {
                     StyledTextField {
                         id: searchField
                         Layout.fillWidth: true
-                        placeholderText: qsTr("Search fonts...")
+                        placeholderText: qsTr("搜索字体…")
                         font.pointSize: Appearance.font.size.bodyMedium
                         
                         onTextChanged: {

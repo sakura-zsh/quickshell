@@ -83,9 +83,9 @@ Singleton {
             return;
 
         if (dnd)
-            Toaster.toast(qsTr("Do not disturb enabled"), qsTr("Popup notifications are now disabled"), "do_not_disturb_on");
+            Toaster.toast(qsTr("勿扰模式已开启"), qsTr("弹出通知已禁用"), "do_not_disturb_on");
         else
-            Toaster.toast(qsTr("Do not disturb disabled"), qsTr("Popup notifications are now enabled"), "do_not_disturb_off");
+            Toaster.toast(qsTr("勿扰模式已关闭"), qsTr("弹出通知已启用"), "do_not_disturb_off");
     }
 
     // ── Persistent DND ───────────────────────────────────────────────────────
@@ -473,7 +473,7 @@ Singleton {
             if (d >= 1) return `${d}d`;
             if (h >= 1) return `${h}h`;
             if (m >= 1) return `${m}m`;
-            return qsTr("now");
+            return qsTr("刚刚");
         }
 
         // ── Lifecycle ─────────────────────────────────────────────────────────

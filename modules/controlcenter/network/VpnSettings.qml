@@ -22,18 +22,18 @@ ColumnLayout {
 
     SettingsHeader {
         icon: "vpn_key"
-        title: qsTr("VPN Settings")
+        title: qsTr("VPN 设置")
     }
 
     SectionHeader {
         Layout.topMargin: Appearance.spacing.xxl
-        title: qsTr("General")
-        description: qsTr("VPN configuration")
+        title: qsTr("通用")
+        description: qsTr("VPN 配置")
     }
 
     SectionContainer {
         ToggleRow {
-            label: qsTr("VPN enabled")
+            label: qsTr("VPN 已启用")
             checked: Config.utilities.vpn.enabled
             toggle.onToggled: {
                 Config.utilities.vpn.enabled = checked;
@@ -44,8 +44,8 @@ ColumnLayout {
 
     SectionHeader {
         Layout.topMargin: Appearance.spacing.xxl
-        title: qsTr("Providers")
-        description: qsTr("Manage VPN providers")
+        title: qsTr("提供商")
+        description: qsTr("管理 VPN 提供商")
     }
 
     SectionContainer {
@@ -108,7 +108,7 @@ ColumnLayout {
                             }
 
                             StyledText {
-                                text: qsTr("%1 • %2").arg(modelData.name).arg(modelData.interface || qsTr("No interface"))
+                                text: qsTr("%1 • %2").arg(modelData.name).arg(modelData.interface || qsTr("无接口"))
                                 font.pointSize: Appearance.font.size.labelLarge
                                 color: Colours.palette.m3outline
                             }
@@ -156,7 +156,7 @@ ColumnLayout {
         TextButton {
             Layout.fillWidth: true
             Layout.topMargin: Appearance.spacing.lg
-            text: qsTr("+ Add Provider")
+            text: qsTr("+ 添加提供商")
             inactiveColour: Colours.palette.m3primaryContainer
             inactiveOnColour: Colours.palette.m3onPrimaryContainer
 
@@ -168,8 +168,8 @@ ColumnLayout {
 
     SectionHeader {
         Layout.topMargin: Appearance.spacing.xxl
-        title: qsTr("Quick Add")
-        description: qsTr("Add common VPN providers")
+        title: qsTr("快速添加")
+        description: qsTr("添加常用 VPN 提供商")
     }
 
     SectionContainer {
@@ -177,7 +177,7 @@ ColumnLayout {
 
         TextButton {
             Layout.fillWidth: true
-            text: qsTr("+ Add NetBird")
+            text: qsTr("+ 添加 NetBird")
             inactiveColour: Colours.tPalette.m3surfaceContainerHigh
             inactiveOnColour: Colours.palette.m3onSurface
 
@@ -195,7 +195,7 @@ ColumnLayout {
 
         TextButton {
             Layout.fillWidth: true
-            text: qsTr("+ Add Tailscale")
+            text: qsTr("+ 添加 Tailscale")
             inactiveColour: Colours.tPalette.m3surfaceContainerHigh
             inactiveOnColour: Colours.palette.m3onSurface
 
@@ -213,7 +213,7 @@ ColumnLayout {
 
         TextButton {
             Layout.fillWidth: true
-            text: qsTr("+ Add Cloudflare WARP")
+            text: qsTr("+ 添加 Cloudflare WARP")
             inactiveColour: Colours.tPalette.m3surfaceContainerHigh
             inactiveOnColour: Colours.palette.m3onSurface
 

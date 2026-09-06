@@ -87,7 +87,7 @@ StyledRect {
             }
 
             StyledText {
-                text: root.isImage ? qsTr("Image Preview") : qsTr("Text Preview")
+                text: root.isImage ? qsTr("图片预览") : qsTr("文本预览")
                 font.pointSize: Appearance.font.size.titleMedium
                 font.weight: 600
                 color: Colours.palette.m3onSurface

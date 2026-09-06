@@ -114,14 +114,14 @@ Item {
 
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Enter password")
+                text: qsTr("输入密码")
                 font.pointSize: Appearance.font.size.titleMedium
                 font.weight: 500
             }
 
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: root.network ? qsTr("Network: %1").arg(root.network.ssid) : ""
+                text: root.network ? qsTr("网络：%1").arg(root.network.ssid) : ""
                 color: Colours.palette.m3outline
                 font.pointSize: Appearance.font.size.labelLarge
             }
@@ -134,10 +134,10 @@ Item {
                 visible: connectButton.connecting || connectButton.hasError
                 text: {
                     if (connectButton.hasError) {
-                        return qsTr("Connection failed. Please check your password and try again.");
+                        return qsTr("连接失败。请检查密码后重试。");
                     }
                     if (connectButton.connecting) {
-                        return qsTr("Connecting...");
+                        return qsTr("正在连接…");
                     }
                     return "";
                 }
@@ -248,7 +248,7 @@ Item {
                 StyledText {
                     id: placeholder
                     anchors.centerIn: parent
-                    text: qsTr("Password")
+                    text: qsTr("密码")
                     color: Colours.palette.m3outline
                     font.pointSize: Appearance.font.size.bodyMedium
                     font.family: Appearance.font.family.mono
@@ -350,7 +350,7 @@ Item {
                     Layout.minimumHeight: Appearance.font.size.bodyMedium + Appearance.padding.md * 2
                     inactiveColour: Colours.palette.m3secondaryContainer
                     inactiveOnColour: Colours.palette.m3onSecondaryContainer
-                    text: qsTr("Cancel")
+                    text: qsTr("取消")
 
                     onClicked: root.closeDialog()
                 }
@@ -365,7 +365,7 @@ Item {
                     Layout.minimumHeight: Appearance.font.size.bodyMedium + Appearance.padding.md * 2
                     inactiveColour: Colours.palette.m3primary
                     inactiveOnColour: Colours.palette.m3onPrimary
-                    text: qsTr("Connect")
+                    text: qsTr("连接")
                     enabled: passwordContainer.passwordBuffer.length > 0 && !connecting
 
                     onClicked: {
@@ -381,7 +381,7 @@ Item {
                         hasError = false;
                         connecting = true;
                         enabled = false;
-                        text = qsTr("Connecting...");
+                        text = qsTr("正在连接…");
 
                         NetworkConnection.connectWithPassword(root.network, password, result => {
                             if (result && result.success) {} else if (result && result.needsPassword) {
@@ -389,7 +389,7 @@ Item {
                                 connecting = false;
                                 hasError = true;
                                 enabled = true;
-                                text = qsTr("Connect");
+                                text = qsTr("连接");
                                 passwordContainer.passwordBuffer = "";
                                 if (root.network && root.network.ssid) {
                                     Nmcli.forgetNetwork(root.network.ssid);
@@ -399,7 +399,7 @@ Item {
                                 connecting = false;
                                 hasError = true;
                                 enabled = true;
-                                text = qsTr("Connect");
+                                text = qsTr("连接");
                                 passwordContainer.passwordBuffer = "";
                                 if (root.network && root.network.ssid) {
                                     Nmcli.forgetNetwork(root.network.ssid);
@@ -432,7 +432,7 @@ Item {
                 connectButton.connecting = false;
                 connectButton.hasError = true;
                 connectButton.enabled = true;
-                connectButton.text = qsTr("Connect");
+                connectButton.text = qsTr("连接");
                 passwordContainer.passwordBuffer = "";
                 if (root.network && root.network.ssid) {
                     Nmcli.forgetNetwork(root.network.ssid);
@@ -469,7 +469,7 @@ Item {
                 if (stillConnected) {
                     connectionMonitor.stop();
                     connectButton.connecting = false;
-                    connectButton.text = qsTr("Connect");
+                    connectButton.text = qsTr("连接");
                     closeDialog();
                 }
             }
@@ -489,7 +489,7 @@ Item {
                 connectButton.connecting = false;
                 connectButton.hasError = true;
                 connectButton.enabled = true;
-                connectButton.text = qsTr("Connect");
+                connectButton.text = qsTr("连接");
                 passwordContainer.passwordBuffer = "";
                 Nmcli.forgetNetwork(ssid);
             }
@@ -505,7 +505,7 @@ Item {
         passwordContainer.passwordBuffer = "";
         connectButton.connecting = false;
         connectButton.hasError = false;
-        connectButton.text = qsTr("Connect");
+        connectButton.text = qsTr("连接");
         connectionMonitor.stop();
     }
 }

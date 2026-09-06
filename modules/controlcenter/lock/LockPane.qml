@@ -98,7 +98,7 @@ Item {
                     spacing: Appearance.spacing.md
 
                     StyledText {
-                        text: qsTr("Lock Screen")
+                        text: qsTr("锁屏")
                         font.pointSize: Appearance.font.size.titleMedium
                         font.weight: 500
                     }
@@ -124,8 +124,8 @@ Item {
                 CollapsibleSection {
                     id: layoutSection
 
-                    title: qsTr("Appearance")
-                    description: qsTr("Side panels show weather, media, system resources and notifications")
+                    title: qsTr("外观")
+                    description: qsTr("侧边面板显示天气、媒体、系统资源和通知")
                     expanded: true
                     showBackground: true
 
@@ -134,7 +134,7 @@ Item {
                         Layout.fillWidth: true
 
                         SwitchRow {
-                            label: qsTr("Show side panels")
+                            label: qsTr("显示侧边面板")
                             checked: root.showExtras
                             onToggled: checked => {
                                 root.showExtras = checked;
@@ -143,7 +143,7 @@ Item {
                         }
 
                         SwitchRow {
-                            label: qsTr("Tint avatar with colour scheme")
+                            label: qsTr("使用配色方案为头像着色")
                             checked: root.recolourLogo
                             onToggled: checked => {
                                 root.recolourLogo = checked;
@@ -156,8 +156,8 @@ Item {
                 CollapsibleSection {
                     id: authSection
 
-                    title: qsTr("Authentication")
-                    description: qsTr("Configure fingerprint reader and authentication behaviour")
+                    title: qsTr("身份验证")
+                    description: qsTr("配置指纹读取器和身份验证行为")
                     expanded: true
                     showBackground: true
 
@@ -166,7 +166,7 @@ Item {
                         Layout.fillWidth: true
 
                         SwitchRow {
-                            label: qsTr("Fingerprint unlock")
+                            label: qsTr("指纹解锁")
                             checked: root.enableFprint
                             onToggled: checked => {
                                 root.enableFprint = checked;
@@ -180,7 +180,7 @@ Item {
                             SliderInput {
                                 Layout.fillWidth: true
 
-                                label: qsTr("Max fingerprint attempts")
+                                label: qsTr("指纹尝试次数上限")
                                 value: root.maxFprintTries
                                 from: 1
                                 to: 10
@@ -201,8 +201,8 @@ Item {
                 CollapsibleSection {
                     id: sizingSection
 
-                    title: qsTr("Dimensions")
-                    description: qsTr("Size and proportions of the lock screen panel on your display")
+                    title: qsTr("尺寸")
+                    description: qsTr("锁屏面板在显示器上的尺寸和比例")
                     expanded: true
                     showBackground: true
 
@@ -212,7 +212,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Center panel width")
+                            label: qsTr("中间面板宽度")
                             value: root.centerWidth
                             from: 300
                             to: 1200
@@ -231,7 +231,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Screen coverage")
+                            label: qsTr("屏幕覆盖")
                             value: root.heightMult * 100
                             from: 30
                             to: 100
@@ -250,7 +250,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Width-to-height ratio")
+                            label: qsTr("宽高比")
                             value: root.ratio
                             from: 1.0
                             to: 2.5

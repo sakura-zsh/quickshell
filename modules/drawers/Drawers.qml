@@ -5,6 +5,8 @@ import qs.components.containers
 import qs.services
 import qs.config
 import qs.modules.bar
+import qs.modules.dock as Dock
+import qs.modules.lyrics as LyricsModule
 import Quickshell
 import Quickshell.Wayland
 import QtQuick
@@ -143,6 +145,27 @@ Variants {
                 }
             }
         }
-    }
 
+        // Bottom macOS-style dock (separate layer shell window)
+        Dock.Wrapper {
+            id: dock
+
+            screen: scope.modelData
+        }
+
+        // Audio visualizer: bottom-left, just right of the status bar, not touching the dock
+        Dock.Visualiser {
+            id: visualiser
+
+            screen: scope.modelData
+        }
+
+        // Desktop lyrics: bottom-right, flush to screen right edge
+        LyricsModule.Wrapper {
+            id: desktopLyrics
+
+            screen: scope.modelData
+            visibilities: visibilities
+        }
+    }
 }

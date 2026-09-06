@@ -95,7 +95,7 @@ DeviceDetails {
     headerComponent: Component {
         ConnectionHeader {
             icon: root.network?.isSecure ? "lock" : "wifi"
-            title: root.network?.ssid ?? qsTr("Unknown")
+            title: root.network?.ssid ?? qsTr("未知")
         }
     }
 
@@ -105,13 +105,13 @@ DeviceDetails {
                 spacing: Appearance.spacing.lg
 
                 SectionHeader {
-                    title: qsTr("Connection status")
-                    description: qsTr("Connection settings for this network")
+                    title: qsTr("连接状态")
+                    description: qsTr("此网络的连接设置")
                 }
 
                 SectionContainer {
                     ToggleRow {
-                        label: qsTr("Connected")
+                        label: qsTr("已连接")
                         checked: root.network?.active ?? false
                         toggle.onToggled: {
                             if (checked) {
@@ -134,7 +134,7 @@ DeviceDetails {
                         }
                         inactiveColour: Colours.palette.m3secondaryContainer
                         inactiveOnColour: Colours.palette.m3onSecondaryContainer
-                        text: qsTr("Forget Network")
+                        text: qsTr("忘记网络")
 
                         onClicked: {
                             if (root.network && root.network.ssid) {
@@ -153,8 +153,8 @@ DeviceDetails {
                 spacing: Appearance.spacing.lg
 
                 SectionHeader {
-                    title: qsTr("Network properties")
-                    description: qsTr("Additional information")
+                    title: qsTr("网络属性")
+                    description: qsTr("附加信息")
                 }
 
                 SectionContainer {
@@ -162,31 +162,31 @@ DeviceDetails {
 
                     PropertyRow {
                         label: qsTr("SSID")
-                        value: root.network?.ssid ?? qsTr("Unknown")
+                        value: root.network?.ssid ?? qsTr("未知")
                     }
 
                     PropertyRow {
                         showTopMargin: true
                         label: qsTr("BSSID")
-                        value: root.network?.bssid ?? qsTr("Unknown")
+                        value: root.network?.bssid ?? qsTr("未知")
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("Signal strength")
+                        label: qsTr("信号强度")
                         value: root.network ? qsTr("%1%").arg(root.network.strength) : qsTr("N/A")
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("Frequency")
+                        label: qsTr("频率")
                         value: root.network ? qsTr("%1 MHz").arg(root.network.frequency) : qsTr("N/A")
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("Security")
-                        value: root.network ? (root.network.isSecure ? root.network.security : qsTr("Open")) : qsTr("N/A")
+                        label: qsTr("安全")
+                        value: root.network ? (root.network.isSecure ? root.network.security : qsTr("打开")) : qsTr("N/A")
                     }
                 }
             }
@@ -196,8 +196,8 @@ DeviceDetails {
                 spacing: Appearance.spacing.lg
 
                 SectionHeader {
-                    title: qsTr("Connection information")
-                    description: qsTr("Network connection details")
+                    title: qsTr("连接信息")
+                    description: qsTr("网络连接详情")
                 }
 
                 SectionContainer {

@@ -68,10 +68,10 @@ Item {
 
             text: {
                 if (!root.query)
-                    return qsTr("Type a URL or search query");
+                    return qsTr("输入网址或搜索内容");
                 if (root.isUrl)
-                    return qsTr("Open %1").arg(root.url);
-                return qsTr("Search \"%1\"").arg(root.query);
+                    return qsTr("打开 %1").arg(root.url);
+                return qsTr("搜索“%1”").arg(root.query);
             }
             elide: Text.ElideRight
 

@@ -69,8 +69,8 @@ Item {
 
                 Repeater {
                     model: [
-                        { label: qsTr("Browse"),  icon: "explore" },
-                        { label: qsTr("Library"), icon: "library_books" }
+                        { label: qsTr("浏览"),  icon: "explore" },
+                        { label: qsTr("书库"), icon: "library_books" }
                     ]
 
                     delegate: Item {

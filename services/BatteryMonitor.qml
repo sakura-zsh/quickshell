@@ -18,10 +18,10 @@ Singleton {
         function onOnBatteryChanged(): void {
             if (UPower.onBattery) {
                 if (Config.utilities.toasts.chargingChanged)
-                    Toaster.toast(qsTr("Charger unplugged"), qsTr("Battery is discharging"), "power_off");
+                    Toaster.toast(qsTr("已拔下充电器"), qsTr("电池正在放电"), "power_off");
             } else {
                 if (Config.utilities.toasts.chargingChanged)
-                    Toaster.toast(qsTr("Charger plugged in"), qsTr("Battery is charging"), "power");
+                    Toaster.toast(qsTr("已插入充电器"), qsTr("电池正在充电"), "power");
                 for (const level of root.warnLevels)
                     level.warned = false;
             }
@@ -39,12 +39,12 @@ Singleton {
             for (const level of root.warnLevels) {
                 if (p <= level.level && !level.warned) {
                     level.warned = true;
-                    Toaster.toast(level.title ?? qsTr("Battery warning"), level.message ?? qsTr("Battery level is low"), level.icon ?? "battery_android_alert", level.critical ? Toast.Error : Toast.Warning);
+                    Toaster.toast(level.title ?? qsTr("电池警告"), level.message ?? qsTr("电池电量过低"), level.icon ?? "battery_android_alert", level.critical ? Toast.Error : Toast.Warning);
                 }
             }
 
             if (!hibernateTimer.running && p <= Config.general.battery.criticalLevel) {
-                Toaster.toast(qsTr("Hibernating in 5 seconds"), qsTr("Hibernating to prevent data loss"), "battery_android_alert", Toast.Error);
+                Toaster.toast(qsTr("5 秒后休眠"), qsTr("即将休眠以防止数据丢失"), "battery_android_alert", Toast.Error);
                 hibernateTimer.start();
             }
         }

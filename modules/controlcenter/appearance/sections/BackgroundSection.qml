@@ -15,7 +15,7 @@ CollapsibleSection {
 
     required property var rootPane
 
-    title: qsTr("Background")
+    title: qsTr("背景")
     showBackground: true
 
     ColumnLayout {
@@ -23,7 +23,7 @@ CollapsibleSection {
         Layout.fillWidth: true
 
     SwitchRow {
-        label: qsTr("Background enabled")
+        label: qsTr("背景已启用")
         checked: rootPane.backgroundEnabled
         onToggled: checked => {
             rootPane.backgroundEnabled = checked;
@@ -32,7 +32,7 @@ CollapsibleSection {
     }
 
     SwitchRow {
-        label: qsTr("Wallpaper enabled")
+        label: qsTr("壁纸已启用")
         checked: rootPane.wallpaperEnabled
         onToggled: checked => {
             rootPane.wallpaperEnabled = checked;
@@ -42,13 +42,13 @@ CollapsibleSection {
 
     StyledText {
         Layout.topMargin: Appearance.spacing.lg
-        text: qsTr("Desktop Clock")
+        text: qsTr("桌面时钟")
         font.pointSize: Appearance.font.size.bodyLarge
         font.weight: 500
     }
 
     SwitchRow {
-        label: qsTr("Desktop Clock enabled")
+        label: qsTr("桌面时钟已启用")
         checked: rootPane.desktopClockEnabled
         onToggled: checked => {
             rootPane.desktopClockEnabled = checked;
@@ -72,28 +72,28 @@ CollapsibleSection {
         }
 
         StyledText {
-            text: qsTr("Positioning")
+            text: qsTr("定位")
             font.pointSize: Appearance.font.size.bodyLarge
             font.weight: 500
         }
 
         SplitButtonRow {
-            label: qsTr("Vertical Position")
+            label: qsTr("垂直位置")
             enabled: rootPane.desktopClockEnabled
 
             menuItems: [
                 MenuItem {
-                    text: qsTr("Top")
+                    text: qsTr("顶部")
                     icon: "vertical_align_top"
                     property string val: "top"
                 },
                 MenuItem {
-                    text: qsTr("Middle")
+                    text: qsTr("中间")
                     icon: "vertical_align_center"
                     property string val: "middle"
                 },
                 MenuItem {
-                    text: qsTr("Bottom")
+                    text: qsTr("底部")
                     icon: "vertical_align_bottom"
                     property string val: "bottom"
                 }
@@ -111,23 +111,23 @@ CollapsibleSection {
         }
 
         SplitButtonRow {
-            label: qsTr("Horizontal Position")
+            label: qsTr("水平位置")
             enabled: rootPane.desktopClockEnabled
             expandedZ: 99
 
             menuItems: [
                 MenuItem {
-                    text: qsTr("Left")
+                    text: qsTr("左")
                     icon: "align_horizontal_left"
                     property string val: "left"
                 },
                 MenuItem {
-                    text: qsTr("Center")
+                    text: qsTr("居中")
                     icon: "align_horizontal_center"
                     property string val: "center"
                 },
                 MenuItem {
-                    text: qsTr("Right")
+                    text: qsTr("右")
                     icon: "align_horizontal_right"
                     property string val: "right"
                 }
@@ -145,7 +145,7 @@ CollapsibleSection {
     }
 
     SwitchRow {
-        label: qsTr("Invert colors")
+        label: qsTr("反转颜色")
         checked: rootPane.desktopClockInvertColors
         onToggled: checked => {
             rootPane.desktopClockInvertColors = checked;
@@ -157,13 +157,13 @@ CollapsibleSection {
         contentSpacing: Appearance.spacing.sm
 
         StyledText {
-            text: qsTr("Shadow")
+            text: qsTr("阴影")
             font.pointSize: Appearance.font.size.bodyLarge
             font.weight: 500
         }
 
         SwitchRow {
-            label: qsTr("Enabled")
+            label: qsTr("已启用")
             checked: rootPane.desktopClockShadowEnabled
             onToggled: checked => {
                 rootPane.desktopClockShadowEnabled = checked;
@@ -177,7 +177,7 @@ CollapsibleSection {
             SliderInput {
                 Layout.fillWidth: true
 
-                label: qsTr("Opacity")
+                label: qsTr("不透明度")
                 value: rootPane.desktopClockShadowOpacity * 100
                 from: 0
                 to: 100
@@ -202,7 +202,7 @@ CollapsibleSection {
             SliderInput {
                 Layout.fillWidth: true
 
-                label: qsTr("Blur")
+                label: qsTr("模糊")
                 value: rootPane.desktopClockShadowBlur * 100
                 from: 0
                 to: 100
@@ -226,13 +226,13 @@ CollapsibleSection {
         contentSpacing: Appearance.spacing.sm
 
         StyledText {
-            text: qsTr("Background")
+            text: qsTr("背景")
             font.pointSize: Appearance.font.size.bodyLarge
             font.weight: 500
         }
 
         SwitchRow {
-            label: qsTr("Enabled")
+            label: qsTr("已启用")
             checked: rootPane.desktopClockBackgroundEnabled
             onToggled: checked => {
                 rootPane.desktopClockBackgroundEnabled = checked;
@@ -241,7 +241,7 @@ CollapsibleSection {
         }
 
         SwitchRow {
-            label: qsTr("Blur enabled")
+            label: qsTr("模糊已启用")
             checked: rootPane.desktopClockBackgroundBlur
             onToggled: checked => {
                 rootPane.desktopClockBackgroundBlur = checked;
@@ -255,7 +255,7 @@ CollapsibleSection {
             SliderInput {
                 Layout.fillWidth: true
 
-                label: qsTr("Opacity")
+                label: qsTr("不透明度")
                 value: rootPane.desktopClockBackgroundOpacity * 100
                 from: 0
                 to: 100
@@ -277,13 +277,13 @@ CollapsibleSection {
 
     StyledText {
         Layout.topMargin: Appearance.spacing.lg
-        text: qsTr("Visualiser")
+        text: qsTr("可视化器")
         font.pointSize: Appearance.font.size.bodyLarge
         font.weight: 500
     }
 
     SwitchRow {
-        label: qsTr("Visualiser enabled")
+        label: qsTr("可视化器已启用")
         checked: rootPane.visualiserEnabled
         onToggled: checked => {
             rootPane.visualiserEnabled = checked;
@@ -292,7 +292,7 @@ CollapsibleSection {
     }
 
     SwitchRow {
-        label: qsTr("Visualiser auto hide")
+        label: qsTr("可视化器自动隐藏")
         checked: rootPane.visualiserAutoHide
         onToggled: checked => {
             rootPane.visualiserAutoHide = checked;
@@ -306,7 +306,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Visualiser rounding")
+            label: qsTr("可视化器圆角")
             value: rootPane.visualiserRounding
             from: 0
             to: 10
@@ -331,7 +331,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Visualiser spacing")
+            label: qsTr("可视化器间距")
             value: rootPane.visualiserSpacing
             from: 0
             to: 2

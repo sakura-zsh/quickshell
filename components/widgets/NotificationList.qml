@@ -50,10 +50,10 @@ Item {
             StyledText {
                 text: {
                     if (Notifs.dnd)
-                        return qsTr("Do Not Disturb");
+                        return qsTr("勿扰模式");
                     if (Notifs.list.length > 0)
-                        return qsTr("%1 notification%2").arg(Notifs.list.length).arg(Notifs.list.length === 1 ? "" : "s");
-                    return qsTr("Notifications");
+                        return qsTr("%1 条通知").arg(Notifs.list.length).arg(Notifs.list.length === 1 ? "" : "s");
+                    return qsTr("通知");
                 }
                 font.pointSize: Appearance.font.size.bodySmall
                 font.weight: Font.Medium
@@ -156,7 +156,7 @@ Item {
 
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("All clear")
+                    text: qsTr("全部清除")
                     color: Colours.palette.m3outlineVariant
                     font.pointSize: Appearance.font.size.bodySmall
                 }

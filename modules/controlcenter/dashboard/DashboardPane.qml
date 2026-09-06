@@ -112,7 +112,7 @@ Item {
                     spacing: Appearance.spacing.md
 
                     StyledText {
-                        text: qsTr("Dashboard")
+                        text: qsTr("仪表盘")
                         font.pointSize: Appearance.font.size.titleMedium
                         font.weight: 500
                     }

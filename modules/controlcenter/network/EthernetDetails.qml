@@ -36,7 +36,7 @@ DeviceDetails {
     headerComponent: Component {
         ConnectionHeader {
             icon: "cable"
-            title: root.ethernetDevice?.interface ?? qsTr("Unknown")
+            title: root.ethernetDevice?.interface ?? qsTr("未知")
         }
     }
 
@@ -46,13 +46,13 @@ DeviceDetails {
                 spacing: Appearance.spacing.lg
 
                 SectionHeader {
-                    title: qsTr("Connection status")
-                    description: qsTr("Connection settings for this device")
+                    title: qsTr("连接状态")
+                    description: qsTr("此设备的连接设置")
                 }
 
                 SectionContainer {
                     ToggleRow {
-                        label: qsTr("Connected")
+                        label: qsTr("已连接")
                         checked: root.ethernetDevice?.connected ?? false
                         toggle.onToggled: {
                             if (checked) {
@@ -72,28 +72,28 @@ DeviceDetails {
                 spacing: Appearance.spacing.lg
 
                 SectionHeader {
-                    title: qsTr("Device properties")
-                    description: qsTr("Additional information")
+                    title: qsTr("设备属性")
+                    description: qsTr("附加信息")
                 }
 
                 SectionContainer {
                     contentSpacing: Appearance.spacing.sm / 2
 
                     PropertyRow {
-                        label: qsTr("Interface")
-                        value: root.ethernetDevice?.interface ?? qsTr("Unknown")
+                        label: qsTr("接口")
+                        value: root.ethernetDevice?.interface ?? qsTr("未知")
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("Connection")
-                        value: root.ethernetDevice?.connection || qsTr("Not connected")
+                        label: qsTr("连接")
+                        value: root.ethernetDevice?.connection || qsTr("未连接")
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("State")
-                        value: root.ethernetDevice?.state ?? qsTr("Unknown")
+                        label: qsTr("状态")
+                        value: root.ethernetDevice?.state ?? qsTr("未知")
                     }
                 }
             }
@@ -103,8 +103,8 @@ DeviceDetails {
                 spacing: Appearance.spacing.lg
 
                 SectionHeader {
-                    title: qsTr("Connection information")
-                    description: qsTr("Network connection details")
+                    title: qsTr("连接信息")
+                    description: qsTr("网络连接详情")
                 }
 
                 SectionContainer {

@@ -126,7 +126,7 @@ Variants {
                             spacing: 2
 
                             StyledText {
-                                text: qsTr("Authentication Required")
+                                text: qsTr("需要身份验证")
                                 font.pointSize: Appearance.font.size.titleMedium
                                 font.weight: Font.DemiBold
                                 color: Colours.palette.m3onSurface
@@ -315,7 +315,7 @@ Variants {
 
                             visible: PolkitService.failedAttempts > 0 && PolkitService.active
                             opacity: PolkitService.failedAttempts > 0 && PolkitService.active ? 1 : 0
-                            text: qsTr("Incorrect password. Please try again.")
+                            text: qsTr("密码错误，请重试。")
                             color: Colours.palette.m3error
                             font.pointSize: Appearance.font.size.labelLarge
                             horizontalAlignment: Text.AlignHCenter
@@ -350,7 +350,7 @@ Variants {
                             StyledText {
                                 id: cancelText
                                 anchors.centerIn: parent
-                                text: qsTr("Cancel")
+                                text: qsTr("取消")
                                 color: Colours.palette.m3onSurfaceVariant
                                 font.pointSize: Appearance.font.size.labelLarge
                                 font.weight: Font.Medium
@@ -382,7 +382,7 @@ Variants {
                             StyledText {
                                 id: authenticateText
                                 anchors.centerIn: parent
-                                text: qsTr("Authenticate")
+                                text: qsTr("身份验证")
                                 color: Colours.palette.m3onPrimary
                                 font.pointSize: Appearance.font.size.labelLarge
                                 font.weight: Font.Medium

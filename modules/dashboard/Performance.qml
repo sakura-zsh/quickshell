@@ -42,14 +42,14 @@ Item {
 
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("No widgets enabled")
+                text: qsTr("未启用小组件")
                 font.pointSize: Appearance.font.size.titleMedium
                 color: Colours.palette.m3onSurface
             }
 
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Enable widgets in dashboard settings")
+                text: qsTr("在仪表盘设置中启用小组件")
                 font.pointSize: Appearance.font.size.labelLarge
                 color: Colours.palette.m3onSurfaceVariant
             }
@@ -87,9 +87,9 @@ Item {
                     icon: "memory"
                     title: SystemUsage.cpuName ? `CPU - ${SystemUsage.cpuName}` : qsTr("CPU")
                     mainValue: `${Math.round(SystemUsage.cpuPerc * 100)}%`
-                    mainLabel: qsTr("Usage")
+                    mainLabel: qsTr("使用量")
                     secondaryValue: root.displayTemp(SystemUsage.cpuTemp)
-                    secondaryLabel: qsTr("Temp")
+                    secondaryLabel: qsTr("温度")
                     usage: SystemUsage.cpuPerc
                     temperature: SystemUsage.cpuTemp
                     accentColor: Colours.palette.m3primary
@@ -103,9 +103,9 @@ Item {
                     icon: "desktop_windows"
                     title: SystemUsage.gpuName ? `GPU - ${SystemUsage.gpuName}` : qsTr("GPU")
                     mainValue: `${Math.round(SystemUsage.gpuPerc * 100)}%`
-                    mainLabel: qsTr("Usage")
+                    mainLabel: qsTr("使用量")
                     secondaryValue: root.displayTemp(SystemUsage.gpuTemp)
-                    secondaryLabel: qsTr("Temp")
+                    secondaryLabel: qsTr("温度")
                     usage: SystemUsage.gpuPerc
                     temperature: SystemUsage.gpuTemp
                     accentColor: Colours.palette.m3secondary
@@ -122,7 +122,7 @@ Item {
                     Layout.preferredHeight: 220
                     Layout.fillWidth: !Config.dashboard.performance.showStorage && !Config.dashboard.performance.showNetwork
                     icon: "memory_alt"
-                    title: qsTr("Memory")
+                    title: qsTr("内存")
                     percentage: SystemUsage.memPerc
                     subtitle: {
                         const usedFmt = SystemUsage.formatKib(SystemUsage.memUsed);
@@ -219,7 +219,7 @@ Item {
 
                 StyledText {
                     Layout.fillWidth: true
-                    text: qsTr("Battery")
+                    text: qsTr("电池")
                     font.pointSize: Appearance.font.size.bodyMedium
                     color: Colours.palette.m3onSurface
                 }
@@ -246,10 +246,10 @@ Item {
                     Layout.alignment: Qt.AlignRight
                     text: {
                         if (UPower.displayDevice.state === UPowerDeviceState.FullyCharged)
-                            return qsTr("Full");
+                            return qsTr("满");
 
                         if (batteryTank.isCharging)
-                            return qsTr("Charging");
+                            return qsTr("充电中");
 
                         const s = UPower.displayDevice.timeToEmpty;
                         if (s === 0)
@@ -615,7 +615,7 @@ Item {
             CardHeader {
                 icon: "hard_disk"
                 title: {
-                    const base = qsTr("Storage");
+                    const base = qsTr("存储");
                     if (!storageGaugeCard.currentDisk)
                         return base;
 
@@ -631,7 +631,7 @@ Item {
                     visible: storageGaugeCard.diskCount > 1
                     opacity: 0.7
                     ToolTip.visible: hintHover.hovered
-                    ToolTip.text: qsTr("Scroll to switch disks")
+                    ToolTip.text: qsTr("滚动切换磁盘")
                     ToolTip.delay: 500
 
                     HoverHandler {
@@ -742,7 +742,7 @@ Item {
 
             CardHeader {
                 icon: "swap_vert"
-                title: qsTr("Network")
+                title: qsTr("网络")
                 accentColor: networkCard.accentColor
             }
 
@@ -861,7 +861,7 @@ Item {
                 // "No data" placeholder
                 StyledText {
                     anchors.centerIn: parent
-                    text: qsTr("Collecting data...")
+                    text: qsTr("正在收集数据…")
                     font.pointSize: Appearance.font.size.labelLarge
                     color: Colours.palette.m3onSurfaceVariant
                     visible: NetworkUsage.downloadHistory.length < 2
@@ -881,7 +881,7 @@ Item {
                 }
 
                 StyledText {
-                    text: qsTr("Download")
+                    text: qsTr("下载")
                     font.pointSize: Appearance.font.size.labelLarge
                     color: Colours.palette.m3onSurfaceVariant
                 }
@@ -913,7 +913,7 @@ Item {
                 }
 
                 StyledText {
-                    text: qsTr("Upload")
+                    text: qsTr("上传")
                     font.pointSize: Appearance.font.size.labelLarge
                     color: Colours.palette.m3onSurfaceVariant
                 }
@@ -945,7 +945,7 @@ Item {
                 }
 
                 StyledText {
-                    text: qsTr("Total")
+                    text: qsTr("总计")
                     font.pointSize: Appearance.font.size.labelLarge
                     color: Colours.palette.m3onSurfaceVariant
                 }

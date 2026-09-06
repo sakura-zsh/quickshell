@@ -121,13 +121,13 @@ Item {
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.topMargin: Appearance.padding.xl
-                    text: qsTr("Wallpaper")
+                    text: qsTr("壁纸")
                     font.pointSize: Appearance.font.size.headlineLarge
                     font.weight: 600
                 }
 
                 CollapsibleSection {
-                    title: qsTr("Web Wallpapers")
+                    title: qsTr("在线壁纸")
                     expanded: false
                     Layout.fillWidth: true
 
@@ -138,7 +138,7 @@ Item {
                 }
 
                 CollapsibleSection {
-                    title: qsTr("Local Wallpapers")
+                    title: qsTr("本地壁纸")
                     expanded: true
                     Layout.fillWidth: true
 
@@ -180,7 +180,7 @@ Item {
                         spacing: Appearance.spacing.md
 
                         StyledText {
-                            text: qsTr("Appearance")
+                            text: qsTr("外观")
                             font.pointSize: Appearance.font.size.titleMedium
                             font.weight: 500
                         }

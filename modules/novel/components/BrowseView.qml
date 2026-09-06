@@ -65,7 +65,7 @@ Item {
                     }
 
                     StyledText {
-                        text: qsTr("Novel")
+                        text: qsTr("小说")
                         font.pointSize: Appearance.font.size.headlineLarge
                         font.weight: Font.Bold
                         color: c.m3onSurface
@@ -101,7 +101,7 @@ Item {
                             property bool isSearchActive: false
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
-                            placeholderText: qsTr("Search novels...")
+                            placeholderText: qsTr("搜索小说…")
                             text: ""
                             
                             onTextChanged: if (searchBar.isSearchActive) searchDebounce.restart()
@@ -126,7 +126,7 @@ Item {
                                 browseView.currentFilter = "hot"
                                 Novel.fetchHot()
                             }
-                            Tooltip { target: closeSearchBtn; text: qsTr("Close search") }
+                            Tooltip { target: closeSearchBtn; text: qsTr("关闭搜索") }
                         }
                     }
                 }
@@ -257,14 +257,14 @@ Item {
                 spacing: Appearance.spacing.sm
 
                 Chip {
-                    text: qsTr("Hot")
+                    text: qsTr("热门")
                     icon: "local_fire_department"
                     selected: browseView.currentFilter === "hot"
                     onClicked: browseView._switchFilter("hot")
                 }
                 
                 Chip {
-                    text: qsTr("Latest")
+                    text: qsTr("最新")
                     icon: "new_releases"
                     selected: browseView.currentFilter === "latest"
                     onClicked: browseView._switchFilter("latest")
@@ -297,7 +297,7 @@ Item {
                     
                     StyledText {
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("Loading titles...")
+                        text: qsTr("正在加载标题…")
                         color: c.m3onSurfaceVariant
                         opacity: 0.7
                     }
@@ -331,7 +331,7 @@ Item {
                     
                     TextButton {
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("Retry")
+                        text: qsTr("重试")
                         onClicked: {
                             if (browseView.currentFilter === "hot") Novel.fetchHot()
                             else Novel.fetchLatest(true)

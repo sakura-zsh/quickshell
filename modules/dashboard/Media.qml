@@ -168,7 +168,7 @@ Item {
 
             animate: true
             horizontalAlignment: Text.AlignHCenter
-            text: (Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title")
+            text: (Players.active?.trackTitle ?? qsTr("无媒体")) || qsTr("未知标题")
             color: Players.active ? Colours.palette.m3primary : Colours.palette.m3onSurface
             font.pointSize: Appearance.font.size.bodyMedium
         }
@@ -182,7 +182,7 @@ Item {
             animate: true
             horizontalAlignment: Text.AlignHCenter
             visible: !!Players.active
-            text: Players.active?.trackAlbum || qsTr("Unknown album")
+            text: Players.active?.trackAlbum || qsTr("未知专辑")
             color: Colours.palette.m3outline
             font.pointSize: Appearance.font.size.labelLarge
         }
@@ -195,7 +195,7 @@ Item {
 
             animate: true
             horizontalAlignment: Text.AlignHCenter
-            text: (Players.active?.trackArtist ?? qsTr("Play some music for stuff to show up here!")) || qsTr("Unknown artist")
+            text: (Players.active?.trackArtist ?? qsTr("播放一些音乐，这里就会显示内容了！")) || qsTr("未知艺术家")
             color: Players.active ? Colours.palette.m3secondary : Colours.palette.m3outline
             elide: Text.ElideRight
             wrapMode: Players.active ? Text.NoWrap : Text.WordWrap
@@ -396,7 +396,7 @@ Item {
                     StyledText {
                         Layout.fillWidth: true
                         Layout.maximumWidth: playerSelector.implicitWidth - implicitHeight - parent.spacing - Appearance.padding.md * 2
-                        text: Players.active ? Players.getIdentity(Players.active) : qsTr("No players")
+                        text: Players.active ? Players.getIdentity(Players.active) : qsTr("无播放器")
                         color: Players.active ? Colours.palette.m3onSurface : Colours.palette.m3onSurfaceVariant
                         elide: Text.ElideRight
                     }

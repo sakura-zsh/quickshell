@@ -78,15 +78,17 @@ Singleton {
         })
 
     function getAppIcon(name: string, fallback: string): string {
-        const icon = DesktopEntries.heuristicLookup(name)?.icon;
+        const entry = DesktopEntries.byId(name) ?? DesktopEntries.heuristicLookup(name);
+        const icon = entry?.icon ?? "";
 
-        //Temp fix until I find a better solution
-        if (String(icon) === "undefined")
-            return Quickshell.iconPath(icon, name);
+        // If the entry has no icon, fall back to the name itself as the icon name.
+        // This also handles IDs like "ChatGPT" whose icon lives under a different
+        // name (chatgpt-desktop) in hicolor but is declared in the .desktop file.
+        const iconName = icon !== "" ? icon : name;
 
-        if (fallback !== "undefined")
-            return Quickshell.iconPath(icon, fallback);
-        return Quickshell.iconPath(icon);
+        if (fallback && fallback !== "undefined")
+            return Quickshell.iconPath(iconName, fallback);
+        return Quickshell.iconPath(iconName);
     }
 
     function getAppCategoryIcon(name: string, fallback: string): string {

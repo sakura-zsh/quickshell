@@ -76,7 +76,7 @@ Item {
                         }
 
                         StyledText {
-                            text: qsTr("Float window")
+                            text: qsTr("浮动窗口")
                             color: Colours.palette.m3onPrimaryContainer
                             font.pointSize: Appearance.font.size.bodySmall
                         }

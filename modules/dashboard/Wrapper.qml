@@ -18,15 +18,15 @@ Item {
         property date currentDate: new Date()
 
         readonly property FileDialog facePicker: FileDialog {
-            title: qsTr("Select a profile picture")
-            filterLabel: qsTr("Image files")
+            title: qsTr("选择头像")
+            filterLabel: qsTr("图片文件")
             filters: Images.validImageExtensions
             onAccepted: path => {
                 console.log("FileDialog accepted path:", path);
                 if (CUtils.copyFile(Qt.resolvedUrl(path), Qt.resolvedUrl(`${Paths.home}/.face`)))
-                    Quickshell.execDetached(["notify-send", "-a", "caelestia-shell", "-u", "low", "-h", `STRING:image-path:${path}`, "Profile picture changed", `Profile picture changed to ${Paths.shortenHome(path)}`]);
+                    Quickshell.execDetached(["notify-send", "-a", "caelestia-shell", "-u", "low", "-h", `STRING:image-path:${path}`, "头像已更改", `头像已更改为 ${Paths.shortenHome(path)}`]);
                 else
-                    Quickshell.execDetached(["notify-send", "-a", "caelestia-shell", "-u", "critical", "Unable to change profile picture", `Failed to change profile picture to ${Paths.shortenHome(path)}`]);
+                    Quickshell.execDetached(["notify-send", "-a", "caelestia-shell", "-u", "critical", "无法更改头像", `更改头像失败：${Paths.shortenHome(path)}`]);
             }
         }
     }

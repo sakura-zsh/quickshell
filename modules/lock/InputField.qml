@@ -41,7 +41,7 @@ Item {
 
         text: {
             if (root.pam.passwd.active)
-                return qsTr("Loading...");
+                return qsTr("正在加载…");
             return "";
         }
 

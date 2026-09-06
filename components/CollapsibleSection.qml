@@ -9,7 +9,7 @@ ColumnLayout {
 
     default property alias contentComponent: contentLoader.sourceComponent
 
-    property string title: qsTr("Dropdown Title")
+    property string title: qsTr("下拉标题")
     property string description: ""
     property bool expanded: false
     property bool showBackground: false

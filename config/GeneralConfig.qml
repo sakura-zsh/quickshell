@@ -16,20 +16,20 @@ JsonObject {
         property list<var> warnLevels: [
             {
                 level: 30,
-                title: "Low battery",
-                message: "You might want to plug in a charger",
+                title: "电量不足",
+                message: "你可能需要插入充电器",
                 icon: "battery_2_bar"
             },
             {
                 level: 20,
-                title: "Did you see the previous message?",
-                message: "You should probably plug in a charger <b>now</b>",
+                title: "你看到上一条消息了吗？",
+                message: "你现在应该<b>立即</b>插上充电器",
                 icon: "battery_1_bar"
             },
             {
                 level: 10,
-                title: "Critical battery level",
-                message: "PLUG THE CHARGER RIGHT NOW!!",
+                title: "电池电量严重不足",
+                message: "立刻插入充电器！！",
                 icon: "battery_alert",
                 critical: true
             }

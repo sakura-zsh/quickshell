@@ -57,7 +57,7 @@ Item {
                     }
 
                     StyledText {
-                        text: qsTr("Manga")
+                        text: qsTr("漫画")
                         font.pointSize: Appearance.font.size.headlineLarge
                         font.weight: Font.Bold
                         color: c.m3onSurface
@@ -93,7 +93,7 @@ Item {
                             property bool isSearchActive: false
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
-                            placeholderText: qsTr("Search titles...")
+                            placeholderText: qsTr("搜索标题…")
                             text: ""
                             
                             onTextChanged: if (isSearchActive) searchDebounce.restart()
@@ -116,7 +116,7 @@ Item {
                                 searchBar.text = ""
                                 Manga.fetchByOrigin(browseView.currentTagId, true)
                             }
-                            Tooltip { target: closeSearchBtn; text: qsTr("Close search") }
+                            Tooltip { target: closeSearchBtn; text: qsTr("关闭搜索") }
                         }
                     }
                 }
@@ -165,11 +165,11 @@ Item {
 
                 Repeater {
                     model: [
-                        { label: qsTr("Hot"),     tagId: "",       icon: "local_fire_department" },
-                        { label: qsTr("Latest"),  tagId: "latest", icon: "new_releases" },
-                        { label: qsTr("Manga"),   tagId: "ja",     icon: "menu_book" },
-                        { label: qsTr("Manhwa"),  tagId: "ko",     icon: "auto_stories" },
-                        { label: qsTr("Manhua"),  tagId: "zh",     icon: "import_contacts" }
+                        { label: qsTr("热门"),     tagId: "",       icon: "local_fire_department" },
+                        { label: qsTr("最新"),  tagId: "latest", icon: "new_releases" },
+                        { label: qsTr("漫画"),   tagId: "ja",     icon: "menu_book" },
+                        { label: qsTr("韩漫"),  tagId: "ko",     icon: "auto_stories" },
+                        { label: qsTr("国漫"),  tagId: "zh",     icon: "import_contacts" }
                     ]
 
                     delegate: Chip {
@@ -219,7 +219,7 @@ Item {
                     
                     StyledText {
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("Loading titles...")
+                        text: qsTr("正在加载标题…")
                         color: c.m3onSurfaceVariant
                         opacity: 0.7
                     }
@@ -255,7 +255,7 @@ Item {
                     
                     TextButton {
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("Retry")
+                        text: qsTr("重试")
                         onClicked: Manga.fetchByOrigin(browseView.currentTagId, true)
                     }
                 }

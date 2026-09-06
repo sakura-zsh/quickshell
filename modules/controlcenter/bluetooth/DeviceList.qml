@@ -20,8 +20,8 @@ DeviceList {
     readonly property bool smallDiscoverable: width <= 540
     readonly property bool smallPairable: width <= 480
 
-    title: qsTr("Devices (%1)").arg(Bluetooth.devices.values.length)
-    description: qsTr("All available bluetooth devices")
+    title: qsTr("设备（%1）").arg(Bluetooth.devices.values.length)
+    description: qsTr("所有可用的蓝牙设备")
     activeItem: session.bt.active
 
     model: ScriptModel {
@@ -35,7 +35,7 @@ DeviceList {
             spacing: Appearance.spacing.md
 
             StyledText {
-                text: qsTr("Bluetooth")
+                text: qsTr("蓝牙")
                 font.pointSize: Appearance.font.size.titleMedium
                 font.weight: 500
             }
@@ -51,7 +51,7 @@ DeviceList {
                 iconSize: Appearance.font.size.bodyMedium
                 horizontalPadding: Appearance.padding.md
                 verticalPadding: Appearance.padding.sm
-                tooltip: qsTr("Toggle Bluetooth")
+                tooltip: qsTr("切换蓝牙")
 
                 onClicked: {
                     const adapter = Bluetooth.defaultAdapter;
@@ -63,11 +63,11 @@ DeviceList {
             ToggleButton {
                 toggled: Bluetooth.defaultAdapter?.discoverable ?? false
                 icon: root.smallDiscoverable ? "group_search" : ""
-                label: root.smallDiscoverable ? "" : qsTr("Discoverable")
+                label: root.smallDiscoverable ? "" : qsTr("可被发现")
                 iconSize: Appearance.font.size.bodyMedium
                 horizontalPadding: Appearance.padding.md
                 verticalPadding: Appearance.padding.sm
-                tooltip: qsTr("Make discoverable")
+                tooltip: qsTr("设为可发现")
 
                 onClicked: {
                     const adapter = Bluetooth.defaultAdapter;
@@ -79,11 +79,11 @@ DeviceList {
             ToggleButton {
                 toggled: Bluetooth.defaultAdapter?.pairable ?? false
                 icon: "missing_controller"
-                label: root.smallPairable ? "" : qsTr("Pairable")
+                label: root.smallPairable ? "" : qsTr("可配对")
                 iconSize: Appearance.font.size.bodyMedium
                 horizontalPadding: Appearance.padding.md
                 verticalPadding: Appearance.padding.sm
-                tooltip: qsTr("Make pairable")
+                tooltip: qsTr("设为可配对")
 
                 onClicked: {
                     const adapter = Bluetooth.defaultAdapter;
@@ -99,7 +99,7 @@ DeviceList {
                 iconSize: Appearance.font.size.bodyMedium
                 horizontalPadding: Appearance.padding.md
                 verticalPadding: Appearance.padding.sm
-                tooltip: qsTr("Scan for devices")
+                tooltip: qsTr("扫描设备")
 
                 onClicked: {
                     const adapter = Bluetooth.defaultAdapter;
@@ -115,7 +115,7 @@ DeviceList {
                 iconSize: Appearance.font.size.bodyMedium
                 horizontalPadding: Appearance.padding.md
                 verticalPadding: Appearance.padding.sm
-                tooltip: qsTr("Bluetooth settings")
+                tooltip: qsTr("蓝牙设置")
 
                 onClicked: {
                     if (root.session.bt.active)
@@ -194,13 +194,13 @@ DeviceList {
 
                     StyledText {
                         Layout.fillWidth: true
-                        text: device.modelData ? device.modelData.name : qsTr("Unknown")
+                        text: device.modelData ? device.modelData.name : qsTr("未知")
                         elide: Text.ElideRight
                     }
 
                     StyledText {
                         Layout.fillWidth: true
-                        text: (device.modelData ? device.modelData.address : "") + (device.connected ? qsTr(" (Connected)") : (device.modelData && device.modelData.bonded) ? qsTr(" (Paired)") : "")
+                        text: (device.modelData ? device.modelData.address : "") + (device.connected ? qsTr("（已连接）") : (device.modelData && device.modelData.bonded) ? qsTr("（已配对）") : "")
                         color: Colours.palette.m3outline
                         font.pointSize: Appearance.font.size.labelLarge
                         elide: Text.ElideRight

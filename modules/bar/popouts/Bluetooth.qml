@@ -21,12 +21,12 @@ ColumnLayout {
     StyledText {
         Layout.topMargin: Appearance.padding.md
         Layout.rightMargin: Appearance.padding.xs
-        text: qsTr("Bluetooth %1").arg(BluetoothAdapterState.toString(Bluetooth.defaultAdapter?.state).toLowerCase())
+        text: qsTr("蓝牙 %1").arg(BluetoothAdapterState.toString(Bluetooth.defaultAdapter?.state).toLowerCase())
         font.weight: 500
     }
 
     Toggle {
-        label: qsTr("Enabled")
+        label: qsTr("已启用")
         checked: Bluetooth.defaultAdapter?.enabled ?? false
         toggle.onToggled: {
             const adapter = Bluetooth.defaultAdapter;
@@ -36,7 +36,7 @@ ColumnLayout {
     }
 
     Toggle {
-        label: qsTr("Discovering")
+        label: qsTr("正在发现")
         checked: Bluetooth.defaultAdapter?.discovering ?? false
         toggle.onToggled: {
             const adapter = Bluetooth.defaultAdapter;
@@ -50,10 +50,10 @@ ColumnLayout {
         Layout.rightMargin: Appearance.padding.xs
         text: {
             const devices = Bluetooth.devices.values;
-            let available = qsTr("%1 device%2 available").arg(devices.length).arg(devices.length === 1 ? "" : "s");
+            let available = qsTr("%1 台设备可用").arg(devices.length).arg(devices.length === 1 ? "" : "s");
             const connected = devices.filter(d => d.connected).length;
             if (connected > 0)
-                available += qsTr(" (%1 connected)").arg(connected);
+                available += qsTr("（%1 台已连接）").arg(connected);
             return available;
         }
         color: Colours.palette.m3onSurfaceVariant
@@ -197,7 +197,7 @@ ColumnLayout {
 
             StyledText {
                 Layout.leftMargin: Appearance.padding.sm
-                text: qsTr("Settings")
+                text: qsTr("设置")
                 color: Colours.palette.m3onPrimaryContainer
             }
 

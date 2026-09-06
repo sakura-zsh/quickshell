@@ -86,9 +86,9 @@ Item {
             anchors { fill: parent; leftMargin: 10; rightMargin: 10 }
             spacing: 2
 
-            PowerButton { icon: "\uef44"; tooltip: "Suspend";  colTextSecondary: root.colTextSecondary; colPrimary: root.colPrimary; onClicked: sddm.suspend() }
-            PowerButton { icon: "\uf053"; tooltip: "Reboot";   colTextSecondary: root.colTextSecondary; colPrimary: root.colPrimary; onClicked: sddm.reboot() }
-            PowerButton { icon: "\ue8ac"; tooltip: "Power Off"; colTextSecondary: root.colTextSecondary; colPrimary: root.colError;   isDestructive: true; onClicked: sddm.powerOff() }
+            PowerButton { icon: "\uef44"; tooltip: "休眠";  colTextSecondary: root.colTextSecondary; colPrimary: root.colPrimary; onClicked: sddm.suspend() }
+            PowerButton { icon: "\uf053"; tooltip: "重启";   colTextSecondary: root.colTextSecondary; colPrimary: root.colPrimary; onClicked: sddm.reboot() }
+            PowerButton { icon: "\ue8ac"; tooltip: "关机"; colTextSecondary: root.colTextSecondary; colPrimary: root.colError;   isDestructive: true; onClicked: sddm.powerOff() }
         }
     }
 

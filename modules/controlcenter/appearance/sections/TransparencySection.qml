@@ -15,7 +15,7 @@ CollapsibleSection {
 
     required property var rootPane
 
-    title: qsTr("Transparency")
+    title: qsTr("透明度")
     showBackground: true
 
     ColumnLayout {
@@ -23,7 +23,7 @@ CollapsibleSection {
         Layout.fillWidth: true
 
     SwitchRow {
-        label: qsTr("Transparency enabled")
+        label: qsTr("透明度已启用")
         checked: rootPane.transparencyEnabled
         onToggled: checked => {
             rootPane.transparencyEnabled = checked;
@@ -32,7 +32,7 @@ CollapsibleSection {
     }
 
     SwitchRow {
-        label: qsTr("Reduce transparency")
+        label: qsTr("降低透明度")
         checked: rootPane.reduceTransparency
         onToggled: checked => {
             rootPane.reduceTransparency = checked;
@@ -46,7 +46,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Transparency base")
+            label: qsTr("透明度基准")
             value: rootPane.transparencyBase * 100
             from: 0
             to: 100
@@ -71,7 +71,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Transparency layers")
+            label: qsTr("透明图层")
             value: rootPane.transparencyLayers * 100
             from: 0
             to: 100

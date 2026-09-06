@@ -37,7 +37,7 @@ ColumnLayout {
                 connectButton.connecting = false;
                 connectButton.hasError = true;
                 connectButton.enabled = true;
-                connectButton.text = qsTr("Connect");
+                connectButton.text = qsTr("连接");
                 passwordContainer.passwordBuffer = "";
                 if (root.network && root.network.ssid) {
                     Nmcli.forgetNetwork(root.network.ssid);
@@ -55,7 +55,7 @@ ColumnLayout {
         passwordContainer.passwordBuffer = "";
         connectButton.connecting = false;
         connectButton.hasError = false;
-        connectButton.text = qsTr("Connect");
+        connectButton.text = qsTr("连接");
         connectionMonitor.stop();
 
         if (root.wrapper.currentName === "wirelesspassword") {
@@ -171,7 +171,7 @@ ColumnLayout {
 
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Enter password")
+                text: qsTr("输入密码")
                 font.pointSize: Appearance.font.size.titleMedium
                 font.weight: 500
             }
@@ -182,10 +182,10 @@ ColumnLayout {
                     if (root.network) {
                         const ssid = root.network.ssid;
                         if (ssid && ssid.length > 0) {
-                            return qsTr("Network: %1").arg(ssid);
+                            return qsTr("网络：%1").arg(ssid);
                         }
                     }
-                    return qsTr("Network: Unknown");
+                    return qsTr("网络：未知");
                 }
                 color: Colours.palette.m3outline
                 font.pointSize: Appearance.font.size.labelLarge
@@ -226,10 +226,10 @@ ColumnLayout {
                 visible: connectButton.connecting || connectButton.hasError
                 text: {
                     if (connectButton.hasError) {
-                        return qsTr("Connection failed. Please check your password and try again.");
+                        return qsTr("连接失败。请检查密码后重试。");
                     }
                     if (connectButton.connecting) {
-                        return qsTr("Connecting...");
+                        return qsTr("正在连接…");
                     }
                     return "";
                 }
@@ -355,7 +355,7 @@ ColumnLayout {
                     id: placeholder
 
                     anchors.centerIn: parent
-                    text: qsTr("Password")
+                    text: qsTr("密码")
                     color: Colours.palette.m3outline
                     font.pointSize: Appearance.font.size.bodyMedium
                     opacity: passwordContainer.passwordBuffer ? 0 : 1
@@ -453,7 +453,7 @@ ColumnLayout {
                     Layout.minimumHeight: Appearance.font.size.bodyMedium + Appearance.padding.md * 2
                     inactiveColour: Colours.palette.m3secondaryContainer
                     inactiveOnColour: Colours.palette.m3onSecondaryContainer
-                    text: qsTr("Cancel")
+                    text: qsTr("取消")
 
                     onClicked: root.closeDialog()
                 }
@@ -468,7 +468,7 @@ ColumnLayout {
                     Layout.minimumHeight: Appearance.font.size.bodyMedium + Appearance.padding.md * 2
                     inactiveColour: Colours.palette.m3primary
                     inactiveOnColour: Colours.palette.m3onPrimary
-                    text: qsTr("Connect")
+                    text: qsTr("连接")
                     enabled: passwordContainer.passwordBuffer.length > 0 && !connecting
 
                     onClicked: {
@@ -484,7 +484,7 @@ ColumnLayout {
                         hasError = false;
                         connecting = true;
                         enabled = false;
-                        text = qsTr("Connecting...");
+                        text = qsTr("正在连接…");
 
                         NetworkConnection.connectWithPassword(root.network, password, result => {
                             if (result && result.success) {
@@ -494,7 +494,7 @@ ColumnLayout {
                                 connecting = false;
                                 hasError = true;
                                 enabled = true;
-                                text = qsTr("Connect");
+                                text = qsTr("连接");
                                 passwordContainer.passwordBuffer = "";
                                 if (root.network && root.network.ssid) {
                                     Nmcli.forgetNetwork(root.network.ssid);
@@ -504,7 +504,7 @@ ColumnLayout {
                                 connecting = false;
                                 hasError = true;
                                 enabled = true;
-                                text = qsTr("Connect");
+                                text = qsTr("连接");
                                 passwordContainer.passwordBuffer = "";
                                 if (root.network && root.network.ssid) {
                                     Nmcli.forgetNetwork(root.network.ssid);
@@ -550,7 +550,7 @@ ColumnLayout {
                 if (stillConnected) {
                     connectionMonitor.stop();
                     connectButton.connecting = false;
-                    connectButton.text = qsTr("Connect");
+                    connectButton.text = qsTr("连接");
                     if (root.wrapper.currentName === "wirelesspassword") {
                         root.wrapper.currentName = "network";
                     }
@@ -573,7 +573,7 @@ ColumnLayout {
                 connectButton.connecting = false;
                 connectButton.hasError = true;
                 connectButton.enabled = true;
-                connectButton.text = qsTr("Connect");
+                connectButton.text = qsTr("连接");
                 passwordContainer.passwordBuffer = "";
                 Nmcli.forgetNetwork(ssid);
             }

@@ -486,7 +486,7 @@ StyledRect {
 
                 Action {
                     modelData: QtObject {
-                        readonly property string text: qsTr("Close")
+                        readonly property string text: qsTr("关闭")
                         readonly property string identifier: ""
                         function invoke(): void {
                             Notifs.discardNotification(root.modelData.notificationId);
@@ -525,7 +525,7 @@ StyledRect {
 
             StyledText {
                 anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Dismissed")
+                text: qsTr("已关闭")
                 color: Colours.palette.m3inverseOnSurface
                 font.pointSize: Appearance.font.size.labelLarge
             }
@@ -549,7 +549,7 @@ StyledRect {
                 StyledText {
                     id: undoText
                     anchors.centerIn: parent
-                    text: qsTr("Undo")
+                    text: qsTr("撤销")
                     color: Colours.palette.m3onSurface
                     font.pointSize: Appearance.font.size.labelLarge
                     font.bold: true

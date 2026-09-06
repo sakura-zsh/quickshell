@@ -43,13 +43,13 @@ SectionContainer {
                 }
                 gridRoot.fetchWallpapers();
             }
-            Tooltip { target: serverButton; text: qsTr("Click to switch server") }
+            Tooltip { target: serverButton; text: qsTr("点击切换服务器") }
         }
 
         StyledTextField {
             id: searchField
             Layout.fillWidth: true
-            placeholderText: qsTr("Search wallpapers...")
+            placeholderText: qsTr("搜索壁纸…")
             text: gridRoot.keyword
             onTextChanged: gridRoot.keyword = text
             onAccepted: gridRoot.fetchWallpapers()
@@ -60,7 +60,7 @@ SectionContainer {
             icon: "search"
             onClicked: gridRoot.fetchWallpapers()
             enabled: !gridRoot.loading
-            Tooltip { target: searchButton; text: qsTr("Search") }
+            Tooltip { target: searchButton; text: qsTr("搜索") }
         }
         
         IconButton {
@@ -72,7 +72,7 @@ SectionContainer {
                 gridRoot.fetchWallpapers();
             }
             enabled: !gridRoot.loading
-            Tooltip { target: randomButton; text: qsTr("Random") }
+            Tooltip { target: randomButton; text: qsTr("随机") }
         }
     }
 
@@ -117,7 +117,7 @@ SectionContainer {
                 spacing: Appearance.spacing.xs
                 Layout.alignment: Qt.AlignTop
                 StyledText {
-                    text: qsTr("Categories")
+                    text: qsTr("分类")
                     font.pointSize: Appearance.font.size.labelLarge
                     font.weight: 600
                     color: Colours.palette.m3primary
@@ -152,7 +152,7 @@ SectionContainer {
                 spacing: Appearance.spacing.xs
                 Layout.alignment: Qt.AlignTop
                 StyledText {
-                    text: qsTr("Purity")
+                    text: qsTr("纯度")
                     font.pointSize: Appearance.font.size.labelLarge
                     font.weight: 600
                     color: Colours.palette.m3primary
@@ -188,7 +188,7 @@ SectionContainer {
         ColumnLayout {
             spacing: Appearance.spacing.xs
             StyledText {
-                text: qsTr("Sorting")
+                text: qsTr("排序")
                 font.pointSize: Appearance.font.size.labelLarge
                 font.weight: 600
                 color: Colours.palette.m3primary
@@ -198,12 +198,12 @@ SectionContainer {
                 spacing: Appearance.spacing.xs
                 Repeater {
                     model: [
-                        {label: qsTr("Added"), val: "date_added"},
-                        {label: qsTr("Relevance"), val: "relevance"},
-                        {label: qsTr("Random"), val: "random"},
-                        {label: qsTr("Views"), val: "views"},
-                        {label: qsTr("Favorites"), val: "favorites"},
-                        {label: qsTr("Toplist"), val: "toplist"}
+                        {label: qsTr("已添加"), val: "date_added"},
+                        {label: qsTr("相关度"), val: "relevance"},
+                        {label: qsTr("随机"), val: "random"},
+                        {label: qsTr("视图"), val: "views"},
+                        {label: qsTr("收藏"), val: "favorites"},
+                        {label: qsTr("榜单"), val: "toplist"}
                     ]
                     delegate: TextButton {
                         required property var modelData
@@ -224,7 +224,7 @@ SectionContainer {
         ColumnLayout {
             spacing: Appearance.spacing.xs
             StyledText {
-                text: qsTr("Color")
+                text: qsTr("颜色")
                 font.pointSize: Appearance.font.size.labelLarge
                 font.weight: 600
                 color: Colours.palette.m3primary
@@ -243,7 +243,7 @@ SectionContainer {
                         gridRoot.wallhavenColor = "";
                         gridRoot.fetchWallpapers();
                     }
-                    Tooltip { target: clearColorButton; text: qsTr("Clear color filter") }
+                    Tooltip { target: clearColorButton; text: qsTr("清除颜色筛选") }
                 }
 
                 Repeater {
@@ -275,7 +275,7 @@ SectionContainer {
             spacing: Appearance.spacing.xs
             visible: gridRoot.wallhavenSort === "toplist"
             StyledText {
-                text: qsTr("Range")
+                text: qsTr("范围")
                 font.pointSize: Appearance.font.size.labelLarge
                 font.weight: 600
                 color: Colours.palette.m3primary
@@ -305,7 +305,7 @@ SectionContainer {
             spacing: Appearance.spacing.xs
 
             IconTextButton {
-                text: gridRoot.showApiKey ? qsTr("Hide API Settings") : qsTr("Configure API Key")
+                text: gridRoot.showApiKey ? qsTr("隐藏 API 设置") : qsTr("配置 API 密钥")
                 icon: gridRoot.showApiKey ? "expand_less" : "key"
                 type: IconTextButton.Text
                 onClicked: gridRoot.showApiKey = !gridRoot.showApiKey
@@ -319,7 +319,7 @@ SectionContainer {
                 StyledTextField {
                     id: apiKeyField
                     Layout.fillWidth: true
-                    placeholderText: qsTr("Enter Wallhaven API Key...")
+                    placeholderText: qsTr("输入 Wallhaven API 密钥…")
                     echoMode: TextInput.Password
                     onAccepted: {
                         if (text.trim() === "") return;
@@ -336,7 +336,7 @@ SectionContainer {
                         apiKeyField.text = "";
                     }
                     enabled: apiKeyField.text.trim() !== ""
-                    Tooltip { target: saveApiKeyButton; text: qsTr("Verify & Save Key") }
+                    Tooltip { target: saveApiKeyButton; text: qsTr("验证并保存密钥") }
                 }
 
                 IconButton {
@@ -344,7 +344,7 @@ SectionContainer {
                     icon: "delete"
                     type: IconButton.Tonal
                     onClicked: gridRoot.clearApiKey()
-                    Tooltip { target: deleteApiKeyButton; text: qsTr("Clear API Key") }
+                    Tooltip { target: deleteApiKeyButton; text: qsTr("清除 API 密钥") }
                 }
 
             }
@@ -361,7 +361,7 @@ SectionContainer {
             spacing: Appearance.spacing.xs
             Layout.alignment: Qt.AlignTop
             StyledText {
-                text: qsTr("Resolution")
+                text: qsTr("分辨率")
                 font.pointSize: Appearance.font.size.labelLarge
                 font.weight: 600
                 color: Colours.palette.m3primary

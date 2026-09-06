@@ -38,7 +38,7 @@ Item {
         CollapsibleSection {
             id: moveWorkspaceDropdown
             Layout.fillWidth: true
-            title: qsTr("Move Window to Workspace")
+            title: qsTr("将窗口移动到工作区")
 
             GridLayout {
                 id: wsGrid
@@ -78,7 +78,7 @@ Item {
         CollapsibleSection {
             id: utilities
             Layout.fillWidth: true
-            title: qsTr("Window Utilities")
+            title: qsTr("窗口工具")
             backgroundMarginTop: 0
             expanded: true
 
@@ -101,7 +101,7 @@ Item {
                 ActionButton {
                     Layout.fillWidth: true
                     icon: root.client?.is_fullscreen ? "fullscreen_exit" : "fullscreen"
-                    text: qsTr("Fullscreen")
+                    text: qsTr("全屏")
                     active: root.client?.is_fullscreen ?? false
                     function onClicked(): void {
                         Niri.toggleFullscreen();
@@ -111,7 +111,7 @@ Item {
                 ActionButton {
                     Layout.fillWidth: true
                     icon: "fullscreen_exit"
-                    text: qsTr("Fake Fullscreen")
+                    text: qsTr("伪全屏")
                     function onClicked(): void {
                         Niri.toggleWindowedFullscreen();
                     }
@@ -120,7 +120,7 @@ Item {
                 ActionButton {
                     Layout.fillWidth: true
                     icon: "center_focus_strong"
-                    text: qsTr("Center Window")
+                    text: qsTr("窗口居中")
                     disabled: !root.client
                     function onClicked(): void {
                         Niri.centerWindow();
@@ -131,7 +131,7 @@ Item {
                 ActionButton {
                     Layout.fillWidth: true
                     icon: "block"
-                    text: qsTr("Inhibit Shortcuts")
+                    text: qsTr("禁用快捷键")
                     function onClicked(): void {
                         Niri.keyboardShortcutsInhibitWindow();
                     }
@@ -141,7 +141,7 @@ Item {
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
                     icon: "photo_camera"
-                    text: qsTr("Screenshot Window")
+                    text: qsTr("窗口截图")
                     accent: true
                     function onClicked(): void {
                         Niri.screenshotWindow();

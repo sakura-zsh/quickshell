@@ -19,18 +19,18 @@ ColumnLayout {
 
     SettingsHeader {
         icon: "cable"
-        title: qsTr("Ethernet settings")
+        title: qsTr("以太网设置")
     }
 
     StyledText {
         Layout.topMargin: Appearance.spacing.xxl
-        text: qsTr("Ethernet devices")
+        text: qsTr("以太网设备")
         font.pointSize: Appearance.font.size.bodyLarge
         font.weight: 500
     }
 
     StyledText {
-        text: qsTr("Available ethernet devices")
+        text: qsTr("可用的以太网设备")
         color: Colours.palette.m3outline
     }
 
@@ -52,7 +52,7 @@ ColumnLayout {
             spacing: Appearance.spacing.sm / 2
 
             StyledText {
-                text: qsTr("Total devices")
+                text: qsTr("设备总数")
             }
 
             StyledText {
@@ -63,7 +63,7 @@ ColumnLayout {
 
             StyledText {
                 Layout.topMargin: Appearance.spacing.lg
-                text: qsTr("Connected devices")
+                text: qsTr("已连接的设备")
             }
 
             StyledText {

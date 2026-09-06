@@ -84,7 +84,7 @@ Item {
 
                 function onCurrentItemChanged(): void {
                     if (root.currentItem)
-                        content.text = qsTr(`"%1" selected`).arg(root.currentItem.modelData.name);
+                        content.text = qsTr(`已选择 "%1"`).arg(root.currentItem.modelData.name);
                 }
             }
         }

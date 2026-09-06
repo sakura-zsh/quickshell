@@ -13,44 +13,44 @@ ColumnLayout {
     spacing: Appearance.spacing.sm / 2
 
     StyledText {
-        text: qsTr("IP Address")
+        text: qsTr("IP 地址")
     }
 
     StyledText {
-        text: root.deviceDetails?.ipAddress || qsTr("Not available")
+        text: root.deviceDetails?.ipAddress || qsTr("不可用")
         color: Colours.palette.m3outline
         font.pointSize: Appearance.font.size.labelLarge
     }
 
     StyledText {
         Layout.topMargin: Appearance.spacing.lg
-        text: qsTr("Subnet Mask")
+        text: qsTr("子网掩码")
     }
 
     StyledText {
-        text: root.deviceDetails?.subnet || qsTr("Not available")
+        text: root.deviceDetails?.subnet || qsTr("不可用")
         color: Colours.palette.m3outline
         font.pointSize: Appearance.font.size.labelLarge
     }
 
     StyledText {
         Layout.topMargin: Appearance.spacing.lg
-        text: qsTr("Gateway")
+        text: qsTr("网关")
     }
 
     StyledText {
-        text: root.deviceDetails?.gateway || qsTr("Not available")
+        text: root.deviceDetails?.gateway || qsTr("不可用")
         color: Colours.palette.m3outline
         font.pointSize: Appearance.font.size.labelLarge
     }
 
     StyledText {
         Layout.topMargin: Appearance.spacing.lg
-        text: qsTr("DNS Servers")
+        text: qsTr("DNS 服务器")
     }
 
     StyledText {
-        text: (root.deviceDetails && root.deviceDetails.dns && root.deviceDetails.dns.length > 0) ? root.deviceDetails.dns.join(", ") : qsTr("Not available")
+        text: (root.deviceDetails && root.deviceDetails.dns && root.deviceDetails.dns.length > 0) ? root.deviceDetails.dns.join(", ") : qsTr("不可用")
         color: Colours.palette.m3outline
         font.pointSize: Appearance.font.size.labelLarge
         wrapMode: Text.Wrap

@@ -13,7 +13,7 @@ Column {
     width: Config.bar.sizes.batteryWidth
 
     StyledText {
-        text: UPower.displayDevice.isLaptopBattery ? qsTr("Remaining: %1%").arg(Math.round(UPower.displayDevice.percentage * 100)) : qsTr("No battery detected")
+        text: UPower.displayDevice.isLaptopBattery ? qsTr("剩余：%1%").arg(Math.round(UPower.displayDevice.percentage * 100)) : qsTr("未检测到电池")
     }
 
     StyledText {
@@ -24,16 +24,16 @@ Column {
 
             let comps = [];
             if (day > 0)
-                comps.push(`${day} days`);
+                comps.push(`${day} 天`);
             if (hr > 0)
-                comps.push(`${hr} hours`);
+                comps.push(`${hr} 小时`);
             if (min > 0)
-                comps.push(`${min} mins`);
+                comps.push(`${min} 分钟`);
 
             return comps.join(", ") || fallback;
         }
 
-        text: UPower.displayDevice.isLaptopBattery ? qsTr("Time %1: %2").arg(UPower.onBattery ? "remaining" : "until charged").arg(UPower.onBattery ? formatSeconds(UPower.displayDevice.timeToEmpty, "Calculating...") : formatSeconds(UPower.displayDevice.timeToFull, "Fully charged!")) : qsTr("Power profile: %1").arg(PowerProfile.toString(PowerProfiles.profile))
+        text: UPower.displayDevice.isLaptopBattery ? qsTr("%1：%2").arg(UPower.onBattery ? "剩余" : "充满还需").arg(UPower.onBattery ? formatSeconds(UPower.displayDevice.timeToEmpty, "正在计算…") : formatSeconds(UPower.displayDevice.timeToFull, "已充满！")) : qsTr("电源模式：%1").arg(PowerProfile.toString(PowerProfiles.profile))
     }
 
     Loader {
@@ -70,7 +70,7 @@ Column {
 
                     StyledText {
                         anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Performance Degraded")
+                        text: qsTr("性能下降")
                         color: Colours.palette.m3onError
                         font.family: Appearance.font.family.mono
                         font.weight: 500
@@ -88,7 +88,7 @@ Column {
                 StyledText {
                     anchors.horizontalCenter: parent.horizontalCenter
 
-                    text: qsTr("Reason: %1").arg(PerformanceDegradationReason.toString(PowerProfiles.degradationReason))
+                    text: qsTr("原因：%1").arg(PerformanceDegradationReason.toString(PowerProfiles.degradationReason))
                     color: Colours.palette.m3onError
                 }
             }

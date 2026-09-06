@@ -169,7 +169,7 @@ Item {
                     spacing: Appearance.spacing.md
 
                     StyledText {
-                        text: qsTr("Taskbar")
+                        text: qsTr("任务栏")
                         font.pointSize: Appearance.font.size.titleMedium
                         font.weight: 500
                     }
@@ -180,7 +180,7 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("Status Icons")
+                        text: qsTr("状态图标")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
@@ -189,7 +189,7 @@ Item {
 
                         options: [
                             {
-                                label: qsTr("Speakers"),
+                                label: qsTr("扬声器"),
                                 propertyName: "showAudio",
                                 onToggled: function (checked) {
                                     root.showAudio = checked;
@@ -197,7 +197,7 @@ Item {
                                 }
                             },
                             {
-                                label: qsTr("Microphone"),
+                                label: qsTr("麦克风"),
                                 propertyName: "showMicrophone",
                                 onToggled: function (checked) {
                                     root.showMicrophone = checked;
@@ -205,7 +205,7 @@ Item {
                                 }
                             },
                             {
-                                label: qsTr("Keyboard"),
+                                label: qsTr("键盘"),
                                 propertyName: "showKbLayout",
                                 onToggled: function (checked) {
                                     root.showKbLayout = checked;
@@ -213,7 +213,7 @@ Item {
                                 }
                             },
                             {
-                                label: qsTr("Network"),
+                                label: qsTr("网络"),
                                 propertyName: "showNetwork",
                                 onToggled: function (checked) {
                                     root.showNetwork = checked;
@@ -221,7 +221,7 @@ Item {
                                 }
                             },
                             {
-                                label: qsTr("Wifi"),
+                                label: qsTr("WiFi"),
                                 propertyName: "showWifi",
                                 onToggled: function (checked) {
                                     root.showWifi = checked;
@@ -229,7 +229,7 @@ Item {
                                 }
                             },
                             {
-                                label: qsTr("Bluetooth"),
+                                label: qsTr("蓝牙"),
                                 propertyName: "showBluetooth",
                                 onToggled: function (checked) {
                                     root.showBluetooth = checked;
@@ -237,7 +237,7 @@ Item {
                                 }
                             },
                             {
-                                label: qsTr("Battery"),
+                                label: qsTr("电池"),
                                 propertyName: "showBattery",
                                 onToggled: function (checked) {
                                     root.showBattery = checked;
@@ -245,7 +245,7 @@ Item {
                                 }
                             },
                             {
-                                label: qsTr("Capslock"),
+                                label: qsTr("大写锁定"),
                                 propertyName: "showLockStatus",
                                 onToggled: function (checked) {
                                     root.showLockStatus = checked;
@@ -272,12 +272,12 @@ Item {
                             alignTop: true
 
                             StyledText {
-                                text: qsTr("Icon")
+                                text: qsTr("图标")
                                 font.pointSize: Appearance.font.size.bodyMedium
                             }
 
                             SwitchRow {
-                                label: qsTr("Use distro logo")
+                                label: qsTr("使用发行版徽标")
                                 checked: root.isDistLogo
                                 onToggled: checked => {
                                     root.isDistLogo = checked;
@@ -291,7 +291,7 @@ Item {
                             alignTop: true
 
                             StyledText {
-                                text: qsTr("Workspaces")
+                                text: qsTr("工作区")
                                 font.pointSize: Appearance.font.size.bodyMedium
                             }
 
@@ -315,7 +315,7 @@ Item {
 
                                     StyledText {
                                         Layout.fillWidth: true
-                                        text: qsTr("Shown")
+                                        text: qsTr("显示")
                                     }
 
                                     CustomSpinBox {
@@ -350,7 +350,7 @@ Item {
 
                                     StyledText {
                                         Layout.fillWidth: true
-                                        text: qsTr("Active indicator")
+                                        text: qsTr("活动指示器")
                                     }
 
                                     StyledSwitch {
@@ -383,7 +383,7 @@ Item {
 
                                     StyledText {
                                         Layout.fillWidth: true
-                                        text: qsTr("Occupied background")
+                                        text: qsTr("已占用背景")
                                     }
 
                                     StyledSwitch {
@@ -416,7 +416,7 @@ Item {
 
                                     StyledText {
                                         Layout.fillWidth: true
-                                        text: qsTr("Show windows")
+                                        text: qsTr("显示窗口")
                                     }
 
                                     StyledSwitch {
@@ -449,7 +449,7 @@ Item {
 
                                     StyledText {
                                         Layout.fillWidth: true
-                                        text: qsTr("Per monitor workspaces")
+                                        text: qsTr("按显示器工作区")
                                     }
 
                                     StyledSwitch {
@@ -468,7 +468,7 @@ Item {
                             alignTop: true
 
                             StyledText {
-                                text: qsTr("Scroll Actions")
+                                text: qsTr("滚动操作")
                                 font.pointSize: Appearance.font.size.bodyMedium
                             }
 
@@ -477,7 +477,7 @@ Item {
 
                                 options: [
                                     {
-                                        label: qsTr("Workspaces"),
+                                        label: qsTr("工作区"),
                                         propertyName: "scrollWorkspaces",
                                         onToggled: function (checked) {
                                             root.scrollWorkspaces = checked;
@@ -485,7 +485,7 @@ Item {
                                         }
                                     },
                                     {
-                                        label: qsTr("Volume"),
+                                        label: qsTr("音量"),
                                         propertyName: "scrollVolume",
                                         onToggled: function (checked) {
                                             root.scrollVolume = checked;
@@ -493,7 +493,7 @@ Item {
                                         }
                                     },
                                     {
-                                        label: qsTr("Brightness"),
+                                        label: qsTr("亮度"),
                                         propertyName: "scrollBrightness",
                                         onToggled: function (checked) {
                                             root.scrollBrightness = checked;
@@ -516,12 +516,12 @@ Item {
                             alignTop: true
 
                             StyledText {
-                                text: qsTr("Clock")
+                                text: qsTr("时钟")
                                 font.pointSize: Appearance.font.size.bodyMedium
                             }
                             
                             SwitchRow {
-                                label: qsTr("Background")
+                                label: qsTr("背景")
                                 checked: root.clockBackground
                                 onToggled: checked => {
                                     root.clockBackground = checked;
@@ -530,7 +530,7 @@ Item {
                             }
 
                             SwitchRow {
-                                label: qsTr("Show date")
+                                label: qsTr("显示日期")
                                 checked: root.clockShowDate
                                 onToggled: checked => {
                                     root.clockShowDate = checked;
@@ -540,7 +540,7 @@ Item {
 
 
                             SwitchRow {
-                                label: qsTr("Show clock icon")
+                                label: qsTr("显示时钟图标")
                                 checked: root.clockShowIcon
                                 onToggled: checked => {
                                     root.clockShowIcon = checked;
@@ -554,12 +554,12 @@ Item {
                             alignTop: true
 
                             StyledText {
-                                text: qsTr("Bar Behavior")
+                                text: qsTr("栏行为")
                                 font.pointSize: Appearance.font.size.bodyMedium
                             }
 
                             SwitchRow {
-                                label: qsTr("Persistent")
+                                label: qsTr("常驻")
                                 checked: root.persistent
                                 onToggled: checked => {
                                     root.persistent = checked;
@@ -568,7 +568,7 @@ Item {
                             }
 
                             SwitchRow {
-                                label: qsTr("Show on hover")
+                                label: qsTr("悬停时显示")
                                 checked: root.showOnHover
                                 onToggled: checked => {
                                     root.showOnHover = checked;
@@ -582,7 +582,7 @@ Item {
                                 SliderInput {
                                     Layout.fillWidth: true
 
-                                    label: qsTr("Drag threshold")
+                                    label: qsTr("拖动阈值")
                                     value: root.dragThreshold
                                     from: 0
                                     to: 100
@@ -614,12 +614,12 @@ Item {
                             alignTop: true
 
                             StyledText {
-                                text: qsTr("Popouts")
+                                text: qsTr("弹出面板")
                                 font.pointSize: Appearance.font.size.bodyMedium
                             }
 
                             SwitchRow {
-                                label: qsTr("Tray")
+                                label: qsTr("托盘")
                                 checked: root.popoutTray
                                 onToggled: checked => {
                                     root.popoutTray = checked;
@@ -628,7 +628,7 @@ Item {
                             }
 
                             SwitchRow {
-                                label: qsTr("Status icons")
+                                label: qsTr("状态图标")
                                 checked: root.popoutStatusIcons
                                 onToggled: checked => {
                                     root.popoutStatusIcons = checked;
@@ -643,12 +643,12 @@ Item {
                             alignTop: true
 
                             StyledText {
-                                text: qsTr("Active window")
+                                text: qsTr("活动窗口")
                                 font.pointSize: Appearance.font.size.normal
                             }
 
                             SwitchRow {
-                                label: qsTr("Compact")
+                                label: qsTr("紧凑")
                                 checked: root.activeWindowCompact
                                 onToggled: checked => {
                                     root.activeWindowCompact = checked;
@@ -657,7 +657,7 @@ Item {
                             }
 
                             SwitchRow {
-                                label: qsTr("Inverted")
+                                label: qsTr("反转")
                                 checked: root.activeWindowInverted
                                 onToggled: checked => {
                                     root.activeWindowInverted = checked;
@@ -671,7 +671,7 @@ Item {
                             alignTop: true
 
                             StyledText {
-                                text: qsTr("Tray Settings")
+                                text: qsTr("托盘设置")
                                 font.pointSize: Appearance.font.size.bodyMedium
                             }
 
@@ -680,7 +680,7 @@ Item {
 
                                 options: [
                                     {
-                                        label: qsTr("Background"),
+                                        label: qsTr("背景"),
                                         propertyName: "trayBackground",
                                         onToggled: function (checked) {
                                             root.trayBackground = checked;
@@ -688,7 +688,7 @@ Item {
                                         }
                                     },
                                     {
-                                        label: qsTr("Compact"),
+                                        label: qsTr("紧凑"),
                                         propertyName: "trayCompact",
                                         onToggled: function (checked) {
                                             root.trayCompact = checked;
@@ -696,7 +696,7 @@ Item {
                                         }
                                     },
                                     {
-                                        label: qsTr("Recolour"),
+                                        label: qsTr("重新着色"),
                                         propertyName: "trayRecolour",
                                         onToggled: function (checked) {
                                             root.trayRecolour = checked;

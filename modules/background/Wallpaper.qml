@@ -71,7 +71,7 @@ Item {
                     spacing: Appearance.spacing.sm
 
                     StyledText {
-                        text: qsTr("Wallpaper missing?")
+                        text: qsTr("壁纸丢失？")
                         color: Colours.palette.m3onSurfaceVariant
                         font.pointSize: Appearance.font.size.headlineLarge * 2
                         font.bold: true
@@ -87,8 +87,8 @@ Item {
                         FileDialog {
                             id: dialog
 
-                            title: qsTr("Select a wallpaper")
-                            filterLabel: qsTr("Image or Video files")
+                            title: qsTr("选择壁纸")
+                            filterLabel: qsTr("图片或视频文件")
                             filters: Images.validImageExtensions.concat(["mp4", "mkv", "webm", "mov", "avi", "m4v"])
                             onAccepted: path => Wallpapers.setWallpaper(path)
                         }
@@ -107,7 +107,7 @@ Item {
 
                             anchors.centerIn: parent
 
-                            text: qsTr("Set it now!")
+                            text: qsTr("立即设置！")
                             color: Colours.palette.m3onPrimary
                             font.pointSize: Appearance.font.size.titleMedium
                         }

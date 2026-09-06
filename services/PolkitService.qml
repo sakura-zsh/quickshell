@@ -49,7 +49,7 @@ Singleton {
         const raw = (root.flow?.inputPrompt ?? "").trim();
         const cleaned = raw.endsWith(":") ? raw.slice(0, -1) : raw;
         const usePassword = !(root.flow?.responseVisible ?? false);
-        return cleaned || (usePassword ? qsTr("Password") : qsTr("Input"));
+        return cleaned || (usePassword ? qsTr("密码") : qsTr("输入"));
     }
 
     /**

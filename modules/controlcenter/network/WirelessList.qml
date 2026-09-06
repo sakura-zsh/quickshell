@@ -19,14 +19,14 @@ DeviceList {
 
     required property Session session
 
-    title: qsTr("Networks (%1)").arg(Nmcli.networks.length)
-    description: qsTr("All available WiFi networks")
+    title: qsTr("网络（%1）").arg(Nmcli.networks.length)
+    description: qsTr("所有可用的 WiFi 网络")
     activeItem: session.network.active
 
     titleSuffix: Component {
         StyledText {
             visible: Nmcli.scanning
-            text: qsTr("Scanning...")
+            text: qsTr("正在扫描…")
             color: Colours.palette.m3primary
             font.pointSize: Appearance.font.size.labelLarge
         }
@@ -45,7 +45,7 @@ DeviceList {
             spacing: Appearance.spacing.md
 
             StyledText {
-                text: qsTr("Settings")
+                text: qsTr("设置")
                 font.pointSize: Appearance.font.size.titleMedium
                 font.weight: 500
             }
@@ -155,7 +155,7 @@ DeviceList {
                         elide: Text.ElideRight
                         maximumLineCount: 1
 
-                        text: modelData.ssid || qsTr("Unknown")
+                        text: modelData.ssid || qsTr("未知")
                     }
 
                     RowLayout {
@@ -166,13 +166,13 @@ DeviceList {
                             Layout.fillWidth: true
                             text: {
                                 if (modelData.active)
-                                    return qsTr("Connected");
+                                    return qsTr("已连接");
                                 if (modelData.isSecure && modelData.security && modelData.security.length > 0) {
                                     return modelData.security;
                                 }
                                 if (modelData.isSecure)
-                                    return qsTr("Secured");
-                                return qsTr("Open");
+                                    return qsTr("已加密");
+                                return qsTr("打开");
                             }
                             color: modelData.active ? Colours.palette.m3primary : Colours.palette.m3outline
                             font.pointSize: Appearance.font.size.labelLarge

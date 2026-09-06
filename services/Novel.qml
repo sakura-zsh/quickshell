@@ -11,7 +11,7 @@ Singleton {
 
     function _checkEnabled() {
         if (!Config.extra.novel) {
-            Toaster.toast(qsTr("Novel feature disabled"), qsTr("Enable it in the Control Center settings"), "book", Toast.Warning)
+            Toaster.toast(qsTr("小说功能已禁用"), qsTr("请在控制中心设置中启用它"), "book", Toast.Warning)
             return false
         }
         return true
@@ -273,7 +273,7 @@ Singleton {
         const reqId = ++root._activeRequestId
         _get(root.apiUrl + "/hot", function(err, body) {
             if (reqId !== root._activeRequestId) return
-            if (err) { root.novelError = "Request failed: " + err; root.isFetchingNovel = false; return }
+            if (err) { root.novelError = "请求失败：" + err; root.isFetchingNovel = false; return }
             _parseNovelResults(body, true)
         })
     }
@@ -295,7 +295,7 @@ Singleton {
         const reqId = ++root._activeRequestId
         _get(root.apiUrl + "/latest?page=" + root.latestPage, function(err, body) {
             if (reqId !== root._activeRequestId) return
-            if (err) { root.novelError = "Request failed: " + err; root.isFetchingNovel = false; return }
+            if (err) { root.novelError = "请求失败：" + err; root.isFetchingNovel = false; return }
             _parseNovelResults(body, false)
         })
     }
@@ -315,7 +315,7 @@ Singleton {
         if (status && status !== "All") url += "&status=" + encodeURIComponent(status)
         _get(url, function(err, body) {
             if (reqId !== root._activeRequestId) return
-            if (err) { root.novelError = "Request failed: " + err; root.isFetchingNovel = false; return }
+            if (err) { root.novelError = "请求失败：" + err; root.isFetchingNovel = false; return }
             _parseNovelResults(body, false)
         })
     }
@@ -335,7 +335,7 @@ Singleton {
                 url += "&status=" + encodeURIComponent(root.currentStatus)
             _get(url, function(err, body) {
                 if (reqId !== root._activeRequestId) return
-                if (err) { root.novelError = "Request failed: " + err; root.isFetchingNovel = false; return }
+                if (err) { root.novelError = "请求失败：" + err; root.isFetchingNovel = false; return }
                 _parseNovelResults(body, false)
             })
         } else {
@@ -365,7 +365,7 @@ Singleton {
             root.hasMoreNovels = isHot ? false : (data.hasMore || false)
             root.novelError = ""
         } catch (e) {
-            root.novelError = "Parse error: " + e
+            root.novelError = "解析错误：" + e
             console.error("[ServiceNovel]", e)
         }
         root.isFetchingNovel = false
@@ -380,7 +380,7 @@ Singleton {
         root.detailError = ""
         const url = root.apiUrl + "/info?id=" + encodeURIComponent(novelId)
         _get(url, function(err, body) {
-            if (err) { root.detailError = "Request failed: " + err; root.isFetchingDetail = false; return }
+            if (err) { root.detailError = "请求失败：" + err; root.isFetchingDetail = false; return }
             _parseNovelDetail(body)
         })
     }
@@ -407,7 +407,7 @@ Singleton {
             }
             root.detailError = ""
         } catch (e) {
-            root.detailError = "Parse error: " + e
+            root.detailError = "解析错误：" + e
             console.error("[ServiceNovel]", e)
         }
         root.isFetchingDetail = false
@@ -423,7 +423,7 @@ Singleton {
         root.chapterError = ""
         const url = root.apiUrl + "/chapter?id=" + encodeURIComponent(chapterId)
         _get(url, function(err, body) {
-            if (err) { root.chapterError = "Request failed: " + err; root.isFetchingChapter = false; return }
+            if (err) { root.chapterError = "请求失败：" + err; root.isFetchingChapter = false; return }
             _parseChapter(body)
         })
     }
@@ -442,7 +442,7 @@ Singleton {
             }
             root.chapterError = ""
         } catch (e) {
-            root.chapterError = "Parse error: " + e
+            root.chapterError = "解析错误：" + e
             console.error("[ServiceNovel]", e)
         }
         root.isFetchingChapter = false

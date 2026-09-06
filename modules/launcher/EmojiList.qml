@@ -19,15 +19,15 @@ Item {
     required property PersistentProperties visibilities
 
     readonly property var categoryData: [
-        { id: "recent", name: qsTr("Recent"), icon: "history" },
-        { id: "people", name: qsTr("People"), icon: "mood" },
-        { id: "nature", name: qsTr("Nature"), icon: "park" },
-        { id: "food", name: qsTr("Food"), icon: "fastfood" },
-        { id: "activity", name: qsTr("Activities"), icon: "sports_esports" },
-        { id: "travel", name: qsTr("Travel"), icon: "flight" },
-        { id: "objects", name: qsTr("Objects"), icon: "lightbulb" },
-        { id: "symbols", name: qsTr("Symbols"), icon: "category" },
-        { id: "flags", name: qsTr("Flags"), icon: "flag" }
+        { id: "recent", name: qsTr("最近使用"), icon: "history" },
+        { id: "people", name: qsTr("人物"), icon: "mood" },
+        { id: "nature", name: qsTr("自然"), icon: "park" },
+        { id: "food", name: qsTr("食物"), icon: "fastfood" },
+        { id: "activity", name: qsTr("活动"), icon: "sports_esports" },
+        { id: "travel", name: qsTr("旅行"), icon: "flight" },
+        { id: "objects", name: qsTr("物体"), icon: "lightbulb" },
+        { id: "symbols", name: qsTr("符号"), icon: "category" },
+        { id: "flags", name: qsTr("旗帜"), icon: "flag" }
     ]
 
     property string currentCategory: "people"
@@ -208,7 +208,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: Appearance.padding.md
                 anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Search Results")
+                text: qsTr("搜索结果")
                 font.pointSize: Appearance.font.size.labelLarge
                 font.weight: 600
                 color: Colours.palette.m3primary
@@ -301,7 +301,7 @@ Item {
 
                     StyledText {
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("No emojis found")
+                        text: qsTr("未找到表情符号")
                         color: Colours.palette.m3onSurfaceVariant
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
@@ -343,7 +343,7 @@ Item {
 
                     StyledText {
                         Layout.fillWidth: true
-                        text: footer.activeEmoji?.name ?? qsTr("Select an emoji")
+                        text: footer.activeEmoji?.name ?? qsTr("选择一个表情符号")
                         font.pointSize: Appearance.font.size.labelLarge
                         font.weight: 600
                         color: Colours.palette.m3onSurface

@@ -11,10 +11,10 @@ ColumnLayout {
     spacing: Appearance.spacing.sm
 
     StyledText {
-        text: qsTr("Capslock: %1").arg(Niri.capsLock ? "Enabled" : "Disabled")
+        text: qsTr("大写锁定：%1").arg(Niri.capsLock ? "已开启" : "已关闭")
     }
 
     StyledText {
-        text: qsTr("Numlock: %1").arg(Niri.numLock ? "Enabled" : "Disabled")
+        text: qsTr("数字锁定：%1").arg(Niri.numLock ? "已开启" : "已关闭")
     }
 }

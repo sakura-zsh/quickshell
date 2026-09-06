@@ -32,17 +32,17 @@ Item {
 
         Tab {
             iconName: "dashboard"
-            text: qsTr("Overview")
+            text: qsTr("概览")
         }
 
         Tab {
             iconName: "queue_music"
-            text: qsTr("Media")
+            text: qsTr("媒体")
         }
 
         Tab {
             iconName: "speed"
-            text: qsTr("System")
+            text: qsTr("系统")
         }
     }
 

@@ -196,7 +196,7 @@ Item {
         Text {
             Layout.alignment: Qt.AlignHCenter
             Layout.topMargin: 10
-            text:    "Wrong password"
+            text:    "密码错误"
             color:   root.colError
             font { family: root.uiFontFamily; pixelSize: 13 }
             opacity: root.authFailed ? 1.0 : 0.0

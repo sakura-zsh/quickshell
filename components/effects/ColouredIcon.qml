@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import Caelestia
 import Quickshell.Widgets
+import Caelestia.Images
 import QtQuick
 
 IconImage {

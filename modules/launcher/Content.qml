@@ -88,14 +88,14 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: {
                     switch (list.activeMode) {
-                    case "actions": return qsTr("Actions");
-                    case "calc": return qsTr("Calculator");
-                    case "clip": return qsTr("Clipboard");
-                    case "web": return qsTr("Web Search");
-                    case "scheme": return qsTr("Colour Scheme");
-                    case "variant": return qsTr("Variant");
-                    case "wallpapers": return qsTr("Wallpapers");
-                    case "emoji": return qsTr("Emoji Picker");
+                    case "actions": return qsTr("操作");
+                    case "calc": return qsTr("计算器");
+                    case "clip": return qsTr("剪贴板");
+                    case "web": return qsTr("网页搜索");
+                    case "scheme": return qsTr("配色方案");
+                    case "variant": return qsTr("变体");
+                    case "wallpapers": return qsTr("壁纸");
+                    case "emoji": return qsTr("表情符号选择器");
                     default: return "";
                     }
                 }
@@ -147,7 +147,7 @@ Item {
             topPadding: Appearance.padding.lg
             bottomPadding: Appearance.padding.lg
 
-            placeholderText: qsTr("Type \"%1\" for commands").arg(Config.launcher.actionPrefix)
+            placeholderText: qsTr("输入“%1”以使用命令").arg(Config.launcher.actionPrefix)
 
             onAccepted: {
                 const currentItem = list.currentList?.currentItem;

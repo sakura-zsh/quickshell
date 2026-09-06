@@ -163,7 +163,7 @@ Rectangle {
         Text {
             id: placeholder
             anchors.centerIn: parent
-            text: root.loggingIn ? "Loading..." : "Password"
+            text: root.loggingIn ? "正在加载…" : "密码"
             color: root.loggingIn ? root.m3secondary : root.m3onSurfaceVariant
             font {
                 family: root.fontMono
@@ -272,7 +272,7 @@ Rectangle {
         function onLoginFailed() {
             root.authFailed = true
             root.loggingIn = false
-            root.statusMsg = "Incorrect password. Please try again."
+            root.statusMsg = "密码错误，请重试。"
             pwInput.text = ""
             failTimer.restart()
         }

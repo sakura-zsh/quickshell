@@ -30,7 +30,7 @@ DeviceDetails {
     headerComponent: Component {
         ConnectionHeader {
             icon: "vpn_key"
-            title: root.vpnProvider?.displayName ?? qsTr("Unknown")
+            title: root.vpnProvider?.displayName ?? qsTr("未知")
         }
     }
 
@@ -40,13 +40,13 @@ DeviceDetails {
                 spacing: Appearance.spacing.lg
 
                 SectionHeader {
-                    title: qsTr("Connection status")
-                    description: qsTr("VPN connection settings")
+                    title: qsTr("连接状态")
+                    description: qsTr("VPN 连接设置")
                 }
 
                 SectionContainer {
                     ToggleRow {
-                        label: qsTr("Enable this provider")
+                        label: qsTr("启用此提供商")
                         checked: root.providerEnabled
                         toggle.onToggled: {
                             if (!root.vpnProvider)
@@ -95,7 +95,7 @@ DeviceDetails {
                             enabled: !VPN.connecting
                             inactiveColour: Colours.palette.m3primaryContainer
                             inactiveOnColour: Colours.palette.m3onPrimaryContainer
-                            text: VPN.connected ? qsTr("Disconnect") : qsTr("Connect")
+                            text: VPN.connected ? qsTr("断开连接") : qsTr("连接")
 
                             onClicked: {
                                 VPN.toggle();
@@ -104,7 +104,7 @@ DeviceDetails {
 
                         TextButton {
                             Layout.fillWidth: true
-                            text: qsTr("Edit Provider")
+                            text: qsTr("编辑提供商")
                             inactiveColour: Colours.palette.m3secondaryContainer
                             inactiveOnColour: Colours.palette.m3onSecondaryContainer
 
@@ -119,7 +119,7 @@ DeviceDetails {
 
                         TextButton {
                             Layout.fillWidth: true
-                            text: qsTr("Delete Provider")
+                            text: qsTr("删除提供商")
                             inactiveColour: Colours.palette.m3errorContainer
                             inactiveOnColour: Colours.palette.m3onErrorContainer
 
@@ -144,48 +144,48 @@ DeviceDetails {
                 spacing: Appearance.spacing.lg
 
                 SectionHeader {
-                    title: qsTr("Provider details")
-                    description: qsTr("VPN provider information")
+                    title: qsTr("提供商详情")
+                    description: qsTr("VPN 提供商信息")
                 }
 
                 SectionContainer {
                     contentSpacing: Appearance.spacing.sm / 2
 
                     PropertyRow {
-                        label: qsTr("Provider")
-                        value: root.vpnProvider?.name ?? qsTr("Unknown")
+                        label: qsTr("提供商")
+                        value: root.vpnProvider?.name ?? qsTr("未知")
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("Display name")
-                        value: root.vpnProvider?.displayName ?? qsTr("Unknown")
+                        label: qsTr("显示名称")
+                        value: root.vpnProvider?.displayName ?? qsTr("未知")
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("Interface")
+                        label: qsTr("接口")
                         value: root.vpnProvider?.interface || qsTr("N/A")
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("Status")
+                        label: qsTr("状态")
                         value: {
                             if (!root.providerEnabled)
-                                return qsTr("Disabled");
+                                return qsTr("已禁用");
                             if (VPN.connecting)
-                                return qsTr("Connecting...");
+                                return qsTr("正在连接…");
                             if (VPN.connected)
-                                return qsTr("Connected");
-                            return qsTr("Enabled (Not connected)");
+                                return qsTr("已连接");
+                            return qsTr("已启用（未连接）");
                         }
                     }
 
                     PropertyRow {
                         showTopMargin: true
-                        label: qsTr("Enabled")
-                        value: root.providerEnabled ? qsTr("Yes") : qsTr("No")
+                        label: qsTr("已启用")
+                        value: root.providerEnabled ? qsTr("是") : qsTr("否")
                     }
                 }
             }
@@ -270,7 +270,7 @@ DeviceDetails {
             spacing: Appearance.spacing.lg
 
             StyledText {
-                text: qsTr("Edit VPN Provider")
+                text: qsTr("编辑 VPN 提供商")
                 font.pointSize: Appearance.font.size.titleMedium
                 font.weight: 500
             }
@@ -280,7 +280,7 @@ DeviceDetails {
                 spacing: Appearance.spacing.md / 2
 
                 StyledText {
-                    text: qsTr("Display Name")
+                    text: qsTr("显示名称")
                     font.pointSize: Appearance.font.size.labelLarge
                     color: Colours.palette.m3onSurfaceVariant
                 }
@@ -316,7 +316,7 @@ DeviceDetails {
                 spacing: Appearance.spacing.md / 2
 
                 StyledText {
-                    text: qsTr("Interface (e.g., wg0, torguard)")
+                    text: qsTr("接口（例如 wg0、torguard）")
                     font.pointSize: Appearance.font.size.labelLarge
                     color: Colours.palette.m3onSurfaceVariant
                 }
@@ -354,7 +354,7 @@ DeviceDetails {
 
                 TextButton {
                     Layout.fillWidth: true
-                    text: qsTr("Cancel")
+                    text: qsTr("取消")
                     inactiveColour: Colours.tPalette.m3surfaceContainerHigh
                     inactiveOnColour: Colours.palette.m3onSurface
                     onClicked: editVpnDialog.closeWithAnimation()
@@ -362,7 +362,7 @@ DeviceDetails {
 
                 TextButton {
                     Layout.fillWidth: true
-                    text: qsTr("Save")
+                    text: qsTr("保存")
                     enabled: editVpnDialog.interfaceName.length > 0
                     inactiveColour: Colours.palette.m3primaryContainer
                     inactiveOnColour: Colours.palette.m3onPrimaryContainer

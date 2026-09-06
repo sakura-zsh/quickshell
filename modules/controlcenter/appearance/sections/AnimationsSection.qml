@@ -15,7 +15,7 @@ CollapsibleSection {
 
     required property var rootPane
 
-    title: qsTr("Animations")
+    title: qsTr("动画")
     showBackground: true
 
     SectionContainer {
@@ -24,7 +24,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Animation duration scale")
+            label: qsTr("动画时长倍率")
             value: rootPane.animDurationsScale
             from: 0.1
             to: 5.0

@@ -20,18 +20,18 @@ ColumnLayout {
 
     SettingsHeader {
         icon: "bluetooth"
-        title: qsTr("Bluetooth Settings")
+        title: qsTr("蓝牙设置")
     }
 
     StyledText {
         Layout.topMargin: Appearance.spacing.xxl
-        text: qsTr("Adapter status")
+        text: qsTr("适配器状态")
         font.pointSize: Appearance.font.size.bodyLarge
         font.weight: 500
     }
 
     StyledText {
-        text: qsTr("General adapter settings")
+        text: qsTr("常规适配器设置")
         color: Colours.palette.m3outline
     }
 
@@ -53,7 +53,7 @@ ColumnLayout {
             spacing: Appearance.spacing.xl
 
             Toggle {
-                label: qsTr("Powered")
+                label: qsTr("已通电")
                 checked: Bluetooth.defaultAdapter?.enabled ?? false
                 toggle.onToggled: {
                     const adapter = Bluetooth.defaultAdapter;
@@ -63,7 +63,7 @@ ColumnLayout {
             }
 
             Toggle {
-                label: qsTr("Discoverable")
+                label: qsTr("可被发现")
                 checked: Bluetooth.defaultAdapter?.discoverable ?? false
                 toggle.onToggled: {
                     const adapter = Bluetooth.defaultAdapter;
@@ -73,7 +73,7 @@ ColumnLayout {
             }
 
             Toggle {
-                label: qsTr("Pairable")
+                label: qsTr("可配对")
                 checked: Bluetooth.defaultAdapter?.pairable ?? false
                 toggle.onToggled: {
                     const adapter = Bluetooth.defaultAdapter;
@@ -86,13 +86,13 @@ ColumnLayout {
 
     StyledText {
         Layout.topMargin: Appearance.spacing.xxl
-        text: qsTr("Adapter properties")
+        text: qsTr("适配器属性")
         font.pointSize: Appearance.font.size.bodyLarge
         font.weight: 500
     }
 
     StyledText {
-        text: qsTr("Per-adapter settings")
+        text: qsTr("按适配器设置")
         color: Colours.palette.m3outline
     }
 
@@ -119,7 +119,7 @@ ColumnLayout {
 
                 StyledText {
                     Layout.fillWidth: true
-                    text: qsTr("Current adapter")
+                    text: qsTr("当前适配器")
                 }
 
                 Item {
@@ -149,7 +149,7 @@ ColumnLayout {
 
                         StyledText {
                             Layout.leftMargin: Appearance.padding.xs
-                            text: Bluetooth.defaultAdapter?.name ?? qsTr("None")
+                            text: Bluetooth.defaultAdapter?.name ?? qsTr("无")
                         }
 
                         MaterialIcon {
@@ -271,7 +271,7 @@ ColumnLayout {
 
                 StyledText {
                     Layout.fillWidth: true
-                    text: qsTr("Discoverable timeout")
+                    text: qsTr("可发现超时")
                 }
 
                 CustomSpinBox {
@@ -328,7 +328,7 @@ ColumnLayout {
 
                         anchors.left: parent.left
 
-                        text: qsTr("Rename adapter (currently does not work)")
+                        text: qsTr("重命名适配器（当前不可用）")
                         color: Colours.palette.m3outline
                         font.pointSize: Appearance.font.size.labelLarge
                     }
@@ -449,13 +449,13 @@ ColumnLayout {
 
     StyledText {
         Layout.topMargin: Appearance.spacing.xxl
-        text: qsTr("Adapter information")
+        text: qsTr("适配器信息")
         font.pointSize: Appearance.font.size.bodyLarge
         font.weight: 500
     }
 
     StyledText {
-        text: qsTr("Information about the default adapter")
+        text: qsTr("关于默认适配器的信息")
         color: Colours.palette.m3outline
     }
 
@@ -477,18 +477,18 @@ ColumnLayout {
             spacing: Appearance.spacing.sm / 2
 
             StyledText {
-                text: qsTr("Adapter state")
+                text: qsTr("适配器状态")
             }
 
             StyledText {
-                text: Bluetooth.defaultAdapter ? BluetoothAdapterState.toString(Bluetooth.defaultAdapter.state) : qsTr("Unknown")
+                text: Bluetooth.defaultAdapter ? BluetoothAdapterState.toString(Bluetooth.defaultAdapter.state) : qsTr("未知")
                 color: Colours.palette.m3outline
                 font.pointSize: Appearance.font.size.labelLarge
             }
 
             StyledText {
                 Layout.topMargin: Appearance.spacing.lg
-                text: qsTr("Dbus path")
+                text: qsTr("D-Bus 路径")
             }
 
             StyledText {
@@ -499,7 +499,7 @@ ColumnLayout {
 
             StyledText {
                 Layout.topMargin: Appearance.spacing.lg
-                text: qsTr("Adapter id")
+                text: qsTr("适配器 ID")
             }
 
             StyledText {

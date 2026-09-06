@@ -80,7 +80,7 @@ Item {
                     spacing: Appearance.spacing.md
 
                     StyledText {
-                        text: qsTr("Extra Features")
+                        text: qsTr("附加功能")
                         font.pointSize: Appearance.font.size.titleMedium
                         font.weight: 500
                     }
@@ -91,12 +91,12 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("Features")
+                        text: qsTr("功能")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
                     SwitchRow {
-                        label: qsTr("Manga")
+                        label: qsTr("漫画")
                         checked: root.mangaEnabled
                         onToggled: checked => {
                             root.mangaEnabled = checked;
@@ -105,7 +105,7 @@ Item {
                     }
 
                     SwitchRow {
-                        label: qsTr("Novel")
+                        label: qsTr("小说")
                         checked: root.novelEnabled
                         onToggled: checked => {
                             root.novelEnabled = checked;

@@ -13,8 +13,8 @@ Searcher {
 
     readonly property list<QtObject> actions: [
         Action {
-            name: qsTr("Settings")
-            desc: qsTr("Open the configuration editor")
+            name: qsTr("设置")
+            desc: qsTr("打开配置编辑器")
             icon: "settings"
 
             function onClicked(list: AppList): void {
@@ -23,8 +23,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Calculator")
-            desc: qsTr("Do simple math equations (powered by Qalc)")
+            name: qsTr("计算器")
+            desc: qsTr("进行简单数学运算（由 Qalc 驱动）")
             icon: "calculate"
 
             function onClicked(list: AppList): void {
@@ -32,8 +32,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Scheme")
-            desc: qsTr("Change the current colour scheme")
+            name: qsTr("方案")
+            desc: qsTr("更改当前配色方案")
             icon: "palette"
 
             function onClicked(list: AppList): void {
@@ -41,8 +41,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Wallpaper")
-            desc: qsTr("Change the current wallpaper")
+            name: qsTr("壁纸")
+            desc: qsTr("更改当前壁纸")
             icon: "image"
 
             function onClicked(list: AppList): void {
@@ -50,8 +50,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Variant")
-            desc: qsTr("Change the current scheme variant")
+            name: qsTr("变体")
+            desc: qsTr("更改当前方案变体")
             icon: "colors"
 
             function onClicked(list: AppList): void {
@@ -59,8 +59,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Clipboard")
-            desc: qsTr("Search clipboard history")
+            name: qsTr("剪贴板")
+            desc: qsTr("搜索剪贴板历史")
             icon: "content_paste"
 
             function onClicked(list: AppList): void {
@@ -68,8 +68,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Web Search")
-            desc: qsTr("Search the web or open a URL")
+            name: qsTr("网页搜索")
+            desc: qsTr("搜索网络或打开网址")
             icon: "travel_explore"
 
             function onClicked(list: AppList): void {
@@ -77,8 +77,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Emoji")
-            desc: qsTr("Search and copy emojis")
+            name: qsTr("表情符号")
+            desc: qsTr("搜索并复制表情符号")
             icon: "mood"
 
             function onClicked(list: AppList): void {
@@ -87,7 +87,7 @@ Searcher {
         },
         Action {
             name: qsTr("OCR")
-            desc: qsTr("Extract text from a screen region")
+            desc: qsTr("从屏幕区域提取文本")
             icon: "document_scanner"
 
             function onClicked(list: AppList): void {
@@ -98,7 +98,7 @@ Searcher {
         },
         Action {
             name: qsTr("Google Lens")
-            desc: qsTr("Search a screen region with Google Lens")
+            desc: qsTr("使用 Google Lens 搜索屏幕区域")
             icon: "image_search"
 
             function onClicked(list: AppList): void {
@@ -108,8 +108,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Transparency")
-            desc: qsTr("Change shell transparency")
+            name: qsTr("透明度")
+            desc: qsTr("更改桌面壳透明度")
             icon: "opacity"
             disabled: true
 
@@ -118,8 +118,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Random")
-            desc: qsTr("Switch to a random wallpaper")
+            name: qsTr("随机")
+            desc: qsTr("切换到随机壁纸")
             icon: "casino"
 
             function onClicked(list: AppList): void {
@@ -136,8 +136,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Light")
-            desc: qsTr("Change the scheme to light mode")
+            name: qsTr("浅色")
+            desc: qsTr("将配色方案切换为浅色模式")
             icon: "light_mode"
 
             function onClicked(list: AppList): void {
@@ -147,8 +147,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Dark")
-            desc: qsTr("Change the scheme to dark mode")
+            name: qsTr("深色")
+            desc: qsTr("将配色方案切换为深色模式")
             icon: "dark_mode"
 
             function onClicked(list: AppList): void {
@@ -158,8 +158,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Shutdown")
-            desc: qsTr("Shutdown the system")
+            name: qsTr("关机")
+            desc: qsTr("关闭系统")
             icon: "power_settings_new"
             disabled: !Config.launcher.enableDangerousActions
 
@@ -169,8 +169,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Reboot")
-            desc: qsTr("Reboot the system")
+            name: qsTr("重启")
+            desc: qsTr("重启系统")
             icon: "cached"
             disabled: !Config.launcher.enableDangerousActions
 
@@ -180,8 +180,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Logout")
-            desc: qsTr("Log out of the current session")
+            name: qsTr("注销")
+            desc: qsTr("注销当前会话")
             icon: "exit_to_app"
             disabled: !Config.launcher.enableDangerousActions
 
@@ -191,8 +191,8 @@ Searcher {
             }
         },
         Action {
-            name: qsTr("Lock")
-            desc: qsTr("Lock the current session")
+            name: qsTr("锁定")
+            desc: qsTr("锁定当前会话")
             icon: "lock"
 
             function onClicked(list: AppList): void {

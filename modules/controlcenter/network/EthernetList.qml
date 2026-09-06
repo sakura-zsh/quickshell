@@ -15,8 +15,8 @@ DeviceList {
 
     required property Session session
 
-    title: qsTr("Devices (%1)").arg(Nmcli.ethernetDevices ? Nmcli.ethernetDevices.length : 0)
-    description: qsTr("All available ethernet devices")
+    title: qsTr("设备（%1）").arg(Nmcli.ethernetDevices ? Nmcli.ethernetDevices.length : 0)
+    description: qsTr("所有可用的以太网设备")
     activeItem: session.ethernet.active
 
     model: Nmcli.ethernetDevices
@@ -26,7 +26,7 @@ DeviceList {
             spacing: Appearance.spacing.md
 
             StyledText {
-                text: qsTr("Settings")
+                text: qsTr("设置")
                 font.pointSize: Appearance.font.size.titleMedium
                 font.weight: 500
             }
@@ -118,7 +118,7 @@ DeviceList {
 
                     StyledText {
                         Layout.fillWidth: true
-                        text: modelData.interface || qsTr("Unknown")
+                        text: modelData.interface || qsTr("未知")
                         elide: Text.ElideRight
                     }
 
@@ -128,7 +128,7 @@ DeviceList {
 
                         StyledText {
                             Layout.fillWidth: true
-                            text: modelData.connected ? qsTr("Connected") : qsTr("Disconnected")
+                            text: modelData.connected ? qsTr("已连接") : qsTr("已断开连接")
                             color: modelData.connected ? Colours.palette.m3primary : Colours.palette.m3outline
                             font.pointSize: Appearance.font.size.labelLarge
                             font.weight: modelData.connected ? 500 : 400

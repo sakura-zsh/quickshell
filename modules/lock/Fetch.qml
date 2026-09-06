@@ -43,14 +43,14 @@ ColumnLayout {
 
     // ── Info key-value rows ────────────────────────────────────────────────────
     // Placed directly in root ColumnLayout — top-aligned, equal spacing between rows
-    InfoRow { label: "OS";  value: SysInfo.osPrettyName || SysInfo.osName }
-    InfoRow { label: "WM";  value: SysInfo.wm }
-    InfoRow { label: "USR"; value: SysInfo.user }
-    InfoRow { label: "UP";  value: SysInfo.uptime }
+    InfoRow { label: "系统";  value: SysInfo.osPrettyName || SysInfo.osName }
+    InfoRow { label: "窗口管理器";  value: SysInfo.wm }
+    InfoRow { label: "用户"; value: SysInfo.user }
+    InfoRow { label: "运行时长";  value: SysInfo.uptime }
 
     InfoRow {
         visible: UPower.displayDevice.isLaptopBattery
-        label: "BAT"
+        label: "电池"
         value: `${UPower.onBattery ? "" : "+ "}${Math.round(UPower.displayDevice.percentage * 100)}%`
     }
 

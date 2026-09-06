@@ -45,11 +45,11 @@ Item {
     }
     property Title current: text1
 
-    readonly property string windowTitle: Niri.focusedWindowTitle ?? qsTr("Desktop")
+    readonly property string windowTitle: Niri.focusedWindowTitle ?? qsTr("桌面")
 
     function getCompactName() {
-        if (!root.windowTitle || root.windowTitle === qsTr("Desktop"))
-            return qsTr("Desktop");
+        if (!root.windowTitle || root.windowTitle === qsTr("桌面"))
+            return qsTr("桌面");
         // " - " (standard hyphen), " — " (em dash), " – " (en dash)
         const parts = root.windowTitle.split(/\s+[\-\u2013\u2014]\s+/);
         if (parts.length > 1)

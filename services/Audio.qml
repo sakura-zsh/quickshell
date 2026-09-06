@@ -63,7 +63,7 @@ Singleton {
     }
 
     function getStreamName(node: PwNode): string {
-        return node?.description || node?.name || qsTr("Unknown");
+        return node?.description || node?.name || qsTr("未知");
     }
 
     function getStreamVolume(node: PwNode): real {
@@ -104,10 +104,10 @@ Singleton {
         if (!sink?.ready)
             return;
 
-        const newSinkName = sink.description || sink.name || qsTr("Unknown Device");
+        const newSinkName = sink.description || sink.name || qsTr("未知设备");
 
         if (previousSinkName && previousSinkName !== newSinkName && Config.utilities.toasts.audioOutputChanged)
-            Toaster.toast(qsTr("Audio output changed"), qsTr("Now using: %1").arg(newSinkName), "volume_up");
+            Toaster.toast(qsTr("音频输出已更改"), qsTr("当前使用：%1").arg(newSinkName), "volume_up");
 
         previousSinkName = newSinkName;
     }
@@ -116,17 +116,17 @@ Singleton {
         if (!source?.ready)
             return;
 
-        const newSourceName = source.description || source.name || qsTr("Unknown Device");
+        const newSourceName = source.description || source.name || qsTr("未知设备");
 
         if (previousSourceName && previousSourceName !== newSourceName && Config.utilities.toasts.audioInputChanged)
-            Toaster.toast(qsTr("Audio input changed"), qsTr("Now using: %1").arg(newSourceName), "mic");
+            Toaster.toast(qsTr("音频输入已更改"), qsTr("当前使用：%1").arg(newSourceName), "mic");
 
         previousSourceName = newSourceName;
     }
 
     Component.onCompleted: {
-        previousSinkName = sink?.description || sink?.name || qsTr("Unknown Device");
-        previousSourceName = source?.description || source?.name || qsTr("Unknown Device");
+        previousSinkName = sink?.description || sink?.name || qsTr("未知设备");
+        previousSourceName = source?.description || source?.name || qsTr("未知设备");
     }
 
     PwObjectTracker {

@@ -12,7 +12,7 @@ LazyLoader {
     property list<string> cwd: ["Home"]
     property string filterLabel: "All files"
     property list<string> filters: ["*"]
-    property string title: qsTr("Select a file")
+    property string title: qsTr("选择文件")
 
     signal accepted(path: string)
     signal rejected

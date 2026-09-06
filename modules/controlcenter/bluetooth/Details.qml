@@ -58,13 +58,13 @@ StyledFlickable {
 
                         StyledText {
                             Layout.topMargin: Appearance.spacing.xxl
-                            text: qsTr("Connection status")
+                            text: qsTr("连接状态")
                             font.pointSize: Appearance.font.size.bodyLarge
                             font.weight: 500
                         }
 
                         StyledText {
-                            text: qsTr("Connection settings for this device")
+                            text: qsTr("此设备的连接设置")
                             color: Colours.palette.m3outline
                         }
 
@@ -86,13 +86,13 @@ StyledFlickable {
                                 spacing: Appearance.spacing.xl
 
                                 Toggle {
-                                    label: qsTr("Connected")
+                                    label: qsTr("已连接")
                                     checked: root.device?.connected ?? false
                                     toggle.onToggled: root.device.connected = checked
                                 }
 
                                 Toggle {
-                                    label: qsTr("Paired")
+                                    label: qsTr("已配对")
                                     checked: root.device?.paired ?? false
                                     toggle.onToggled: {
                                         if (root.device.paired)
@@ -103,7 +103,7 @@ StyledFlickable {
                                 }
 
                                 Toggle {
-                                    label: qsTr("Blocked")
+                                    label: qsTr("已阻止")
                                     checked: root.device?.blocked ?? false
                                     toggle.onToggled: root.device.blocked = checked
                                 }
@@ -117,13 +117,13 @@ StyledFlickable {
 
                         StyledText {
                             Layout.topMargin: Appearance.spacing.xxl
-                            text: qsTr("Device properties")
+                            text: qsTr("设备属性")
                             font.pointSize: Appearance.font.size.bodyLarge
                             font.weight: 500
                         }
 
                         StyledText {
-                            text: qsTr("Additional settings")
+                            text: qsTr("附加设置")
                             color: Colours.palette.m3outline
                         }
 
@@ -187,7 +187,7 @@ StyledFlickable {
 
                                             anchors.left: parent.left
 
-                                            text: qsTr("Device name")
+                                            text: qsTr("设备名称")
                                             color: Colours.palette.m3outline
                                             font.pointSize: Appearance.font.size.labelLarge
                                         }
@@ -306,13 +306,13 @@ StyledFlickable {
                                 }
 
                                 Toggle {
-                                    label: qsTr("Trusted")
+                                    label: qsTr("已信任")
                                     checked: root.device?.trusted ?? false
                                     toggle.onToggled: root.device.trusted = checked
                                 }
 
                                 Toggle {
-                                    label: qsTr("Wake allowed")
+                                    label: qsTr("允许唤醒")
                                     checked: root.device?.wakeAllowed ?? false
                                     toggle.onToggled: root.device.wakeAllowed = checked
                                 }
@@ -326,13 +326,13 @@ StyledFlickable {
 
                         StyledText {
                             Layout.topMargin: Appearance.spacing.xxl
-                            text: qsTr("Device information")
+                            text: qsTr("设备信息")
                             font.pointSize: Appearance.font.size.bodyLarge
                             font.weight: 500
                         }
 
                         StyledText {
-                            text: qsTr("Information about this device")
+                            text: qsTr("关于此设备的信息")
                             color: Colours.palette.m3outline
                         }
 
@@ -354,7 +354,7 @@ StyledFlickable {
                                 spacing: Appearance.spacing.sm / 2
 
                                 StyledText {
-                                    text: root.device?.batteryAvailable ? qsTr("Device battery (%1%)").arg(root.device.battery * 100) : qsTr("Battery unavailable")
+                                    text: root.device?.batteryAvailable ? qsTr("设备电量（%1%）").arg(root.device.battery * 100) : qsTr("电池不可用")
                                 }
 
                                 RowLayout {
@@ -385,7 +385,7 @@ StyledFlickable {
 
                                 StyledText {
                                     Layout.topMargin: Appearance.spacing.lg
-                                    text: qsTr("Dbus path")
+                                    text: qsTr("D-Bus 路径")
                                 }
 
                                 StyledText {
@@ -396,7 +396,7 @@ StyledFlickable {
 
                                 StyledText {
                                     Layout.topMargin: Appearance.spacing.lg
-                                    text: qsTr("MAC address")
+                                    text: qsTr("MAC 地址")
                                 }
 
                                 StyledText {
@@ -407,18 +407,18 @@ StyledFlickable {
 
                                 StyledText {
                                     Layout.topMargin: Appearance.spacing.lg
-                                    text: qsTr("Bonded")
+                                    text: qsTr("已绑定")
                                 }
 
                                 StyledText {
-                                    text: root.device?.bonded ? qsTr("Yes") : qsTr("No")
+                                    text: root.device?.bonded ? qsTr("是") : qsTr("否")
                                     color: Colours.palette.m3outline
                                     font.pointSize: Appearance.font.size.labelLarge
                                 }
 
                                 StyledText {
                                     Layout.topMargin: Appearance.spacing.lg
-                                    text: qsTr("System name")
+                                    text: qsTr("系统名称")
                                 }
 
                                 StyledText {

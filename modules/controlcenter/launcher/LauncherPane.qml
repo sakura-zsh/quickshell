@@ -155,7 +155,7 @@ Item {
                     spacing: Appearance.spacing.md
 
                     StyledText {
-                        text: qsTr("Launcher")
+                        text: qsTr("启动器")
                         font.pointSize: Appearance.font.size.titleMedium
                         font.weight: 500
                     }
@@ -171,7 +171,7 @@ Item {
                         iconSize: Appearance.font.size.bodyMedium
                         horizontalPadding: Appearance.padding.md
                         verticalPadding: Appearance.padding.sm
-                        tooltip: qsTr("Launcher settings")
+                        tooltip: qsTr("启动器设置")
 
                         onClicked: {
                             if (root.session.launcher.active) {
@@ -187,13 +187,13 @@ Item {
 
                 StyledText {
                     Layout.topMargin: Appearance.spacing.xxl
-                    text: qsTr("Applications (%1)").arg(root.searchText ? root.filteredApps.length : allAppsDb.apps.length)
+                    text: qsTr("应用程序（%1）").arg(root.searchText ? root.filteredApps.length : allAppsDb.apps.length)
                     font.pointSize: Appearance.font.size.bodyMedium
                     font.weight: 500
                 }
 
                 StyledText {
-                    text: qsTr("All applications available in the launcher")
+                    text: qsTr("启动器中可用的所有应用程序")
                     color: Colours.palette.m3outline
                 }
 
@@ -229,7 +229,7 @@ Item {
                         topPadding: Appearance.padding.md
                         bottomPadding: Appearance.padding.md
 
-                        placeholderText: qsTr("Search applications...")
+                        placeholderText: qsTr("搜索应用程序…")
 
                         onTextChanged: {
                             root.searchText = text;
@@ -351,7 +351,7 @@ Item {
 
                                 StyledText {
                                     Layout.fillWidth: true
-                                    text: modelData.name || modelData.entry?.name || qsTr("Unknown")
+                                    text: modelData.name || modelData.entry?.name || qsTr("未知")
                                     font.pointSize: Appearance.font.size.bodyMedium
                                 }
 
@@ -517,7 +517,7 @@ Item {
                 Layout.topMargin: Appearance.padding.xl * 2
                 visible: displayedApp === null
                 icon: "apps"
-                title: qsTr("Launcher Applications")
+                title: qsTr("启动器应用")
             }
 
             Item {
@@ -552,7 +552,7 @@ Item {
                     StyledText {
                         id: appTitleText
                         Layout.alignment: Qt.AlignHCenter
-                        text: displayedApp ? (displayedApp.name || displayedApp.entry?.name || qsTr("Application Details")) : ""
+                        text: displayedApp ? (displayedApp.name || displayedApp.entry?.name || qsTr("应用详情")) : ""
                         font.pointSize: Appearance.font.size.titleMedium
                         font.bold: true
                     }
@@ -586,7 +586,7 @@ Item {
                         SwitchRow {
                             Layout.topMargin: Appearance.spacing.lg
                             visible: appDetailsLayout.displayedApp !== null
-                            label: qsTr("Mark as favourite")
+                            label: qsTr("标记为收藏")
                             checked: root.favouriteChecked
                             // disabled if:
                             // * app is hidden
@@ -619,7 +619,7 @@ Item {
                         SwitchRow {
                             Layout.topMargin: Appearance.spacing.lg
                             visible: appDetailsLayout.displayedApp !== null
-                            label: qsTr("Hide from launcher")
+                            label: qsTr("从启动器隐藏")
                             checked: root.hideFromLauncherChecked
                             // disabled if:
                             // * app is favourited

@@ -54,7 +54,7 @@ ColumnLayout {
 
     TextButton {
         Layout.fillWidth: true
-        text: qsTr("+ Add VPN Provider")
+        text: qsTr("+ 添加 VPN 提供商")
         inactiveColour: Colours.palette.m3primaryContainer
         inactiveOnColour: Colours.palette.m3onPrimaryContainer
 
@@ -147,7 +147,7 @@ ColumnLayout {
                             elide: Text.ElideRight
                             maximumLineCount: 1
 
-                            text: modelData.displayName || qsTr("Unknown")
+                            text: modelData.displayName || qsTr("未知")
                         }
 
                         RowLayout {
@@ -158,12 +158,12 @@ ColumnLayout {
                                 Layout.fillWidth: true
                                 text: {
                                     if (modelData.enabled && VPN.connected)
-                                        return qsTr("Connected");
+                                        return qsTr("已连接");
                                     if (modelData.enabled && VPN.connecting)
-                                        return qsTr("Connecting...");
+                                        return qsTr("正在连接…");
                                     if (modelData.enabled)
-                                        return qsTr("Enabled");
-                                    return qsTr("Disabled");
+                                        return qsTr("已启用");
+                                    return qsTr("已禁用");
                                 }
                                 color: modelData.enabled ? (VPN.connected ? Colours.palette.m3primary : Colours.palette.m3onSurface) : Colours.palette.m3outline
                                 font.pointSize: Appearance.font.size.labelLarge
@@ -441,14 +441,14 @@ ColumnLayout {
                 }
 
                 StyledText {
-                    text: qsTr("Add VPN Provider")
+                    text: qsTr("添加 VPN 提供商")
                     font.pointSize: Appearance.font.size.titleMedium
                     font.weight: 500
                 }
 
                 StyledText {
                     Layout.fillWidth: true
-                    text: qsTr("Choose a provider to add")
+                    text: qsTr("选择要添加的提供商")
                     wrapMode: Text.WordWrap
                     color: Colours.palette.m3outline
                     font.pointSize: Appearance.font.size.labelLarge
@@ -520,7 +520,7 @@ ColumnLayout {
 
                 TextButton {
                     Layout.fillWidth: true
-                    text: qsTr("WireGuard (Custom)")
+                    text: qsTr("WireGuard（自定义）")
                     inactiveColour: Colours.tPalette.m3surfaceContainerHigh
                     inactiveOnColour: Colours.palette.m3onSurface
                     onClicked: {
@@ -531,7 +531,7 @@ ColumnLayout {
                 TextButton {
                     Layout.topMargin: Appearance.spacing.lg
                     Layout.fillWidth: true
-                    text: qsTr("Cancel")
+                    text: qsTr("取消")
                     inactiveColour: Colours.palette.m3secondaryContainer
                     inactiveOnColour: Colours.palette.m3onSecondaryContainer
                     onClicked: vpnDialog.closeWithAnimation()
@@ -554,7 +554,7 @@ ColumnLayout {
                 }
 
                 StyledText {
-                    text: vpnDialog.editIndex >= 0 ? qsTr("Edit VPN Provider") : qsTr("Add %1 VPN").arg(vpnDialog.displayName)
+                    text: vpnDialog.editIndex >= 0 ? qsTr("编辑 VPN 提供商") : qsTr("添加 %1 VPN").arg(vpnDialog.displayName)
                     font.pointSize: Appearance.font.size.titleMedium
                     font.weight: 500
                 }
@@ -564,7 +564,7 @@ ColumnLayout {
                     spacing: Appearance.spacing.md / 2
 
                     StyledText {
-                        text: qsTr("Display Name")
+                        text: qsTr("显示名称")
                         font.pointSize: Appearance.font.size.labelLarge
                         color: Colours.palette.m3onSurfaceVariant
                     }
@@ -600,7 +600,7 @@ ColumnLayout {
                     spacing: Appearance.spacing.md / 2
 
                     StyledText {
-                        text: qsTr("Interface (e.g., wg0, torguard)")
+                        text: qsTr("接口（例如 wg0、torguard）")
                         font.pointSize: Appearance.font.size.labelLarge
                         color: Colours.palette.m3onSurfaceVariant
                     }
@@ -638,7 +638,7 @@ ColumnLayout {
 
                     TextButton {
                         Layout.fillWidth: true
-                        text: qsTr("Cancel")
+                        text: qsTr("取消")
                         inactiveColour: Colours.tPalette.m3surfaceContainerHigh
                         inactiveOnColour: Colours.palette.m3onSurface
                         onClicked: vpnDialog.closeWithAnimation()
@@ -646,7 +646,7 @@ ColumnLayout {
 
                     TextButton {
                         Layout.fillWidth: true
-                        text: qsTr("Save")
+                        text: qsTr("保存")
                         enabled: vpnDialog.interfaceName.length > 0
                         inactiveColour: Colours.palette.m3primaryContainer
                         inactiveOnColour: Colours.palette.m3onPrimaryContainer

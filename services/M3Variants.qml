@@ -75,56 +75,56 @@ Searcher {
         Variant {
             variant: "vibrant"
             icon: "sentiment_very_dissatisfied"
-            name: qsTr("Vibrant")
-            description: qsTr("A high chroma palette. The primary palette's chroma is at maximum.")
+            name: qsTr("鲜艳色")
+            description: qsTr("高彩度调色板。主调色板的彩度达到最大。")
         },
         Variant {
             variant: "tonalspot"
             icon: "android"
-            name: qsTr("Tonal Spot")
-            description: qsTr("Default for Material theme colours. A pastel palette with a low chroma.")
+            name: qsTr("色调斑点")
+            description: qsTr("Material 主题颜色的默认方案。低彩度的柔和调色板。")
         },
         Variant {
             variant: "expressive"
             icon: "compare_arrows"
-            name: qsTr("Expressive")
-            description: qsTr("A medium chroma palette. The primary palette's hue is different from the seed colour, for variety.")
+            name: qsTr("表现色")
+            description: qsTr("中等彩度调色板。主调色板的色相与种子颜色不同，以增添变化。")
         },
         Variant {
             variant: "fidelity"
             icon: "compare"
-            name: qsTr("Fidelity")
-            description: qsTr("Matches the seed colour, even if the seed colour is very bright (high chroma).")
+            name: qsTr("保真色")
+            description: qsTr("与种子颜色匹配，即使种子颜色非常鲜艳（高彩度）。")
         },
         Variant {
             variant: "content"
             icon: "sentiment_calm"
-            name: qsTr("Content")
-            description: qsTr("Almost identical to fidelity.")
+            name: qsTr("内容")
+            description: qsTr("与保真色几乎相同。")
         },
         Variant {
             variant: "fruitsalad"
             icon: "nutrition"
-            name: qsTr("Fruit Salad")
-            description: qsTr("A playful theme - the seed colour's hue does not appear in the theme.")
+            name: qsTr("水果沙拉")
+            description: qsTr("趣味主题 - 种子颜色的色相不会出现在主题中。")
         },
         Variant {
             variant: "rainbow"
             icon: "looks"
-            name: qsTr("Rainbow")
-            description: qsTr("A playful theme - the seed colour's hue does not appear in the theme.")
+            name: qsTr("彩虹")
+            description: qsTr("趣味主题 - 种子颜色的色相不会出现在主题中。")
         },
         Variant {
             variant: "neutral"
             icon: "contrast"
-            name: qsTr("Neutral")
-            description: qsTr("Close to grayscale, a hint of chroma.")
+            name: qsTr("中性色")
+            description: qsTr("接近灰度，带一丝彩度。")
         },
         Variant {
             variant: "monochrome"
             icon: "filter_b_and_w"
-            name: qsTr("Monochrome")
-            description: qsTr("All colours are grayscale, no chroma.")
+            name: qsTr("单色")
+            description: qsTr("所有颜色均为灰度，无彩度。")
         }
     ]
     useFuzzy: Config.launcher.useFuzzy.variants

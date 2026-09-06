@@ -17,16 +17,16 @@ Scope {
 
         function onConfigSaved(): void {
             if (Config.utilities.toasts.configLoaded)
-                Toaster.toast(qsTr("Config saved"), qsTr("Configuration saved successfully"), "rule_settings");
+                Toaster.toast(qsTr("配置已保存"), qsTr("配置保存成功"), "rule_settings");
         }
 
         function onConfigLoaded(elapsed: int): void {
             if (Config.utilities.toasts.configLoaded)
-                Toaster.toast(qsTr("Config loaded"), qsTr("Config loaded in %1ms").arg(elapsed), "rule_settings");
+                Toaster.toast(qsTr("配置已加载"), qsTr("配置已加载（%1ms）").arg(elapsed), "rule_settings");
         }
 
         function onConfigError(message: string): void {
-            Toaster.toast(qsTr("Config error"), message, "settings_alert", Toast.Error);
+            Toaster.toast(qsTr("配置错误"), message, "settings_alert", Toast.Error);
         }
     }
 
@@ -35,11 +35,11 @@ Scope {
 
         function toggle(drawer: string): void {
             if (drawer === "manga" && !Config.extra.manga) {
-                Toaster.toast(qsTr("Manga feature disabled"), qsTr("Enable it in the Control Center settings"), "manga", Toast.Warning)
+                Toaster.toast(qsTr("漫画功能已禁用"), qsTr("请在控制中心设置中启用它"), "manga", Toast.Warning)
                 return
             }
             if (drawer === "novel" && !Config.extra.novel) {
-                Toaster.toast(qsTr("Novel feature disabled"), qsTr("Enable it in the Control Center settings"), "book", Toast.Warning)
+                Toaster.toast(qsTr("小说功能已禁用"), qsTr("请在控制中心设置中启用它"), "book", Toast.Warning)
                 return
             }
 
@@ -112,7 +112,7 @@ Scope {
         function clear(): void {
             Quickshell.execDetached(["cliphist", "wipe"]);
             Quickshell.execDetached(["wl-copy", "--clear"]);
-            Toaster.toast(qsTr("Clipboard cleared"), qsTr("The clipboard history has been wiped."), "content_paste_off");
+            Toaster.toast(qsTr("剪贴板已清空"), qsTr("剪贴板历史已被清除。"), "content_paste_off");
         }
     }
 
@@ -120,7 +120,7 @@ Scope {
         target: "mangaReader"
         function toggle(): void {
             if (!Config.extra.manga) {
-                Toaster.toast(qsTr("Manga feature disabled"), qsTr("Enable it in the Control Center settings"), "manga", Toast.Warning)
+                Toaster.toast(qsTr("漫画功能已禁用"), qsTr("请在控制中心设置中启用它"), "manga", Toast.Warning)
                 return
             }
             const visibilities = Visibilities.getForActive()
@@ -132,7 +132,7 @@ Scope {
         target: "novelReader"
         function toggle(): void {
             if (!Config.extra.novel) {
-                Toaster.toast(qsTr("Novel feature disabled"), qsTr("Enable it in the Control Center settings"), "book", Toast.Warning)
+                Toaster.toast(qsTr("小说功能已禁用"), qsTr("请在控制中心设置中启用它"), "book", Toast.Warning)
                 return
             }
             const visibilities = Visibilities.getForActive()

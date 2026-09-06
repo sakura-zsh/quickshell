@@ -12,6 +12,7 @@ Singleton {
     property alias general: adapter.general
     property alias background: adapter.background
     property alias bar: adapter.bar
+    property alias dock: adapter.dock
     property alias border: adapter.border
     property alias dashboard: adapter.dashboard
     property alias controlCenter: adapter.controlCenter
@@ -68,6 +69,7 @@ Singleton {
             general: serializeGeneral,
             background: serializeBackground,
             bar: serializeBar,
+            dock: serializeDock,
             border: serializeBorder,
             dashboard: serializeDashboard,
             controlCenter: serializeControlCenter,
@@ -244,6 +246,51 @@ Singleton {
                 networkWidth: bar.sizes.networkWidth
             },
             entries: bar.entries
+        };
+    }
+
+    function serializeDock(): var {
+        return {
+            enabled: dock.enabled,
+            showOnHover: dock.showOnHover,
+            position: dock.position,
+            bottomMargin: dock.bottomMargin,
+            showTooltip: dock.showTooltip,
+            showSeparator: dock.showSeparator,
+            showDynamicApps: dock.showDynamicApps,
+            settleDuration: dock.settleDuration,
+            sizes: {
+                iconSize: dock.sizes.iconSize,
+                iconGap: dock.sizes.iconGap,
+                hPad: dock.sizes.hPad,
+                vPad: dock.sizes.vPad,
+                indicatorGap: dock.sizes.indicatorGap
+            },
+            media: {
+                enabled: dock.media.enabled,
+                autoHide: dock.media.autoHide,
+                compact: dock.media.compact,
+                showControls: dock.media.showControls,
+                showSecondary: dock.media.showSecondary,
+                width: dock.media.width,
+                bottomMargin: dock.media.bottomMargin,
+                rightMargin: dock.media.rightMargin
+            },
+            visualiser: {
+                enabled: dock.visualiser.enabled,
+                autoHide: dock.visualiser.autoHide,
+                barWidth: dock.visualiser.barWidth,
+                barGap: dock.visualiser.barGap,
+                barHeight: dock.visualiser.barHeight,
+                minBarCount: dock.visualiser.minBarCount,
+                maxBarCount: dock.visualiser.maxBarCount,
+                width: dock.visualiser.width,
+                autoWidthDivisor: dock.visualiser.autoWidthDivisor,
+                leftMargin: dock.visualiser.leftMargin,
+                bottomMargin: dock.visualiser.bottomMargin,
+                animDuration: dock.visualiser.animDuration
+            },
+            pinnedApps: dock.pinnedApps
         };
     }
 
@@ -426,6 +473,7 @@ Singleton {
             audioIncrement: services.audioIncrement,
             smartScheme: services.smartScheme,
             defaultPlayer: services.defaultPlayer,
+            desktopLyrics: services.desktopLyrics,
             playerAliases: services.playerAliases,
             toasts: {
                 configLoaded: services.toasts.configLoaded,
@@ -551,6 +599,7 @@ Singleton {
             property GeneralConfig general: GeneralConfig {}
             property BackgroundConfig background: BackgroundConfig {}
             property BarConfig bar: BarConfig {}
+            property DockConfig dock: DockConfig {}
             property BorderConfig border: BorderConfig {}
             property DashboardConfig dashboard: DashboardConfig {}
             property ControlCenterConfig controlCenter: ControlCenterConfig {}

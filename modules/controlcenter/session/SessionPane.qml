@@ -83,7 +83,7 @@ Item {
                     spacing: Appearance.spacing.md
 
                     StyledText {
-                        text: qsTr("Session")
+                        text: qsTr("会话")
                         font.pointSize: Appearance.font.size.titleMedium
                         font.weight: 500
                     }
@@ -94,12 +94,12 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("General")
+                        text: qsTr("通用")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
                     SwitchRow {
-                        label: qsTr("Enabled")
+                        label: qsTr("已启用")
                         checked: root.enabled
                         onToggled: checked => {
                             root.enabled = checked;
@@ -108,7 +108,7 @@ Item {
                     }
 
                     SwitchRow {
-                        label: qsTr("Vim keybinds")
+                        label: qsTr("Vim 键位")
                         checked: root.vimKeybinds
                         onToggled: checked => {
                             root.vimKeybinds = checked;
@@ -122,7 +122,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Drag threshold")
+                            label: qsTr("拖动阈值")
                             value: root.dragThreshold
                             from: 0
                             to: 100
@@ -144,7 +144,7 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("Sizing")
+                        text: qsTr("尺寸")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
@@ -154,7 +154,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Button size")
+                            label: qsTr("按钮大小")
                             value: root.buttonSize
                             from: 40
                             to: 160

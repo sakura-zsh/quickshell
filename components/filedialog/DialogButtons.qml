@@ -22,7 +22,7 @@ StyledRect {
         spacing: Appearance.spacing.sm
 
         StyledText {
-            text: qsTr("Filter:")
+            text: qsTr("筛选：")
         }
 
         StyledRect {
@@ -62,7 +62,7 @@ StyledRect {
                 anchors.centerIn: parent
                 anchors.margins: Appearance.padding.md
 
-                text: qsTr("Select")
+                text: qsTr("选择")
                 color: root.dialog.selectionValid ? Colours.palette.m3onSurface : Colours.palette.m3outline
             }
         }
@@ -86,7 +86,7 @@ StyledRect {
                 anchors.centerIn: parent
                 anchors.margins: Appearance.padding.md
 
-                text: qsTr("Cancel")
+                text: qsTr("取消")
             }
         }
     }

@@ -47,13 +47,13 @@ Item {
 
                 WeatherStat { 
                     icon: "wb_twilight"
-                    label: "Sunrise"
+                    label: "日出"
                     value: Weather.cc ? Weather.cc.sunrise : "--:--"
                     colour: Colours.palette.m3tertiary
                 }
                 WeatherStat { 
                     icon: "bedtime"
-                    label: "Sunset"
+                    label: "日落"
                     value: Weather.cc ? Weather.cc.sunset : "--:--"
                     colour: Colours.palette.m3tertiary
                 }
@@ -100,26 +100,26 @@ Item {
 
             DetailCard {
                 icon: "water_drop"
-                label: "Humidity"
+                label: "湿度"
                 value: Weather.humidity + "%"
                 colour: Colours.palette.m3secondary
             }
             DetailCard {
                 icon: "thermostat"
-                label: "Feels Like"
+                label: "体感温度"
                 value: Weather.feelsLike
                 colour: Colours.palette.m3primary
             }
             DetailCard {
                 icon: "air"
-                label: "Wind"
+                label: "风"
                 value: Weather.windSpeed ? Weather.windSpeed + " km/h" : "--"
                 colour: Colours.palette.m3tertiary
             }
         }
 
         StyledText {
-            text: qsTr("7-Day Forecast")
+            text: qsTr("7 天预报")
             font.pointSize: Appearance.font.size.medium
             font.weight: 600
             color: Colours.palette.m3onSurface
@@ -148,7 +148,7 @@ Item {
                             spacing: Appearance.spacing.sm
 
                             StyledText {
-                                text: index === 0 ? qsTr("Today") : new Date(modelData.date).toLocaleDateString(Qt.locale(), "ddd")
+                                text: index === 0 ? qsTr("今天") : new Date(modelData.date).toLocaleDateString(Qt.locale(), "ddd")
                                 font.pointSize: Appearance.font.size.medium
                                 font.weight: 600
                                 color: Colours.palette.m3primary

@@ -105,7 +105,7 @@ ColumnLayout {
 
         StyledText {
             anchors.centerIn: parent
-            text: qsTr("No wallpapers found or search something...")
+            text: qsTr("未找到壁纸，或尝试搜索…")
             visible: root.wallpapers.length === 0 && !root.loading
             opacity: 0.6
         }
@@ -126,7 +126,7 @@ ColumnLayout {
         }
 
         StyledText {
-            text: qsTr("Page %1 of %2").arg(root.currentPage + 1).arg(Math.ceil(root.wallpapers.length / root.itemsPerPage))
+            text: qsTr("第 %1 / %2 页").arg(root.currentPage + 1).arg(Math.ceil(root.wallpapers.length / root.itemsPerPage))
             font.pointSize: Appearance.font.size.bodyMedium
             font.weight: 500
         }
@@ -279,12 +279,12 @@ ColumnLayout {
             if (code === 0) {
                 if (!root.isClearingApiKey) {
                     root.wallhavenHasApiKey = true;
-                    root.notify(qsTr("Wallhaven Config"), qsTr("Settings updated successfully"), "key", Toast.Success);
+                    root.notify(qsTr("Wallhaven 配置"), qsTr("设置更新成功"), "key", Toast.Success);
                 } else {
                     root.wallhavenHasApiKey = false;
                 }
             } else {
-                root.notify(qsTr("Wallhaven Config"), qsTr("Invalid API Key. Please check and try again."), "key_off", Toast.Error);
+                root.notify(qsTr("Wallhaven 配置"), qsTr("API 密钥无效，请检查后重试。"), "key_off", Toast.Error);
             }
             root.isClearingApiKey = false;
         }

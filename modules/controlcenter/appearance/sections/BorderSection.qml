@@ -15,7 +15,7 @@ CollapsibleSection {
 
     required property var rootPane
 
-    title: qsTr("Border")
+    title: qsTr("边框")
     showBackground: true
 
     ColumnLayout {
@@ -28,7 +28,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Border rounding")
+            label: qsTr("边框圆角")
             value: rootPane.borderRounding
             from: 0.1
             to: 100
@@ -52,7 +52,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Border thickness")
+            label: qsTr("边框粗细")
             value: rootPane.borderThickness
             from: 0.1
             to: 100

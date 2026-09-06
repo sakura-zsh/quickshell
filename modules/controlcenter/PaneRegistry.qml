@@ -9,14 +9,14 @@ QtObject {
         // --- Connectivity ---
         QtObject {
             readonly property string id: "network"
-            readonly property string label: "network"
+            readonly property string label: "网络"
             readonly property string icon: "router"
             readonly property string component: "network/NetworkingPane.qml"
             readonly property string category: "connectivity"
         },
         QtObject {
             readonly property string id: "bluetooth"
-            readonly property string label: "bluetooth"
+            readonly property string label: "蓝牙"
             readonly property string icon: "settings_bluetooth"
             readonly property string component: "bluetooth/BtPane.qml"
             readonly property string category: "connectivity"
@@ -24,7 +24,7 @@ QtObject {
         // --- Sound ---
         QtObject {
             readonly property string id: "audio"
-            readonly property string label: "audio"
+            readonly property string label: "音频"
             readonly property string icon: "volume_up"
             readonly property string component: "audio/AudioPane.qml"
             readonly property string category: "sound"
@@ -32,21 +32,28 @@ QtObject {
         // --- Appearance ---
         QtObject {
             readonly property string id: "appearance"
-            readonly property string label: "appearance"
+            readonly property string label: "外观"
             readonly property string icon: "palette"
             readonly property string component: "appearance/AppearancePane.qml"
             readonly property string category: "appearance"
         },
         QtObject {
             readonly property string id: "taskbar"
-            readonly property string label: "taskbar"
+            readonly property string label: "任务栏"
             readonly property string icon: "task_alt"
             readonly property string component: "taskbar/TaskbarPane.qml"
             readonly property string category: "appearance"
         },
         QtObject {
+            readonly property string id: "dock"
+            readonly property string label: "Dock栏"
+            readonly property string icon: "dock"
+            readonly property string component: "dock/DockPane.qml"
+            readonly property string category: "appearance"
+        },
+        QtObject {
             readonly property string id: "dashboard"
-            readonly property string label: "dashboard"
+            readonly property string label: "仪表盘"
             readonly property string icon: "dashboard"
             readonly property string component: "dashboard/DashboardPane.qml"
             readonly property string category: "appearance"
@@ -54,7 +61,7 @@ QtObject {
         // --- Apps ---
         QtObject {
             readonly property string id: "launcher"
-            readonly property string label: "launcher"
+            readonly property string label: "启动器"
             readonly property string icon: "apps"
             readonly property string component: "launcher/LauncherPane.qml"
             readonly property string category: "apps"
@@ -62,7 +69,7 @@ QtObject {
         // --- Notifications ---
         QtObject {
             readonly property string id: "notifications"
-            readonly property string label: "notifications"
+            readonly property string label: "通知"
             readonly property string icon: "notifications"
             readonly property string component: "notifications/NotificationsPane.qml"
             readonly property string category: "alerts"
@@ -77,14 +84,14 @@ QtObject {
         // --- Security ---
         QtObject {
             readonly property string id: "lock"
-            readonly property string label: "lock screen"
+            readonly property string label: "锁屏"
             readonly property string icon: "lock"
             readonly property string component: "lock/LockPane.qml"
             readonly property string category: "security"
         },
         QtObject {
             readonly property string id: "session"
-            readonly property string label: "session"
+            readonly property string label: "会话"
             readonly property string icon: "power_settings_new"
             readonly property string component: "session/SessionPane.qml"
             readonly property string category: "security"
@@ -92,22 +99,31 @@ QtObject {
         // --- Extra ---
         QtObject {
             readonly property string id: "extra"
-            readonly property string label: "extra"
+            readonly property string label: "附加"
             readonly property string icon: "more_horiz"
             readonly property string component: "extra/ExtraPane.qml"
             readonly property string category: "extra"
+        },
+        // --- System ---
+        QtObject {
+            readonly property string id: "system"
+            readonly property string label: "系统"
+            readonly property string icon: "computer"
+            readonly property string component: "system/SystemPane.qml"
+            readonly property string category: "system"
         }
     ]
 
     // Category definitions with display order
     readonly property var categories: [
-        { id: "connectivity", label: "Connectivity" },
-        { id: "sound", label: "Sound" },
-        { id: "appearance", label: "Appearance" },
-        { id: "apps", label: "Apps" },
-        { id: "alerts", label: "Notifications" },
-        { id: "security", label: "System" },
-        { id: "extra", label: "Extra" }
+        { id: "connectivity", label: "连接" },
+        { id: "sound", label: "声音" },
+        { id: "appearance", label: "外观" },
+        { id: "apps", label: "应用" },
+        { id: "alerts", label: "通知" },
+        { id: "security", label: "系统" },
+        { id: "extra", label: "附加" },
+        { id: "system", label: "系统" }
     ]
 
     // Returns the category label for the pane at given index

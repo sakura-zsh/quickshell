@@ -22,7 +22,7 @@ ColumnLayout {
 
     StyledText {
         Layout.fillWidth: true
-        text: Notifs.list.length > 0 ? qsTr("%1 notification%2").arg(Notifs.list.length).arg(Notifs.list.length === 1 ? "" : "s") : qsTr("Notifications")
+        text: Notifs.list.length > 0 ? qsTr("%1 条通知").arg(Notifs.list.length).arg(Notifs.list.length === 1 ? "" : "s") : qsTr("通知")
         color: Colours.palette.m3outline
         font.family: Appearance.font.family.mono
         font.weight: 500
@@ -62,7 +62,7 @@ ColumnLayout {
 
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("No Notifications")
+                    text: qsTr("无通知")
                     color: Colours.palette.m3outlineVariant
                     font.pointSize: Appearance.font.size.titleMedium
                     font.family: Appearance.font.family.mono

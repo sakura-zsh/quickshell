@@ -332,8 +332,8 @@ MouseArea {
                     text: {
                         switch (root.loader.mode) {
                         case "ocr": return qsTr("OCR");
-                        case "lens": return qsTr("Lens");
-                        default: return qsTr("Screenshot");
+                        case "lens": return qsTr("镜头");
+                        default: return qsTr("截图");
                         }
                     }
                     color: {

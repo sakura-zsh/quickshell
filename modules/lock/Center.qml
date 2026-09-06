@@ -351,9 +351,9 @@ ColumnLayout {
             readonly property string msg: {
                 let layoutName = (Niri.kbLayoutFull ?? Niri.kbLayout);
                 if (root.isCapsLock)
-                    return qsTr("Caps lock ON · Layout: %1").arg(layoutName);
+                    return qsTr("大写锁定开启 · 布局：%1").arg(layoutName);
                 if (Niri.kbLayout !== Niri.defaultKbLayout)
-                    return qsTr("Layout: %1").arg(layoutName);
+                    return qsTr("布局：%1").arg(layoutName);
                 return "";
             }
 
@@ -396,25 +396,25 @@ ColumnLayout {
             readonly property Pam pam: root.lock.pam
             readonly property string msg: {
                 if (pam.fprintState === "error")
-                    return qsTr("Error: %1").arg(pam.fprint.message);
+                    return qsTr("错误：%1").arg(pam.fprint.message);
                 if (pam.state === "error")
-                    return qsTr("Error: %1").arg(pam.passwd.message);
+                    return qsTr("错误：%1").arg(pam.passwd.message);
                 if (pam.lockMessage)
                     return pam.lockMessage;
                 if (pam.state === "max" && pam.fprintState === "max")
-                    return qsTr("Maximum attempts reached.");
+                    return qsTr("已达到最大尝试次数。");
                 if (pam.state === "max")
                     return pam.fprint.available
-                        ? qsTr("Max password attempts. Use fingerprint.")
-                        : qsTr("Maximum password attempts reached.");
+                        ? qsTr("密码尝试次数已达上限，请使用指纹。")
+                        : qsTr("密码尝试次数已达上限。");
                 if (pam.fprintState === "max")
-                    return qsTr("Max fingerprint attempts. Use password.");
+                    return qsTr("指纹尝试次数已达上限，请使用密码。");
                 if (pam.state === "fail")
                     return pam.fprint.available
-                        ? qsTr("Wrong password. Try again or use fingerprint.")
-                        : qsTr("Incorrect password. Please try again.");
+                        ? qsTr("密码错误。请重试或使用指纹。")
+                        : qsTr("密码错误，请重试。");
                 if (pam.fprintState === "fail")
-                    return qsTr("Fingerprint not recognized (%1/%2).").arg(pam.fprint.tries).arg(Config.lock.maxFprintTries);
+                    return qsTr("指纹无法识别（%1/%2）。").arg(pam.fprint.tries).arg(Config.lock.maxFprintTries);
                 return "";
             }
 

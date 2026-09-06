@@ -106,7 +106,7 @@ Item {
             
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Loading pages...")
+                text: qsTr("正在加载页面…")
                 color: "white"
                 opacity: 0.7
             }
@@ -142,7 +142,7 @@ Item {
             
             TextButton {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Retry")
+                text: qsTr("重试")
                 onClicked: Manga.refreshChapterPages()
             }
         }
@@ -206,7 +206,7 @@ Item {
                     
                     StyledText {
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("Page %1").arg(modelData.index + 1)
+                        text: qsTr("第 %1 页").arg(modelData.index + 1)
                         color: "white"
                         font.pointSize: Appearance.font.size.labelSmall
                         opacity: 0.5

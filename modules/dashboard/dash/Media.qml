@@ -124,7 +124,7 @@ Item {
 
         animate: true
         horizontalAlignment: Text.AlignHCenter
-        text: (Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title")
+        text: (Players.active?.trackTitle ?? qsTr("无媒体")) || qsTr("未知标题")
         color: Colours.palette.m3primary
         font.pointSize: Appearance.font.size.bodyMedium
 
@@ -141,7 +141,7 @@ Item {
 
         animate: true
         horizontalAlignment: Text.AlignHCenter
-        text: (Players.active?.trackAlbum ?? qsTr("No media")) || qsTr("Unknown album")
+        text: (Players.active?.trackAlbum ?? qsTr("无媒体")) || qsTr("未知专辑")
         color: Colours.palette.m3outline
         font.pointSize: Appearance.font.size.labelLarge
 
@@ -158,7 +158,7 @@ Item {
 
         animate: true
         horizontalAlignment: Text.AlignHCenter
-        text: (Players.active?.trackArtist ?? qsTr("No media")) || qsTr("Unknown artist")
+        text: (Players.active?.trackArtist ?? qsTr("无媒体")) || qsTr("未知艺术家")
         color: Colours.palette.m3secondary
 
         width: parent.implicitWidth - Appearance.padding.xl * 2

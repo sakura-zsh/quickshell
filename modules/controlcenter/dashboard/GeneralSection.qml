@@ -16,12 +16,12 @@ SectionContainer {
     alignTop: true
 
     StyledText {
-        text: qsTr("General Settings")
+        text: qsTr("常规设置")
         font.pointSize: Appearance.font.size.bodyMedium
     }
 
     SwitchRow {
-        label: qsTr("Enabled")
+        label: qsTr("已启用")
         checked: root.rootItem.enabled
         onToggled: checked => {
             root.rootItem.enabled = checked;
@@ -30,7 +30,7 @@ SectionContainer {
     }
 
     SwitchRow {
-        label: qsTr("Show on hover")
+        label: qsTr("悬停时显示")
         checked: root.rootItem.showOnHover
         onToggled: checked => {
             root.rootItem.showOnHover = checked;
@@ -39,7 +39,7 @@ SectionContainer {
     }
 
     SwitchRow {
-        label: qsTr("Wallpaper as avatar")
+        label: qsTr("将壁纸用作头像")
         checked: root.rootItem.useWallpaperAvatar
         onToggled: checked => {
             root.rootItem.useWallpaperAvatar = checked;
@@ -53,7 +53,7 @@ SectionContainer {
         SliderInput {
             Layout.fillWidth: true
             
-            label: qsTr("Update interval")
+            label: qsTr("更新间隔")
             value: root.rootItem.updateInterval
             from: 100
             to: 10000
@@ -72,7 +72,7 @@ SectionContainer {
         SliderInput {
             Layout.fillWidth: true
             
-            label: qsTr("Drag threshold")
+            label: qsTr("拖动阈值")
             value: root.rootItem.dragThreshold
             from: 0
             to: 100

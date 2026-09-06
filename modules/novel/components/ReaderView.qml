@@ -95,7 +95,7 @@ Item {
 
                 StyledText {
                     id: wcTxt; anchors.centerIn: parent
-                    text: Novel.currentChapter !== null ? qsTr("%1k words").arg((Math.round(Novel.currentChapter.wordCount / 100) / 10)) : ""
+                    text: Novel.currentChapter !== null ? qsTr("%1k 字").arg((Math.round(Novel.currentChapter.wordCount / 100) / 10)) : ""
                     font.pointSize: Appearance.font.size.labelSmall
                     font.weight: Font.Bold
                     color: c.m3onSurfaceVariant
@@ -133,7 +133,7 @@ Item {
             StyledBusyIndicator { Layout.alignment: Qt.AlignHCenter; running: parent.visible }
             StyledText {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Loading chapter...")
+                text: qsTr("正在加载章节…")
                 color: c.m3onSurfaceVariant; opacity: 0.7
             }
         }
@@ -163,7 +163,7 @@ Item {
             
             TextButton {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Retry")
+                text: qsTr("重试")
                 onClicked: Novel.fetchChapter(Novel.currentChapterId)
             }
         }

@@ -1,0 +1,575 @@
+Caelestia Shell 项目交接（2026-07-23）
+一、系统环境
+
+系统：
+
+CachyOS
+Niri WM
+Wayland
+Quickshell 0.3.0（AUR quickshell-git）
+quickshell --version
+Quickshell 0.3.0
+revision 7d1c9a9c6721606b129829134d6f614f015621e2
+二、项目来源
+
+使用：
+
+AyushKr2003/niri-caelestia-shell
+
+作者已经 Archive（停止维护）。
+
+作者后来转去 Hyprland。
+
+目前代码仍然可以使用，但是必须自己编译 plugin。
+
+三、已经解决的问题
+1.
+
+最开始启动时报：
+
+CachingImageManager is not a type
+
+原因不是QML写错。
+
+真正原因：
+
+项目自带 C++ Plugin。
+
+plugin/
+    src/
+
+里面包含：
+
+CachingImageManager
+SysMonitor
+NiriIPC
+AudioProvider
+...
+
+这些类型全部需要编译成：
+
+Caelestia
+Caelestia.Internal
+Caelestia.Services
+Caelestia.Models
+
+QML才能 import。
+
+2.
+
+已经完成编译
+
+执行：
+
+cmake -B build \
+-G Ninja \
+-DCMAKE_BUILD_TYPE=Release \
+-DCMAKE_INSTALL_PREFIX=/
+
+然后：
+
+cmake --build build
+sudo cmake --install build
+
+编译成功。
+
+之后：
+
+quickshell -c ~/.config/quickshell
+
+可以正常启动。
+
+3. Dock 图标紫/黑方块（2026-07-23 已修复）
+
+根因：
+
+- Quickshell DesktopEntries 的 id **不带** `.desktop` 后缀
+  （例如 `obsidian`、`code`、`ChatGPT`，不是 `obsidian.desktop`）
+- Dock 原先写的是 `id: "obsidian.desktop"` 等
+- `Icons.getAppIcon("obsidian.desktop")` → heuristicLookup 失败
+  → 返回空图标 URL：`image://icon/?fallback=obsidian.desktop`
+  → 显示为紫色/黑色方块
+
+修复：
+
+1. modules/dock/Dock.qml
+   - id 去掉 `.desktop`
+   - 增加显式 icon 字段（如 code→vscode、ChatGPT→chatgpt-desktop）
+   - ChatGPT exec 改为 `chatgpt-desktop`
+
+2. modules/dock/DockItem.qml
+   - 不再用 CachingIconImage（更适合文件/照片缓存）
+   - 改用 IconImage + Quickshell.iconPath（与 launcher/workspace 一致）
+   - resolveEntry / resolveIcon：byId → heuristicLookup → 显式 icon
+
+3. utils/Icons.qml getAppIcon
+   - 自动 strip `.desktop`
+   - 优先 byId，再 heuristicLookup
+   - 查找失败时不再生成空的 `image://icon/?fallback=...`
+
+验证（offscreen quickshell）：
+
+obsidian → image://icon/obsidian?fallback=image-missing (hasTheme=true)
+code → image://icon/vscode?fallback=image-missing
+ChatGPT → image://icon/chatgpt-desktop?fallback=image-missing
+连旧的 obsidian.desktop 也能正确解析到 obsidian 图标
+
+
+3b. FlClash 无法启动/无运行圆点（2026-07-23 已修复）
+
+根因：
+
+- desktop 文件 StartupWMClass=com.follow.clash
+- niri 窗口 app_id 实际是 com.follow.clash
+- Dock 原先 match 只有 flclash / FlClash
+- 结果：isRunning=false（无小圆点）；点击以为“未运行”去二次启动，
+  单实例应用不聚焦旧窗口，看起来像点了没反应
+
+修复：
+
+- Dock.qml flclash.match 增加 com.follow.clash
+- DockItem 自动把 DesktopEntry.startupClass 加入匹配候选
+
+四、目前整体架构
+
+shell.qml
+
+ShellRoot
+ ├── Backdrop
+ ├── Background
+ ├── Drawers
+ ├── AreaPicker
+ ├── Lock
+ ├── Shortcuts
+ ├── QuickTogglesPanel
+ ├── PolkitDialog
+ └── ReloadPopup
+
+真正所有窗口都来自：
+
+modules/drawers/Drawers.qml
+五、Drawers结构
+
+Drawers.qml
+
+每个屏幕创建：
+
+StyledWindow
+
+里面：
+
+BarWrapper
+Panels
+Interactions
+
+关系：
+
+StyledWindow
+
+├── BarWrapper
+│      左侧状态栏
+│
+└── Panels
+       Dashboard
+       Launcher
+       Session
+       Notifications
+       Utilities
+       Quicktoggles
+       OSD
+       Manga
+       Novel
+
+Dock 在 Drawers 里单独创建：
+
+Dock.Wrapper（独立 layer shell 窗口，底部居中）
+六、Bar 结构
+
+BarWrapper.qml
+
+本质：
+
+Loader
+    sourceComponent Bar
+
+Bar.qml
+
+实际上：
+
+ColumnLayout
+
+所以：
+
+整个Bar目前是：
+
+纵向布局
+
+里面全部都是：
+
+logo
+
+workspace
+
+active window
+
+tray
+
+clock
+
+status
+
+power
+
+排列方式：
+
+↓
+
+↓
+
+↓
+
+七、为什么没有改顶部Bar
+
+原计划：
+
+把左侧Bar改成顶部。
+
+后来放弃。
+
+原因：
+
+不仅Bar需要改。
+
+还需要修改：
+
+Panels.qml
+
+Drawers.qml
+
+Backgrounds.qml
+
+Interactions.qml
+
+Border.qml
+
+Popouts
+
+Workspace右键菜单
+
+Notification定位
+
+Launcher定位
+
+Dashboard定位
+
+OSD定位
+
+几乎整个Shell都绑定：
+
+左边Bar
+
+例如：
+
+anchors.leftMargin = bar.implicitWidth
+
+以及：
+
+mask
+
+全部依赖：
+
+bar宽度
+
+如果改顶部：
+
+全部需要重写。
+
+工作量极大。
+
+因此决定：
+
+保留左侧Bar。
+
+八、目前的新方案
+
+保留：
+
+左侧状态栏。
+
+新增：
+
+底部Dock。
+
+整体布局：
+
+┌──────────────────────────┐
+
+│                          │
+
+│                          │
+
+│                          │
+
+│                          │
+
+│                          │
+
+│                          │
+
+│                          │
+
+├──────────────────────────┤
+│        Dock              │
+└──────────────────────────┘
+
+以后：
+
+Dock右侧：
+
+桌面歌词
+
+也放在底部。
+
+九、Dock目前进度
+
+已经完成：
+
+modules/dock/
+  Dock.qml       - macOS 风格居中毛玻璃 pill，固定+动态应用，联动放大，tooltip
+  DockItem.qml   - IconImage、magnification 尺寸、点击启动/聚焦、多窗口圆点
+  Wrapper.qml    - 底部 PanelWindow / layer shell（exclusiveZone 仅占 pill 高度）
+
+已实现：
+
+- 底部居中自动宽度 pill（非全宽条）
+- 毛玻璃半透明 + 圆角 + elevation
+- 应用图标（真实主题图标，已修紫黑方块）
+- FlClash app_id 匹配（com.follow.clash）
+- macOS 风格相邻图标联动放大（cosine falloff）
+- hover 应用名 tooltip
+- 点击：已运行则 focus/轮换，未运行则启动；中键强制新开
+- 运行状态圆点（最多 3 个表示多窗口）+ 聚焦描边/光晕
+- 动态任务：未固定但正在运行的应用自动出现在分隔线右侧
+
+十、Dock下一步目标
+
+继续完善 macOS Dock 体验：
+
+- 相邻图标联动放大（magnification）
+- 分隔线 / 动态运行中应用
+- 更好的 tooltip
+- 桌面歌词并排
+
+固定应用：
+
+Obsidian
+VSCode
+Cider
+FlClash
+OBS
+ChatGPT
+
+后续可能：
+
+Steam
+QQ
+微信
+Edge
+
+十一、图标方案（正确做法）
+
+DesktopEntries id 不带 .desktop：
+
+DesktopEntries.byId("obsidian")
+DesktopEntries.heuristicLookup("code")  // icon 字段是 vscode
+
+图标：
+
+Quickshell.iconPath(entry.icon, "image-missing")
+// → image://icon/obsidian?fallback=image-missing
+
+显示：
+
+IconImage { source: ...; implicitSize: 48 }
+
+不要用：
+
+- id: "xxx.desktop" 传给 DesktopEntries
+- CachingIconImage 显示 app 主题图标（它更适合本地图片文件缓存）
+
+utils/Icons.getAppIcon() 已加固，可继续给 bar workspace 等使用。
+
+十二、Dock交互（已部分实现 / 未来）
+
+已实现：
+
+点击：
+  如果未运行 → 启动 App
+  如果运行 → 切换/聚焦窗口
+Hover：放大
+运行状态：图标下面 ●
+
+未来：
+
+Mac 相邻联动放大动画
+动态任务栏（运行中自动加入）
+
+十三、桌面歌词规划
+
+Dock右边：
+
+预留：
+
+────────────────────
+
+🎵
+
+我正在听的歌词
+
+────────────────────
+
+数据来源：
+
+优先：
+
+playerctl
+
+如果播放器：
+
+Cider
+
+则读取：
+
+MPRIS。
+
+如果以后：
+
+需要逐字歌词。
+
+再考虑：
+
+LRCLIB
+
+网易歌词API
+
+Apple Music歌词
+十四、快捷键情况
+
+已经全部迁移。
+
+Launcher：
+
+已经不用：
+
+fuzzel
+
+而是：
+
+Quickshell Launcher。
+
+因此：
+
+Super+Space
+
+应该控制：
+
+visibilities.launcher
+
+而不是：
+
+spawn fuzzel
+
+其它快捷键：
+
+保留：
+
+Edge
+
+QQ
+
+微信
+
+AI Translator
+
+CopyQ
+
+Obsidian
+
+VSCode
+
+截图
+
+音量
+
+亮度
+
+基本无需修改。
+
+十五、以后建议优先级
+第一优先
+
+完善Dock。
+
+包括：
+
+✅ 自动图标（已修）
+✅ 点击启动/聚焦（已有）
+✅ Hover 放大（单项，已有）
+✅ 毛玻璃 / 圆角 / 自动宽度（已有）
+✅ 正在运行标识（已有）
+✅ 相邻图标 magnification
+✅ tooltip
+✅ 动态运行应用加入 Dock
+
+第二优先
+
+✅ 桌面歌词（基础版已完成）。
+
+第三优先
+
+Mac 放大动画增强。
+
+第四优先
+
+动态任务栏。
+
+不建议目前做
+
+整个Bar改顶部。
+
+因为：
+
+这是整个项目最大的改动。
+
+涉及：
+
+几十个QML。
+
+收益：
+
+远小于：
+
+继续完善Dock。
+
+十六、桌面歌词（2026-07-23 已实现）
+
+modules/lyrics/
+  Wrapper.qml        - 底部 overlay 窗口（在 Dock exclusiveZone 上方）
+  DesktopLyrics.qml  - 毛玻璃 pill：上一句 / 当前句 / 下一句 + 曲名
+
+services/Lyrics.qml
+  - 绑定 Players.active（MPRIS，Cider 等）
+  - LRCLIB 拉取逐字时间轴歌词（synced LRC）或纯文本
+  - 内存缓存按 trackKey
+  - 播放中 250ms 刷新 position 对齐当前行
+
+配置：
+  Config.services.desktopLyrics = true  // ServiceConfig.qml
+
+交互：
+  左键：播放/暂停
+  中键：下一曲
+
+数据流：
+  MPRIS metadata → LRCLIB API → parse LRC → 当前行高亮
+

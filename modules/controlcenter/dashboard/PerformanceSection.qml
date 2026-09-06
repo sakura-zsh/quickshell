@@ -21,7 +21,7 @@ SectionContainer {
     alignTop: true
 
     StyledText {
-        text: qsTr("Performance Resources")
+        text: qsTr("性能资源")
         font.pointSize: Appearance.font.size.bodyMedium
     }
 
@@ -31,7 +31,7 @@ SectionContainer {
             let opts = [];
             if (root.batteryAvailable)
                 opts.push({
-                    "label": qsTr("Battery"),
+                    "label": qsTr("电池"),
                     "propertyName": "showBattery",
                     "onToggled": function(checked) {
                         root.rootItem.showBattery = checked;
@@ -57,21 +57,21 @@ SectionContainer {
                     root.rootItem.saveConfig();
                 }
             }, {
-                "label": qsTr("Memory"),
+                "label": qsTr("内存"),
                 "propertyName": "showMemory",
                 "onToggled": function(checked) {
                     root.rootItem.showMemory = checked;
                     root.rootItem.saveConfig();
                 }
             }, {
-                "label": qsTr("Storage"),
+                "label": qsTr("存储"),
                 "propertyName": "showStorage",
                 "onToggled": function(checked) {
                     root.rootItem.showStorage = checked;
                     root.rootItem.saveConfig();
                 }
             }, {
-                "label": qsTr("Network"),
+                "label": qsTr("网络"),
                 "propertyName": "showNetwork",
                 "onToggled": function(checked) {
                     root.rootItem.showNetwork = checked;

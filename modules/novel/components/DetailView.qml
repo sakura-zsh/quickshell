@@ -108,7 +108,7 @@ Item {
                     }
                     Tooltip {
                         target: favButton
-                        text: detailView._inLibrary ? qsTr("Remove from library") : qsTr("Add to library")
+                        text: detailView._inLibrary ? qsTr("从书库移除") : qsTr("加入书库")
                     }
                 }
             }
@@ -218,7 +218,7 @@ Item {
                 anchors { fill: parent; leftMargin: Appearance.padding.lg; rightMargin: Appearance.padding.lg }
 
                 StyledText {
-                    text: Novel.currentNovel ? qsTr("%1 chapters").arg(Novel.currentNovel.chapters.length) : ""
+                    text: Novel.currentNovel ? qsTr("%1 话").arg(Novel.currentNovel.chapters.length) : ""
                     font.pointSize: Appearance.font.size.labelLarge
                     color: c.m3onSurfaceVariant; opacity: 0.7
                 }
@@ -240,7 +240,7 @@ Item {
                             id: lastReadText
                             text: {
                                 var e = Novel.currentNovel ? Novel.getLibraryEntry(Novel.currentNovel.id) : null
-                                return e ? qsTr("Ch. %1").arg(detailView.formatChapter(e.lastReadChapterNum)) : ""
+                                return e ? qsTr("第 %1 话").arg(detailView.formatChapter(e.lastReadChapterNum)) : ""
                             }
                             font.pointSize: Appearance.font.size.labelSmall
                             font.weight: Font.Bold
@@ -297,7 +297,7 @@ Item {
                             id: chapterSearch
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
-                            placeholderText: qsTr("Filter chapters...")
+                            placeholderText: qsTr("筛选章节…")
                             text: detailView._chapterFilter
                             onTextChanged: detailView._chapterFilter = text
                         }
@@ -313,7 +313,7 @@ Item {
                                 detailView._chapterFilter = ""
                                 chapterSearch.text = ""
                             }
-                            Tooltip { target: clearFilterBtn; text: qsTr("Clear filter") }
+                            Tooltip { target: clearFilterBtn; text: qsTr("清除筛选") }
                         }
                     }
                 }
@@ -325,7 +325,7 @@ Item {
                     onClicked: detailView._sortAscending = !detailView._sortAscending
                     Tooltip {
                         target: sortBtn
-                        text: detailView._sortAscending ? qsTr("Sort: Ascending") : qsTr("Sort: Descending")
+                        text: detailView._sortAscending ? qsTr("排序：升序") : qsTr("排序：降序")
                     }
                 }
             }
@@ -351,7 +351,7 @@ Item {
                     StyledBusyIndicator { Layout.alignment: Qt.AlignHCenter; running: parent.visible }
                     StyledText {
                         Layout.alignment: Qt.AlignHCenter
-                        text: qsTr("Fetching chapters...")
+                        text: qsTr("正在获取章节…")
                         color: c.m3onSurfaceVariant; opacity: 0.7
                     }
                 }
@@ -408,7 +408,7 @@ Item {
 
                             StyledText {
                                 Layout.fillWidth: true
-                                text: modelData.title || qsTr("Chapter %1").arg(detailView.formatChapter(modelData.chapter))
+                                text: modelData.title || qsTr("第 %1 话").arg(detailView.formatChapter(modelData.chapter))
                                 font.weight: Font.Medium
                                 color: c.m3onSurface; elide: Text.ElideRight
                             }

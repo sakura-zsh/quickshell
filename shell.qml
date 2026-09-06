@@ -1,6 +1,7 @@
 //@ pragma Env QS_NO_RELOAD_POPUP=1
 //@ pragma Env QSG_RENDER_LOOP=threaded
 //@ pragma Env QT_QUICK_FLICKABLE_WHEEL_DECELERATION=10000
+//@ pragma Env QML2_IMPORT_PATH=/home/sakura/.config/quickshell
 
 import "modules"
 import "components"
@@ -33,3 +34,14 @@ ShellRoot {
     // Initialize BatteryMonitor service
     property var _batteryMonitor: BatteryMonitor
 }
+
+// hot-reload touch 2
+// hot-reload touch 3
+// hot-reload touch lyrics-overlay 1784783123
+// touch 1784783194
+// touch 1784783315
+// lyrics-pos 1784783888
+// lyrics-dock-right 1784783946
+// fix-loop 1784783996
+// lyrics-rewrite 1784784068
+// lyrics-right-edge 1784784144

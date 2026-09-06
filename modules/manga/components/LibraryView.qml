@@ -44,7 +44,7 @@ Item {
 
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("Your library is empty")
+                    text: qsTr("您的书库为空")
                     font.pointSize: Appearance.font.size.titleMedium
                     font.weight: Font.Bold
                     color: c.m3onSurface
@@ -53,7 +53,7 @@ Item {
 
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("Open any manga and tap + to add it here")
+                    text: qsTr("打开任意漫画并点击 + 将其添加到这里")
                     font.pointSize: Appearance.font.size.bodySmall
                     color: c.m3onSurfaceVariant
                     opacity: 0.4
@@ -149,7 +149,7 @@ Item {
 
                                 StyledText {
                                     Layout.fillWidth: true
-                                    text: modelData.lastReadChapterNum ? qsTr("Ch. %1").arg(modelData.lastReadChapterNum) : qsTr("Not started")
+                                    text: modelData.lastReadChapterNum ? qsTr("第 %1 话").arg(modelData.lastReadChapterNum) : qsTr("未开始")
                                     font.pointSize: Appearance.font.size.labelSmall
                                     font.weight: Font.Bold
                                     color: modelData.lastReadChapterNum ? c.m3onSurface : c.m3onSurfaceVariant

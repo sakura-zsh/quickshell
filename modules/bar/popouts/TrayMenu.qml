@@ -216,7 +216,7 @@ StackView {
 
                         StyledText {
                             anchors.verticalCenter: parent.verticalCenter
-                            text: qsTr("Back")
+                            text: qsTr("返回")
                             color: Colours.palette.m3onSecondaryContainer
                         }
                     }

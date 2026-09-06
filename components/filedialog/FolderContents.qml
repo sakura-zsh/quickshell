@@ -64,7 +64,7 @@ Item {
             }
 
             StyledText {
-                text: qsTr("This folder is empty")
+                text: qsTr("此文件夹为空")
                 color: Colours.palette.m3outline
                 font.pointSize: Appearance.font.size.titleMedium
                 font.weight: 500

@@ -55,7 +55,7 @@ Item {
                 return Colours.palette.m3onSurface;
             }
 
-            text: root.math.length > 0 ? Qalculator.eval(root.math) : qsTr("Type an expression to calculate")
+            text: root.math.length > 0 ? Qalculator.eval(root.math) : qsTr("输入要计算的表达式")
             elide: Text.ElideLeft
 
             Layout.fillWidth: true
@@ -90,7 +90,7 @@ Item {
                 anchors.right: icon.left
                 anchors.rightMargin: Appearance.spacing.sm
 
-                text: qsTr("Open in calculator")
+                text: qsTr("在计算器中打开")
                 color: Colours.palette.m3onTertiary
                 font.pointSize: Appearance.font.size.bodyMedium
 

@@ -36,7 +36,7 @@ GridLayout {
         }
 
         StyledText {
-            text: qsTr("System")
+            text: qsTr("系统")
             color: Colours.palette.m3onSurfaceVariant
             font.pointSize: Appearance.font.size.labelLarge
             font.weight: Font.Medium

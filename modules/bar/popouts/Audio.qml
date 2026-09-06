@@ -35,7 +35,7 @@ Item {
 
         StyledText {
             Layout.bottomMargin: Appearance.spacing.sm / 2
-            text: qsTr("Output device")
+            text: qsTr("输出设备")
             font.weight: 500
         }
 
@@ -57,7 +57,7 @@ Item {
         StyledText {
             Layout.topMargin: Appearance.spacing.lg
             Layout.bottomMargin: Appearance.spacing.sm / 2
-            text: qsTr("Input device")
+            text: qsTr("输入设备")
             font.weight: 500
         }
 
@@ -77,7 +77,7 @@ Item {
         StyledText {
             Layout.topMargin: Appearance.spacing.lg
             Layout.bottomMargin: Appearance.spacing.sm / 2
-            text: qsTr("Volume (%1)").arg(Audio.muted ? qsTr("Muted") : `${Math.round(Audio.volume * 100)}%`)
+            text: qsTr("音量（%1）").arg(Audio.muted ? qsTr("已静音") : `${Math.round(Audio.volume * 100)}%`)
             font.weight: 500
         }
 
@@ -133,7 +133,7 @@ Item {
 
                 StyledText {
                     Layout.leftMargin: Appearance.padding.sm
-                    text: qsTr("Open settings")
+                    text: qsTr("打开设置")
                     color: Colours.palette.m3onPrimaryContainer
                 }
 

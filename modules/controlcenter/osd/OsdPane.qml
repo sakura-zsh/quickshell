@@ -87,7 +87,7 @@ Item {
                     spacing: Appearance.spacing.md
 
                     StyledText {
-                        text: qsTr("On-Screen Display")
+                        text: qsTr("屏幕显示 (OSD)")
                         font.pointSize: Appearance.font.size.titleMedium
                         font.weight: 500
                     }
@@ -98,12 +98,12 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("General")
+                        text: qsTr("通用")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
                     SwitchRow {
-                        label: qsTr("Enabled")
+                        label: qsTr("已启用")
                         checked: root.enabled
                         onToggled: checked => {
                             root.enabled = checked;
@@ -117,7 +117,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Hide delay")
+                            label: qsTr("隐藏延迟")
                             value: root.hideDelay
                             from: 500
                             to: 10000
@@ -140,12 +140,12 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("Indicators")
+                        text: qsTr("指示器")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
                     SwitchRow {
-                        label: qsTr("Brightness")
+                        label: qsTr("亮度")
                         checked: root.enableBrightness
                         onToggled: checked => {
                             root.enableBrightness = checked;
@@ -154,7 +154,7 @@ Item {
                     }
 
                     SwitchRow {
-                        label: qsTr("Microphone")
+                        label: qsTr("麦克风")
                         checked: root.enableMicrophone
                         onToggled: checked => {
                             root.enableMicrophone = checked;
@@ -168,7 +168,7 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("Sizing")
+                        text: qsTr("尺寸")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
@@ -178,7 +178,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Slider width")
+                            label: qsTr("滑块宽度")
                             value: root.sliderWidth
                             from: 15
                             to: 60
@@ -197,7 +197,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Slider height")
+                            label: qsTr("滑块高度")
                             value: root.sliderHeight
                             from: 80
                             to: 300

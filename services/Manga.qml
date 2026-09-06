@@ -11,7 +11,7 @@ Singleton {
 
     function _checkEnabled() {
         if (!Config.extra.manga) {
-            Toaster.toast(qsTr("Manga feature disabled"), qsTr("Enable it in the Control Center settings"), "manga", Toast.Warning)
+            Toaster.toast(qsTr("漫画功能已禁用"), qsTr("请在控制中心设置中启用它"), "manga", Toast.Warning)
             return false
         }
         return true
@@ -292,7 +292,7 @@ Singleton {
             const url = root.apiUrl + "/hot"
             _get(url, function(err, body) {
                 if (reqId !== root._activeRequestId) return
-                if (err) { root.mangaError = "Request failed: " + err; root.isFetchingManga = false; return }
+                if (err) { root.mangaError = "请求失败：" + err; root.isFetchingManga = false; return }
                 _parseMangaResults(body)
             })
         } else if (origin === "latest") {
@@ -302,7 +302,7 @@ Singleton {
             const url = root.apiUrl + "/latest?page=" + root.latestPage
             _get(url, function(err, body) {
                 if (reqId !== root._activeRequestId) return
-                if (err) { root.mangaError = "Request failed: " + err; root.isFetchingManga = false; return }
+                if (err) { root.mangaError = "请求失败：" + err; root.isFetchingManga = false; return }
                 _parseMangaResults(body)
             })
         } else {
@@ -341,7 +341,7 @@ Singleton {
         if (type) url += "&type=" + encodeURIComponent(type)
         _get(url, function(err, body) {
             if (reqId !== root._activeRequestId) return
-            if (err) { root.mangaError = "Request failed: " + err; root.isFetchingManga = false; return }
+            if (err) { root.mangaError = "请求失败：" + err; root.isFetchingManga = false; return }
             _parseMangaResults(body)
         })
     }
@@ -370,7 +370,7 @@ Singleton {
 
             root.mangaError = ""
         } catch (e) {
-            root.mangaError = "Parse error: " + e
+            root.mangaError = "解析错误：" + e
             console.error("[ServiceManga]", e)
         }
         root.isFetchingManga = false
@@ -385,7 +385,7 @@ Singleton {
         root.detailError = ""
         const url = root.apiUrl + "/info?id=" + encodeURIComponent(mangaId)
         _get(url, function(err, body) {
-            if (err) { root.detailError = "Request failed: " + err; root.isFetchingDetail = false; return }
+            if (err) { root.detailError = "请求失败：" + err; root.isFetchingDetail = false; return }
             _parseMangaDetail(body)
         })
     }
@@ -414,7 +414,7 @@ Singleton {
             }
             root.detailError = ""
         } catch (e) {
-            root.detailError = "Parse error: " + e
+            root.detailError = "解析错误：" + e
             console.error("[ServiceManga]", e)
         }
         root.isFetchingDetail = false
@@ -430,7 +430,7 @@ Singleton {
         root.pagesError = ""
         const url = root.apiUrl + "/pages?chapterId=" + encodeURIComponent(chapterId)
         _get(url, function(err, body) {
-            if (err) { root.pagesError = "Request failed: " + err; root.isFetchingPages = false; return }
+            if (err) { root.pagesError = "请求失败：" + err; root.isFetchingPages = false; return }
             _parseChapterPages(body)
         })
     }
@@ -444,7 +444,7 @@ Singleton {
         root.pagesError = ""
         const url = root.apiUrl + "/dl/pages?chapterId=" + encodeURIComponent(chapterId)
         _get(url, function(err, body) {
-            if (err) { root.pagesError = "Request failed: " + err; root.isFetchingPages = false; return }
+            if (err) { root.pagesError = "请求失败：" + err; root.isFetchingPages = false; return }
             _parseChapterPages(body)
         })
     }
@@ -453,12 +453,12 @@ Singleton {
         try {
             const data = JSON.parse(json)
             if (data.error || !Array.isArray(data)) {
-                root.pagesError = data.error || "Invalid response"
+                root.pagesError = data.error || "响应无效"
                 root.isFetchingPages = false
                 return
             }
             if (data.length === 0) {
-                root.pagesError = "No pages found for this chapter"
+                root.pagesError = "未找到此章节的页面"
                 root.isFetchingPages = false
                 return
             }
@@ -471,7 +471,7 @@ Singleton {
             root.pagesError = ""
             root.isFetchingPages = false
         } catch (e) {
-            root.pagesError = "Parse error: " + e
+            root.pagesError = "解析错误：" + e
             root.isFetchingPages = false
         }
     }

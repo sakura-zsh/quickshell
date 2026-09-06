@@ -93,7 +93,7 @@ Item {
                     spacing: Appearance.spacing.md
 
                     StyledText {
-                        text: qsTr("Notifications")
+                        text: qsTr("通知")
                         font.pointSize: Appearance.font.size.titleMedium
                         font.weight: 500
                     }
@@ -104,12 +104,12 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("Behaviour")
+                        text: qsTr("行为")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
                     SwitchRow {
-                        label: qsTr("Auto-expire notifications")
+                        label: qsTr("通知自动过期")
                         checked: root.expire
                         onToggled: checked => {
                             root.expire = checked;
@@ -118,7 +118,7 @@ Item {
                     }
 
                     SwitchRow {
-                        label: qsTr("Single action on click")
+                        label: qsTr("单击执行单个操作")
                         checked: root.actionOnClick
                         onToggled: checked => {
                             root.actionOnClick = checked;
@@ -132,7 +132,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Expire timeout")
+                            label: qsTr("过期超时")
                             value: root.defaultExpireTimeout
                             from: 1000
                             to: 30000
@@ -155,7 +155,7 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("Gestures")
+                        text: qsTr("手势")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
@@ -165,7 +165,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Swipe dismiss threshold")
+                            label: qsTr("滑动关闭阈值")
                             value: root.clearThreshold * 100
                             from: 10
                             to: 90
@@ -183,7 +183,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Expand threshold")
+                            label: qsTr("展开阈值")
                             value: root.expandThreshold
                             from: 10
                             to: 100
@@ -206,7 +206,7 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("Display")
+                        text: qsTr("显示")
                         font.pointSize: Appearance.font.size.bodyMedium
                     }
 
@@ -216,7 +216,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Group preview count")
+                            label: qsTr("分组预览数量")
                             value: root.groupPreviewNum
                             from: 1
                             to: 10
@@ -234,7 +234,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Popup width")
+                            label: qsTr("弹出窗口宽度")
                             value: root.popupWidth
                             from: 200
                             to: 800
@@ -253,7 +253,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Image size")
+                            label: qsTr("图片大小")
                             value: root.imageSize
                             from: 16
                             to: 96
@@ -272,7 +272,7 @@ Item {
                         SliderInput {
                             Layout.fillWidth: true
 
-                            label: qsTr("Badge size")
+                            label: qsTr("徽标大小")
                             value: root.badgeSize
                             from: 10
                             to: 48

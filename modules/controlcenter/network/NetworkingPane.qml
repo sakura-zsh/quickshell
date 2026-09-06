@@ -50,7 +50,7 @@ Item {
                         spacing: Appearance.spacing.md
 
                         StyledText {
-                            text: qsTr("Network")
+                            text: qsTr("网络")
                             font.pointSize: Appearance.font.size.titleMedium
                             font.weight: 500
                         }
@@ -66,7 +66,7 @@ Item {
                             iconSize: Appearance.font.size.bodyMedium
                             horizontalPadding: Appearance.padding.md
                             verticalPadding: Appearance.padding.sm
-                            tooltip: qsTr("Toggle WiFi")
+                            tooltip: qsTr("切换 WiFi")
 
                             onClicked: {
                                 Nmcli.toggleWifi(null);
@@ -80,7 +80,7 @@ Item {
                             iconSize: Appearance.font.size.bodyMedium
                             horizontalPadding: Appearance.padding.md
                             verticalPadding: Appearance.padding.sm
-                            tooltip: qsTr("Scan for networks")
+                            tooltip: qsTr("扫描网络")
 
                             onClicked: {
                                 Nmcli.rescanWifi();
@@ -94,7 +94,7 @@ Item {
                             iconSize: Appearance.font.size.bodyMedium
                             horizontalPadding: Appearance.padding.md
                             verticalPadding: Appearance.padding.sm
-                            tooltip: qsTr("Network settings")
+                            tooltip: qsTr("网络设置")
 
                             onClicked: {
                                 if (root.session.ethernet.active || root.session.network.active) {
@@ -133,7 +133,7 @@ Item {
                         id: ethernetListSection
 
                         Layout.fillWidth: true
-                        title: qsTr("Ethernet")
+                        title: qsTr("以太网")
                         expanded: true
 
                         Loader {
@@ -151,7 +151,7 @@ Item {
                         id: wirelessListSection
 
                         Layout.fillWidth: true
-                        title: qsTr("Wireless")
+                        title: qsTr("无线")
                         expanded: true
 
                         Loader {

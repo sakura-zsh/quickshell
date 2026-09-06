@@ -16,7 +16,7 @@ SectionContainer {
     alignTop: true
 
     StyledText {
-        text: qsTr("Weather")
+        text: qsTr("天气")
         font.pointSize: Appearance.font.size.bodyMedium
     }
 
@@ -25,7 +25,7 @@ SectionContainer {
         spacing: Appearance.spacing.md / 2
 
         StyledText {
-            text: qsTr("Location (city name, state, or lat,long)")
+            text: qsTr("位置（城市名、州或经纬度）")
             font.pointSize: Appearance.font.size.labelLarge
             color: Colours.palette.m3onSurfaceVariant
         }
@@ -50,7 +50,7 @@ SectionContainer {
                 anchors.centerIn: parent
                 width: parent.width - Appearance.padding.md
                 horizontalAlignment: TextInput.AlignLeft
-                placeholderText: qsTr("Auto-detect by IP")
+                placeholderText: qsTr("按 IP 自动检测")
                 text: root.rootItem.weatherLocation
                 onEditingFinished: {
                     root.rootItem.weatherLocation = text;
@@ -61,7 +61,7 @@ SectionContainer {
     }
 
     SwitchRow {
-        label: qsTr("Use Fahrenheit")
+        label: qsTr("使用华氏度")
         checked: root.rootItem.useFahrenheit
         onToggled: checked => {
             root.rootItem.useFahrenheit = checked;

@@ -45,7 +45,7 @@ Item {
                         spacing: Appearance.spacing.md
 
                         StyledText {
-                            text: qsTr("Audio")
+                            text: qsTr("音频")
                             font.pointSize: Appearance.font.size.titleMedium
                             font.weight: 500
                         }
@@ -59,7 +59,7 @@ Item {
                         id: outputDevicesSection
 
                         Layout.fillWidth: true
-                        title: qsTr("Output devices")
+                        title: qsTr("输出设备")
                         expanded: true
 
                         ColumnLayout {
@@ -71,7 +71,7 @@ Item {
                                 spacing: Appearance.spacing.sm
 
                                 StyledText {
-                                    text: qsTr("Devices (%1)").arg(Audio.sinks.length)
+                                    text: qsTr("设备（%1）").arg(Audio.sinks.length)
                                     font.pointSize: Appearance.font.size.bodyMedium
                                     font.weight: 500
                                 }
@@ -79,7 +79,7 @@ Item {
 
                             StyledText {
                                 Layout.fillWidth: true
-                                text: qsTr("All available output devices")
+                                text: qsTr("所有可用的输出设备")
                                 color: Colours.palette.m3outline
                             }
 
@@ -122,7 +122,7 @@ Item {
                                             elide: Text.ElideRight
                                             maximumLineCount: 1
 
-                                            text: modelData.description || qsTr("Unknown")
+                                            text: modelData.description || qsTr("未知")
                                             font.weight: Audio.sink?.id === modelData.id ? 500 : 400
                                         }
                                     }
@@ -137,7 +137,7 @@ Item {
                         id: inputDevicesSection
 
                         Layout.fillWidth: true
-                        title: qsTr("Input devices")
+                        title: qsTr("输入设备")
                         expanded: true
 
                         ColumnLayout {
@@ -149,7 +149,7 @@ Item {
                                 spacing: Appearance.spacing.sm
 
                                 StyledText {
-                                    text: qsTr("Devices (%1)").arg(Audio.sources.length)
+                                    text: qsTr("设备（%1）").arg(Audio.sources.length)
                                     font.pointSize: Appearance.font.size.bodyMedium
                                     font.weight: 500
                                 }
@@ -157,7 +157,7 @@ Item {
 
                             StyledText {
                                 Layout.fillWidth: true
-                                text: qsTr("All available input devices")
+                                text: qsTr("所有可用的输入设备")
                                 color: Colours.palette.m3outline
                             }
 
@@ -200,7 +200,7 @@ Item {
                                             elide: Text.ElideRight
                                             maximumLineCount: 1
 
-                                            text: modelData.description || qsTr("Unknown")
+                                            text: modelData.description || qsTr("未知")
                                             font.weight: Audio.source?.id === modelData.id ? 500 : 400
                                         }
                                     }
@@ -234,12 +234,12 @@ Item {
 
                     SettingsHeader {
                         icon: "volume_up"
-                        title: qsTr("Audio Settings")
+                        title: qsTr("音频设置")
                     }
 
                     SectionHeader {
-                        title: qsTr("Output volume")
-                        description: qsTr("Control the volume of your output device")
+                        title: qsTr("输出音量")
+                        description: qsTr("控制输出设备的音量")
                     }
 
                     SectionContainer {
@@ -254,7 +254,7 @@ Item {
                                 spacing: Appearance.spacing.lg
 
                                 StyledText {
-                                    text: qsTr("Volume")
+                                    text: qsTr("音量")
                                     font.pointSize: Appearance.font.size.bodyMedium
                                     font.weight: 500
                                 }
@@ -353,8 +353,8 @@ Item {
                     }
 
                     SectionHeader {
-                        title: qsTr("Input volume")
-                        description: qsTr("Control the volume of your input device")
+                        title: qsTr("输入音量")
+                        description: qsTr("控制输入设备的音量")
                     }
 
                     SectionContainer {
@@ -369,7 +369,7 @@ Item {
                                 spacing: Appearance.spacing.lg
 
                                 StyledText {
-                                    text: qsTr("Volume")
+                                    text: qsTr("音量")
                                     font.pointSize: Appearance.font.size.bodyMedium
                                     font.weight: 500
                                 }
@@ -468,8 +468,8 @@ Item {
                     }
 
                     SectionHeader {
-                        title: qsTr("Applications")
-                        description: qsTr("Control volume for individual applications")
+                        title: qsTr("应用程序")
+                        description: qsTr("控制各个应用程序的音量")
                     }
 
                     SectionContainer {
@@ -607,7 +607,7 @@ Item {
                             StyledText {
                                 Layout.fillWidth: true
                                 visible: Audio.streams.length === 0
-                                text: qsTr("No applications currently playing audio")
+                                text: qsTr("当前没有应用正在播放音频")
                                 color: Colours.palette.m3outline
                                 font.pointSize: Appearance.font.size.labelLarge
                                 horizontalAlignment: Text.AlignHCenter

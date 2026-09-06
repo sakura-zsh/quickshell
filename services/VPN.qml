@@ -107,9 +107,9 @@ Singleton {
 
         const displayName = root.currentConfig ? (root.currentConfig.displayName || "VPN") : "VPN";
         if (connected) {
-            Toaster.toast(qsTr("VPN connected"), qsTr("Connected to %1").arg(displayName), "vpn_key");
+            Toaster.toast(qsTr("VPN 已连接"), qsTr("已连接到 %1").arg(displayName), "vpn_key");
         } else {
-            Toaster.toast(qsTr("VPN disconnected"), qsTr("Disconnected from %1").arg(displayName), "vpn_key_off");
+            Toaster.toast(qsTr("VPN 已断开"), qsTr("已与 %1 断开连接").arg(displayName), "vpn_key_off");
         }
     }
 

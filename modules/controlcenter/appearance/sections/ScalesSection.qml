@@ -15,7 +15,7 @@ CollapsibleSection {
 
     required property var rootPane
 
-    title: qsTr("Scales")
+    title: qsTr("缩放")
     showBackground: true
 
     ColumnLayout {
@@ -28,7 +28,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Padding scale")
+            label: qsTr("内边距倍率")
             value: rootPane.paddingScale
             from: 0.5
             to: 2.0
@@ -52,7 +52,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Rounding scale")
+            label: qsTr("圆角倍率")
             value: rootPane.roundingScale
             from: 0.1
             to: 5.0
@@ -76,7 +76,7 @@ CollapsibleSection {
         SliderInput {
             Layout.fillWidth: true
 
-            label: qsTr("Spacing scale")
+            label: qsTr("间距倍率")
             value: rootPane.spacingScale
             from: 0.1
             to: 2.0

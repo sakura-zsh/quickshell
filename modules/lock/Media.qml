@@ -78,7 +78,7 @@ Item {
         StyledText {
             Layout.topMargin: Appearance.padding.xl
             Layout.bottomMargin: Appearance.spacing.xl
-            text: qsTr("Now playing")
+            text: qsTr("正在播放")
             color: Colours.palette.m3onSurfaceVariant
             font.family: Appearance.font.family.mono
             font.weight: 500
@@ -87,7 +87,7 @@ Item {
         StyledText {
             Layout.fillWidth: true
             animate: true
-            text: Players.active?.trackArtist ?? qsTr("No media")
+            text: Players.active?.trackArtist ?? qsTr("无媒体")
             color: Colours.palette.m3primary
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: Appearance.font.size.titleMedium
@@ -99,7 +99,7 @@ Item {
         StyledText {
             Layout.fillWidth: true
             animate: true
-            text: Players.active?.trackTitle ?? qsTr("No media")
+            text: Players.active?.trackTitle ?? qsTr("无媒体")
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: Appearance.font.size.bodyLarge
             font.family: Appearance.font.family.mono

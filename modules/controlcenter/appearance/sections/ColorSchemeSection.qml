@@ -11,8 +11,8 @@ import QtQuick
 import QtQuick.Layouts
 
 CollapsibleSection {
-    title: qsTr("Color scheme")
-    description: qsTr("Available color schemes")
+    title: qsTr("配色方案")
+    description: qsTr("可用的配色方案")
     showBackground: true
 
     ColumnLayout {

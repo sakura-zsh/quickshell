@@ -22,7 +22,7 @@ Singleton {
     property string _lastGeocodedCity: ""
 
     readonly property string icon: cc ? Icons.getWeatherIcon(cc.weatherCode) : "cloud_alert"
-    readonly property string description: cc?.weatherDesc[0].value ?? qsTr("No weather")
+    readonly property string description: cc?.weatherDesc[0].value ?? qsTr("无天气")
     readonly property string temp: Config.services.useFahrenheit ? `${cc?.temp_F ?? 0}°F` : `${cc?.temp_C ?? 0}°C`
     readonly property string feelsLike: Config.services.useFahrenheit ? `${cc?.FeelsLikeF ?? 0}°F` : `${cc?.FeelsLikeC ?? 0}°C`
     readonly property int humidity: cc?.humidity ?? 0
@@ -68,12 +68,12 @@ Singleton {
                         }
                     } catch (e) {
                         console.warn("Weather: Failed to parse location response:", e);
-                        error = qsTr("Location unavailable");
+                        error = qsTr("位置不可用");
                     }
                 }, err => {
                     _locationFetchInProgress = false;
                     console.warn("Weather: Location fetch failed:", err);
-                    error = qsTr("Location unavailable");
+                    error = qsTr("位置不可用");
                 });
             }
         }
@@ -98,7 +98,7 @@ Singleton {
                 const json = JSON.parse(text);
                 if (!json.results || json.results.length === 0) {
                     console.error("Geocoding failed for: " + cityName);
-                    error = qsTr("City not found");
+                    error = qsTr("未找到城市");
                     return;
                 }
                 const result = json.results[0];
@@ -114,12 +114,12 @@ Singleton {
                 }
             } catch (e) {
                 console.warn("Weather: Failed to parse geocoding response:", e);
-                error = qsTr("City not found");
+                error = qsTr("未找到城市");
             }
         }, err => {
             _geocodingInProgress = false;
             console.warn("Weather: Geocoding fetch failed:", err);
-            error = qsTr("Location unavailable");
+            error = qsTr("位置不可用");
         });
     }
 
@@ -166,11 +166,11 @@ Singleton {
                 forecast = forecastList;
             } catch (e) {
                 console.warn("Weather: Failed to parse weather data:", e);
-                error = qsTr("Weather data unavailable");
+                error = qsTr("天气数据不可用");
             }
         }, err => {
             console.warn("Weather: Data fetch failed:", err);
-            error = qsTr("Weather data unavailable");
+            error = qsTr("天气数据不可用");
         });
     }
 

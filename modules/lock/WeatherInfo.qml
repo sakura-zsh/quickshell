@@ -35,7 +35,7 @@ ColumnLayout {
         }
 
         StyledText {
-            text: qsTr("Weather")
+            text: qsTr("天气")
             color: Colours.palette.m3onSurfaceVariant
             font.pointSize: Appearance.font.size.labelLarge
             font.weight: Font.Medium

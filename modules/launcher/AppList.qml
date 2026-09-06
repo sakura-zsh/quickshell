@@ -213,10 +213,10 @@ StyledListView {
                     easing.bezierCurve: Appearance.anim.curves.standardAccel
                 }
             }
-            PropertyAction {
-                targets: [model, root]
-                properties: "values,delegate"
-            }
+            // NOTE: 不要用 PropertyAction 快照赋值 model.values ——
+            // QML 中对带绑定的属性直接赋值会永久销毁绑定，导致从剪贴板等模式
+            // 返回 apps 后，输入文字不再触发 Apps.search() 重新过滤。
+            // PropertyChanges 的值会在过渡开始时自动应用，无需 PropertyAction。
             ParallelAnimation {
                 Anim {
                     target: root

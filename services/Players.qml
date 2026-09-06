@@ -28,7 +28,7 @@ Singleton {
             if (!Config.utilities.toasts.nowPlaying)
                 return;
             if (root.active)
-                Toaster.toast(qsTr("Now Playing"), qsTr("%1 - %2").arg(root.active.trackArtist).arg(root.active.trackTitle), "music_note");
+                Toaster.toast(qsTr("正在播放"), qsTr("%1 - %2").arg(root.active.trackArtist).arg(root.active.trackTitle), "music_note");
         }
     }
 

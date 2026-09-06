@@ -69,18 +69,25 @@ Searcher {
     Variants {
         id: variants
 
-        model: [...DesktopEntries.applications.values].sort((a, b) => a.name.localeCompare(b.name))
+        model: {
+            const values = DesktopEntries.applications.values;
+            const apps = [];
+            for (let i = 0; i < values.length; i++)
+                if (values[i] != null)
+                    apps.push(values[i]);
+            return apps.sort((a, b) => a.name.localeCompare(b.name));
+        }
 
         QtObject {
             required property DesktopEntry modelData
-            readonly property string id: modelData.id
-            readonly property string name: modelData.name
-            readonly property string desc: modelData.comment
-            readonly property string execString: modelData.execString
-            readonly property string wmClass: modelData.startupClass
-            readonly property string genericName: modelData.genericName
-            readonly property string categories: modelData.categories.join(" ")
-            readonly property string keywords: modelData.keywords.join(" ")
+            readonly property string id: modelData?.id ?? ""
+            readonly property string name: modelData?.name ?? ""
+            readonly property string desc: modelData?.comment ?? ""
+            readonly property string execString: modelData?.execString ?? ""
+            readonly property string wmClass: modelData?.startupClass ?? ""
+            readonly property string genericName: modelData?.genericName ?? ""
+            readonly property string categories: (modelData?.categories ?? []).join(" ")
+            readonly property string keywords: (modelData?.keywords ?? []).join(" ")
         }
     }
 }

@@ -86,7 +86,7 @@ Scope {
 						renderType: Text.NativeRendering
 						font.family: Appearance.font.family.sans
 						font.pointSize: 14
-						text: root.failed ? "Quickshell: Reload failed" : "Quickshell reloaded"
+						text: root.failed ? "Quickshell：重新加载失败" : "Quickshell 已重新加载"
 						color: failed ? Colours.palette.onError : Colours.palette.onSuccessContainer
 					}
 

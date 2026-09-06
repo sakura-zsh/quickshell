@@ -21,39 +21,39 @@ ColumnLayout {
 
     SettingsHeader {
         icon: "router"
-        title: qsTr("Network Settings")
+        title: qsTr("网络设置")
     }
 
     SectionHeader {
         Layout.topMargin: Appearance.spacing.xxl
-        title: qsTr("Ethernet")
-        description: qsTr("Ethernet device information")
+        title: qsTr("以太网")
+        description: qsTr("以太网设备信息")
     }
 
     SectionContainer {
         contentSpacing: Appearance.spacing.sm / 2
 
         PropertyRow {
-            label: qsTr("Total devices")
+            label: qsTr("设备总数")
             value: qsTr("%1").arg(Nmcli.ethernetDevices ? Nmcli.ethernetDevices.length : 0)
         }
 
         PropertyRow {
             showTopMargin: true
-            label: qsTr("Connected devices")
+            label: qsTr("已连接的设备")
             value: qsTr("%1").arg(Nmcli.ethernetDevices ? Nmcli.ethernetDevices.filter(d => d.connected).length : 0)
         }
     }
 
     SectionHeader {
         Layout.topMargin: Appearance.spacing.xxl
-        title: qsTr("Wireless")
-        description: qsTr("WiFi network settings")
+        title: qsTr("无线")
+        description: qsTr("WiFi 网络设置")
     }
 
     SectionContainer {
         ToggleRow {
-            label: qsTr("WiFi enabled")
+            label: qsTr("WiFi 已启用")
             checked: Nmcli.wifiEnabled
             toggle.onToggled: {
                 Nmcli.enableWifi(checked);
@@ -64,7 +64,7 @@ ColumnLayout {
     SectionHeader {
         Layout.topMargin: Appearance.spacing.xxl
         title: qsTr("VPN")
-        description: qsTr("VPN provider settings")
+        description: qsTr("VPN 提供商设置")
         visible: Config.utilities.vpn.enabled || Config.utilities.vpn.provider.length > 0
     }
 
@@ -72,7 +72,7 @@ ColumnLayout {
         visible: Config.utilities.vpn.enabled || Config.utilities.vpn.provider.length > 0
 
         ToggleRow {
-            label: qsTr("VPN enabled")
+            label: qsTr("VPN 已启用")
             checked: Config.utilities.vpn.enabled
             toggle.onToggled: {
                 Config.utilities.vpn.enabled = checked;
@@ -82,7 +82,7 @@ ColumnLayout {
 
         PropertyRow {
             showTopMargin: true
-            label: qsTr("Providers")
+            label: qsTr("提供商")
             value: qsTr("%1").arg(Config.utilities.vpn.provider.length)
         }
 
@@ -90,7 +90,7 @@ ColumnLayout {
             Layout.fillWidth: true
             Layout.topMargin: Appearance.spacing.lg
             Layout.minimumHeight: Appearance.font.size.bodyMedium + Appearance.padding.md * 2
-            text: qsTr("⚙ Manage VPN Providers")
+            text: qsTr("⚙ 管理 VPN 提供商")
             inactiveColour: Colours.palette.m3secondaryContainer
             inactiveOnColour: Colours.palette.m3onSecondaryContainer
 
@@ -102,36 +102,36 @@ ColumnLayout {
 
     SectionHeader {
         Layout.topMargin: Appearance.spacing.xxl
-        title: qsTr("Current connection")
-        description: qsTr("Active network connection information")
+        title: qsTr("当前连接")
+        description: qsTr("当前网络连接信息")
     }
 
     SectionContainer {
         contentSpacing: Appearance.spacing.sm / 2
 
         PropertyRow {
-            label: qsTr("Network")
-            value: Nmcli.active ? Nmcli.active.ssid : (Nmcli.activeEthernet ? Nmcli.activeEthernet.interface : qsTr("Not connected"))
+            label: qsTr("网络")
+            value: Nmcli.active ? Nmcli.active.ssid : (Nmcli.activeEthernet ? Nmcli.activeEthernet.interface : qsTr("未连接"))
         }
 
         PropertyRow {
             showTopMargin: true
             visible: Nmcli.active !== null
-            label: qsTr("Signal strength")
+            label: qsTr("信号强度")
             value: Nmcli.active ? qsTr("%1%").arg(Nmcli.active.strength) : qsTr("N/A")
         }
 
         PropertyRow {
             showTopMargin: true
             visible: Nmcli.active !== null
-            label: qsTr("Security")
-            value: Nmcli.active ? (Nmcli.active.isSecure ? qsTr("Secured") : qsTr("Open")) : qsTr("N/A")
+            label: qsTr("安全")
+            value: Nmcli.active ? (Nmcli.active.isSecure ? qsTr("已加密") : qsTr("打开")) : qsTr("N/A")
         }
 
         PropertyRow {
             showTopMargin: true
             visible: Nmcli.active !== null
-            label: qsTr("Frequency")
+            label: qsTr("频率")
             value: Nmcli.active ? qsTr("%1 MHz").arg(Nmcli.active.frequency) : qsTr("N/A")
         }
     }

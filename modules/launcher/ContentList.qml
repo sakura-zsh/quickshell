@@ -150,14 +150,14 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
 
             StyledText {
-                text: root.state === "wallpapers" ? qsTr("No wallpapers found") : qsTr("No results")
+                text: root.state === "wallpapers" ? qsTr("未找到壁纸") : qsTr("无结果")
                 color: Colours.palette.m3onSurfaceVariant
                 font.pointSize: Appearance.font.size.bodyLarge
                 font.weight: 500
             }
 
             StyledText {
-                text: root.state === "wallpapers" && Wallpapers.list.length === 0 ? qsTr("Try putting some wallpapers in %1").arg(Paths.shortenHome(Paths.wallsdir)) : qsTr("Try searching for something else")
+                text: root.state === "wallpapers" && Wallpapers.list.length === 0 ? qsTr("尝试在 %1 中放置一些壁纸").arg(Paths.shortenHome(Paths.wallsdir)) : qsTr("尝试搜索其他内容")
                 color: Colours.palette.m3onSurfaceVariant
                 font.pointSize: Appearance.font.size.bodyMedium
             }
