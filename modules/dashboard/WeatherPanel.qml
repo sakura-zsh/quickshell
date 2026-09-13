@@ -192,7 +192,9 @@ Item {
                 // Wheel-only: dragging here conflicts with the dashboard close gesture
                 interactive: false
 
-                WheelHandler {
+                MouseArea {
+                    acceptedButtons: Qt.NoButton
+
                     onWheel: event => {
                         const delta = event.angleDelta.y || event.angleDelta.x;
                         hourlyFlick.contentX = Math.max(0, Math.min(hourlyFlick.contentWidth - hourlyFlick.width, hourlyFlick.contentX - delta));
@@ -296,7 +298,9 @@ Item {
                 boundsBehavior: Flickable.StopAtBounds
                 interactive: false
 
-                WheelHandler {
+                MouseArea {
+                    acceptedButtons: Qt.NoButton
+
                     onWheel: event => {
                         const delta = event.angleDelta.y || event.angleDelta.x;
                         forecastFlick.contentX = Math.max(0, Math.min(forecastFlick.contentWidth - forecastFlick.width, forecastFlick.contentX - delta));
