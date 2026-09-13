@@ -14,7 +14,7 @@ Rectangle {
     readonly property int contextWidth: Config.bar.workspaces.windowContextWidth
     readonly property int baseRadius: Appearance.rounding.normal
     readonly property int hPadding: Appearance.padding.xs
-    readonly property int textWidth: root.itemH - hPadding * 2
+    readonly property int textWidth: contextWidth - hPadding * 2
 
     required property bool onPrimary
     required property bool isFocused
@@ -35,9 +35,9 @@ Rectangle {
 
     clip: true
 
-    // Vertical extension hanging below the window icon in the horizontal bar:
-    // fixed thickness (= icon width), length grows downward when active.
-    implicitWidth: root.itemH
+    // Dropdown card hanging below the window icon in the horizontal bar:
+    // full context width so titles fit; height grows downward when active.
+    implicitWidth: root.contextWidth
     implicitHeight: root.popupActive && Niri.wsContextAnchor && root.activated ? root.contextWidth + root.hPadding : 0
 
     Behavior on implicitHeight {
@@ -48,8 +48,10 @@ Rectangle {
     }
 
     ColumnLayout {
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
         anchors.top: parent.top
+        anchors.margins: root.hPadding
 
         AnimatedText {
             Layout.topMargin: 0

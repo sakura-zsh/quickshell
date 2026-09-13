@@ -186,6 +186,7 @@ Item {
 
     Row {
         id: column
+        objectName: "ctxRow"
 
         add: Transition {
             NumberAnimation {

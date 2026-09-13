@@ -78,7 +78,7 @@ Item {
         id: contextLoader
 
         anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
         active: root.popupActive && root.activated
         // active: root.activated && !(Niri.wsContextType === "none") && root.popupActive
 

@@ -30,15 +30,18 @@ Item {
     property color bgColor: isWorkspaces ? Colours.palette.m3surfaceContainer : ((isFocused) ? Qt.alpha(Colours.palette.m3primary, 0.95) : (hasWindows ? Colours.palette.m3surfaceContainerHigh : "transparent"))
 
     // --- Highlight Rect ---
-    // Horizontal bar: the pill sits behind the anchored workspace icon and
-    // extends DOWNWARD from the bar (neck + extension backing).
+    // Horizontal bar: when active this becomes a dropdown card as wide as the
+    // context width, left-aligned under the anchored icon and extending
+    // downward from the bar; when inactive it just backs the icon.
     component HighlightRect: Rectangle {
         id: hrect
 
         color: root.bgColor
 
-        width: (root.anchorWs?.width ?? 0) + root.gPadding * 2
-        height: root.activated && Niri.wsContextAnchor ? Config.bar.workspaces.windowContextWidth + Config.bar.workspaces.windowIconSize : Config.bar.workspaces.windowIconSize
+        readonly property bool active: root.activated && !!Niri.wsContextAnchor
+
+        width: active ? Config.bar.workspaces.windowContextWidth + root.gPadding * 2 : (root.anchorWs?.width ?? 0) + root.gPadding * 2
+        height: active ? Config.bar.workspaces.windowContextWidth + Config.bar.workspaces.windowIconSize + Appearance.padding.xs * 2 : Config.bar.workspaces.windowIconSize
 
         x: root.anchorWs?.mapToItem(root, 0, 0).x - root.gPadding ?? 0
         y: 0
@@ -104,24 +107,7 @@ Item {
         anchors.fill: highlight
 
         anchors.margins: -Appearance.padding.xs
-
-        anchors.topMargin: Config.bar.workspaces.windowIconSize
-        topLeftRadius: 0
-        topRightRadius: 0
-
-        Corner {
-            property bool firstWorkspace: (root.isWorkspace && root.anchorWs?.index === 0)
-            cornerType: 1
-
-            width: !(Niri.wsContextAnchor || root.activated) || (firstWorkspace) ? 0 : root.cornerPieceSize
-        }
-        Corner {
-            property bool lastWindowNWorkspace: (root.isItem && ((root.anchorWs?.curWindowIndex === root.anchorWs?.wsWindowCount - 1) && (root.anchorWs?.workspace.index === Config.bar.workspaces.shown - 1)))
-            property bool lastWorkspace: (root.isWorkspace && root.anchorWs?.index === Config.bar.workspaces.shown - 1)
-
-            cornerType: 0
-            width: !(Niri.wsContextAnchor || root.activated) || (lastWorkspace || (lastWindowNWorkspace)) ? 0 : root.cornerPieceSize
-        }
+        anchors.topMargin: -Appearance.padding.xs + 1
     }
 
     HighlightRect {
@@ -129,53 +115,5 @@ Item {
 
         bottomLeftRadius: Appearance.rounding.small
         bottomRightRadius: Appearance.rounding.small
-
-        Corner {
-            cornerType: 1
-            anchors.topMargin: Config.bar.workspaces.windowIconSize - 1
-            width: !(Niri.wsContextAnchor || root.activated) || root.isWorkspace ? 0 : root.cornerPieceSize
-        }
-        Corner {
-            property bool lastWindow: (root.isItem && (root.anchorWs?.curWindowIndex === root.anchorWs?.wsWindowCount - 1))
-
-            cornerType: 0
-            anchors.topMargin: Config.bar.workspaces.windowIconSize - 1
-            width: !(Niri.wsContextAnchor || root.activated) || (root.isWorkspace || lastWindow) ? 0 : root.cornerPieceSize
-        }
-    }
-
-    // --- Optional corner piece (if needed later) ---
-    component Corner: CornerPiece {
-        property int cornerType: 0 // transposed: 1 = left of pill, 0 = right of pill
-        height: root.activated && !root.isWorkspaces && Niri.wsContextAnchor ? root.cornerPieceSize : 0
-        width: root.cornerPieceSize
-        radius: Appearance.padding.xl * 1.3
-        orientation: cornerType
-        color: parent.color
-
-        anchors.top: parent.top
-        anchors.topMargin: Appearance.padding.xs
-        anchors.right: cornerType === 1 ? parent.left : undefined
-        anchors.left: cornerType === 0 ? parent.right : undefined
-        anchors.rightMargin: cornerType === 1 ? -1 : undefined
-        anchors.leftMargin: cornerType === 0 ? -1 : undefined
-
-        Behavior on height {
-            Anim {
-                easing.bezierCurve: Appearance.anim.curves.emphasized
-            }
-        }
-
-        Behavior on width {
-            Anim {
-                easing.bezierCurve: Appearance.anim.curves.emphasized
-            }
-        }
-
-        Behavior on anchors.topMargin {
-            Anim {
-                easing.bezierCurve: Appearance.anim.curves.emphasized
-            }
-        }
     }
 }

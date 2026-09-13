@@ -50,6 +50,7 @@ RowLayout {
 
     Loader {
         id: windows
+        objectName: "windowsLoader"
 
         Layout.alignment: Qt.AlignCenter
         // Layout.fillWidth: true

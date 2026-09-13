@@ -40,7 +40,7 @@ Item {
 
     anchors.top: parent.top
 
-    implicitHeight: iconLoader.implicitHeight + (popupActive ? Config.bar.workspaces.windowContextWidth : 0)
+    implicitHeight: iconLoader.implicitHeight + (popupActive && Niri.wsContextType === "item" ? Config.bar.workspaces.windowContextWidth : 0)
     implicitWidth: iconLoader.implicitWidth
 
     z: popupActive ? 90 : 0
@@ -55,8 +55,12 @@ Item {
         id: contextLoader
         anchors.top: parent.top
         anchors.topMargin: iconLoader.implicitHeight + Appearance.padding.xs
-        anchors.horizontalCenter: parent.horizontalCenter
-        active: (Niri.wsContextType !== "none" && Config.bar.workspaces.windowRighClickContext)
+        anchors.left: parent.left
+        anchors.leftMargin: -Appearance.padding.xs / 2
+        // Only render the per-window card for "item" context (right-click on
+        // this icon). For "workspace" type every icon in the row would
+        // otherwise stack cards on top of each other below the bar.
+        active: (Niri.wsContextType === "item" && popupActive && Config.bar.workspaces.windowRighClickContext)
         sourceComponent: WindowIconContext {
             iconObj: iconItem
         }

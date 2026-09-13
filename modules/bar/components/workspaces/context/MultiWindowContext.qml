@@ -42,7 +42,7 @@ Rectangle {
 
     anchors.top: parent.top
     anchors.topMargin: root.sideMargin
-    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.left: parent.left
 
     Behavior on implicitWidth {
         Anim {
