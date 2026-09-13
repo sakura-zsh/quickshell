@@ -156,7 +156,7 @@ Item {
             DetailCard {
                 icon: "air"
                 label: qsTr("风")
-                value: Weather.windSpeed ? Weather.windDirName + " " + Weather.windSpeed + " km/h" : "--"
+                value: Weather.windSpeed ? Weather.windDirName + " " + Weather.beaufortText(Weather.windSpeed) : "--"
                 colour: Colours.palette.m3tertiary
             }
 
@@ -395,7 +395,7 @@ Item {
                                     }
 
                                     StyledText {
-                                        text: (dayCard.modelData.windMax ?? 0) + " km/h"
+                                        text: Weather.beaufortText(dayCard.modelData.windMax ?? 0)
                                         font.pointSize: Appearance.font.size.labelSmall
                                         color: Colours.palette.m3onSurfaceVariant
                                         anchors.verticalCenter: parent.verticalCenter

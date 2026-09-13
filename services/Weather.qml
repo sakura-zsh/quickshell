@@ -130,6 +130,26 @@ Singleton {
 
     readonly property int windDirection: cc?.windDirection ?? 0
 
+    // Beaufort scale helpers (input: km/h)
+    function beaufortLevel(kmh: real): int {
+        const bounds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117];
+        for (let i = 0; i < bounds.length; i++) {
+            if (kmh < bounds[i])
+                return i;
+        }
+        return 12;
+    }
+
+    function beaufortName(level: int): string {
+        const names = [qsTr("无风"), qsTr("软风"), qsTr("轻风"), qsTr("微风"), qsTr("和风"), qsTr("劲风"), qsTr("强风"), qsTr("疾风"), qsTr("大风"), qsTr("烈风"), qsTr("狂风"), qsTr("暴风"), qsTr("飓风")];
+        return names[level] ?? "";
+    }
+
+    function beaufortText(kmh: real): string {
+        const level = beaufortLevel(kmh);
+        return level + " 级 " + beaufortName(level);
+    }
+
     readonly property string windDirName: {
         const dirs = [qsTr("北"), qsTr("东北"), qsTr("东"), qsTr("东南"), qsTr("南"), qsTr("西南"), qsTr("西"), qsTr("西北")];
         return dirs[Math.round(((windDirection % 360) + 360) % 360 / 45) % 8];
