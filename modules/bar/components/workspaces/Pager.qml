@@ -5,8 +5,8 @@ import QtQuick
 
 StyledRect {
     id: root
-    anchors.top: parent.top
-    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.left: parent.right
+    anchors.verticalCenter: parent.verticalCenter
 
     required property int groupOffset
 
@@ -20,17 +20,17 @@ StyledRect {
     color: Colours.palette.m3surfaceContainer
     radius: entered ? Appearance.rounding.small / 2 : Appearance.rounding.full
 
-    anchors.topMargin: entered ? -Appearance.padding.md : -Config.bar.sizes.innerWidth
+    anchors.leftMargin: entered ? -Appearance.padding.md : -Config.bar.sizes.innerWidth
 
-    width: Config.bar.sizes.innerWidth - Appearance.spacing.sm
-    height: minimap.height + Appearance.spacing.sm * 2
+    height: Config.bar.sizes.innerWidth - Appearance.spacing.sm
+    width: minimap.width + Appearance.spacing.sm * 2
 
-    Behavior on anchors.topMargin {
+    Behavior on anchors.leftMargin {
         Anim {}
     }
 
     // Scroll-position minimap
-    Row {
+    Column {
         id: minimap
 
         opacity: root.entered ? 1 : 0
@@ -44,14 +44,14 @@ StyledRect {
             Rectangle {
                 required property int index
 
-                width: Math.max(3, (root.width - minimap.spacing * (root.wsCount - 1) - Appearance.spacing.sm * 2) / root.wsCount)
-                height: index === root.focusedIdx ? 6 : 3
-                radius: height / 2
+                height: Math.max(3, (root.height - minimap.spacing * (root.wsCount - 1) - Appearance.spacing.sm * 2) / root.wsCount)
+                width: index === root.focusedIdx ? 6 : 3
+                radius: width / 2
                 color: index === root.focusedIdx ? Colours.palette.m3primary : Colours.palette.m3surfaceContainerHighest
 
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                Behavior on height {
+                Behavior on width {
                     Anim {
                         duration: Appearance.anim.durations.small
                     }

@@ -12,9 +12,10 @@ Item {
     required property var workspace
     property bool popupActive: (Niri.wsContextAnchor === root) || (Niri.wsContextAnchor === workspace) || (Niri.wsContextType === "workspaces")
 
-    Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-    Layout.preferredHeight: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2
+    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+    Layout.preferredWidth: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2
 
+    implicitHeight: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2
     implicitWidth: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2 + (popupActive ? Config.bar.workspaces.windowContextWidth : 0)
     Behavior on implicitWidth {
         Anim {
@@ -27,6 +28,7 @@ Item {
     RowLayout {
         id: content
         anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
         spacing: Appearance.padding.xs
 
         Item {

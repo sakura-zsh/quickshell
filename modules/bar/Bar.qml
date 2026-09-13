@@ -9,13 +9,13 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 
-ColumnLayout {
+RowLayout {
     id: root
 
     required property ShellScreen screen
     required property PersistentProperties visibilities
     required property BarPopouts.Wrapper popouts
-    readonly property int vPadding: Appearance.padding.xl
+    readonly property int hPadding: Appearance.padding.xl
 
     // Handle Workspace Popouts for Niri
 
@@ -30,7 +30,7 @@ ColumnLayout {
 
     // Handle Popouts Hover
 
-    function checkPopout(y: real): void {
+    function checkPopout(x: real): void {
         if (Niri.wsContextType === "workspaces") {
             // Workspace context menu
             const anchor = Niri.wsContextAnchor;
@@ -38,42 +38,42 @@ ColumnLayout {
                 popouts.hasCurrent = false;
                 return;
             }
-            popouts.currentCenter = Qt.binding(() => Math.round(anchor.mapToItem(root, anchor.width, (anchor.height) / 2).y));
+            popouts.currentCenter = Qt.binding(() => Math.round(anchor.mapToItem(root, anchor.width / 2, 0).x));
             return;
         }
 
-        const ch = childAt(width / 2, y) as WrappedLoader;
+        const ch = childAt(x, height / 2) as WrappedLoader;
         if (!ch?.item) {
             popouts.hasCurrent = false;
             return;
         }
 
         const id = ch.id;
-        const top = ch.y;
+        const left = ch.x;
         const item = ch.item;
-        const itemHeight = item.implicitHeight;
+        const itemWidth = item.implicitWidth;
 
         if (id === "statusIcons") {
             const items = item.items;
-            const icon = items.childAt(items.width / 2, mapToItem(items, 0, y).y);
+            const icon = items.childAt(mapToItem(items, x, 0).x, items.height / 2);
             if (icon) {
                 popouts.currentName = icon.name;
-                popouts.currentCenter = Qt.binding(() => icon.mapToItem(root, 0, icon.implicitHeight / 2).y);
+                popouts.currentCenter = Qt.binding(() => icon.mapToItem(root, icon.implicitWidth / 2, 0).x);
                 popouts.hasCurrent = true;
             }
         } else if (id === "tray") {
-            const index = Math.floor(((y - top) / itemHeight) * item.items.count);
+            const index = Math.floor(((x - left) / itemWidth) * item.items.count);
             const trayItem = item.items.itemAt(index);
             if (trayItem) {
                 popouts.currentName = `traymenu${index}`;
-                popouts.currentCenter = Qt.binding(() => trayItem.mapToItem(root, 0, trayItem.implicitHeight / 2).y);
+                popouts.currentCenter = Qt.binding(() => trayItem.mapToItem(root, trayItem.implicitWidth / 2, 0).x);
                 popouts.hasCurrent = true;
             }
         }
     }
 
-    function handleWheel(y: real, angleDelta: point): void {
-        const ch = childAt(width / 2, y) as WrappedLoader;
+    function handleWheel(x: real, angleDelta: point): void {
+        const ch = childAt(x, height / 2) as WrappedLoader;
         if (ch?.id === "workspaces" && Config.bar.scrollActions.workspaces) {
             Niri.switchToWorkspaceUpDown(angleDelta.y > 0 ? "up" : "down");
         } else if (Config.bar.scrollActions.volume) {
@@ -97,15 +97,15 @@ ColumnLayout {
             DelegateChoice {
                 roleValue: "spacer"
                 delegate: WrappedLoader {
-                    Layout.fillHeight: enabled
+                    Layout.fillWidth: enabled
                 }
             }
             DelegateChoice {
                 roleValue: "divider"
                 delegate: WrappedLoader {
                     sourceComponent: Rectangle {
-                        implicitWidth: Appearance.padding.md
-                        implicitHeight: 1
+                        implicitWidth: 1
+                        implicitHeight: Appearance.padding.md
                         color: Colours.palette.m3outlineVariant
                     }
                 }
@@ -139,7 +139,7 @@ ColumnLayout {
                         onRequestWindowPopout: {
                             if (anchorItem && Config.bar.workspaces.windowRighClickContext) {
                                 root.popouts.currentName = "wsWindow";
-                                root.popouts.currentCenter = Qt.binding(() => Math.round(anchorItem.mapToItem(null, anchorItem.width, (anchorItem.height) / 2).y));
+                                root.popouts.currentCenter = Qt.binding(() => Math.round(anchorItem.mapToItem(null, anchorItem.width / 2, 0).x));
                                 root.popouts.hasCurrent = true;
                             }
                         }
@@ -222,10 +222,10 @@ ColumnLayout {
 
         onEnabledChanged: root.updateEnabledCache()
 
-        Layout.alignment: Qt.AlignHCenter
+        Layout.alignment: Qt.AlignVCenter
 
-        Layout.topMargin: root.firstEnabled === this ? root.vPadding : 0
-        Layout.bottomMargin: root.lastEnabled === this ? root.vPadding : 0
+        Layout.leftMargin: root.firstEnabled === this ? root.hPadding : 0
+        Layout.rightMargin: root.lastEnabled === this ? root.hPadding : 0
 
         asynchronous: true
         visible: enabled

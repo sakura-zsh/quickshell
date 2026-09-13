@@ -12,12 +12,12 @@ Scope {
     required property Item bar
 
     ExclusionZone {
-        anchors.left: true
+        anchors.top: true
         exclusiveZone: root.bar.exclusiveZone
     }
 
     ExclusionZone {
-        anchors.top: true
+        anchors.bottom: true
     }
 
     ExclusionZone {
@@ -25,7 +25,7 @@ Scope {
     }
 
     ExclusionZone {
-        anchors.bottom: true
+        anchors.left: true
     }
 
     component ExclusionZone: StyledWindow {

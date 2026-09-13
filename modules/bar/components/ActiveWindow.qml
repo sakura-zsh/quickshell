@@ -6,6 +6,9 @@ import qs.utils
 import qs.config
 import QtQuick
 
+// Horizontal active-window indicator: [icon] [title] [col/total]
+// Config.bar.activeWindow.inverted is a no-op in the top layout (it used to
+// flip the 90° rotation of the vertical title).
 Item {
     id: root
 
@@ -37,11 +40,11 @@ Item {
         return sorted.indexOf(focusedX) + 1;
     }
 
-    readonly property int maxHeight: {
+    readonly property int maxWidth: {
         const otherModules = bar.children.filter(c => c.id && c.item !== this && c.id !== "spacer");
-        const otherHeight = otherModules.reduce((acc, curr) => acc + curr.height, 0);
+        const otherWidth = otherModules.reduce((acc, curr) => acc + curr.width, 0);
         // Length - 2 cause repeater counts as a child
-        return bar.height - otherHeight - bar.spacing * (bar.children.length - 1) - bar.vPadding * 2;
+        return bar.width - otherWidth - bar.spacing * (bar.children.length - 1) - bar.hPadding * 2;
     }
     property Title current: text1
 
@@ -57,52 +60,65 @@ Item {
         return root.windowTitle;
     }
 
-
-
+    readonly property int itemSpacing: Appearance.spacing.sm
 
     clip: true
-    implicitWidth: Math.max(icon.implicitWidth, current.implicitHeight, colIndicator.implicitWidth)
-    implicitHeight: icon.implicitHeight + current.implicitWidth + current.anchors.topMargin + (colIndicator.visible ? colIndicator.implicitHeight + Appearance.spacing.xs : 0)
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
 
-    MaterialIcon {
-        id: icon
+    Row {
+        id: row
 
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: root.itemSpacing
 
-        animate: true
-        text: Icons.getAppCategoryIcon(Niri.focusedWindowClass, "desktop_windows")
-        color: root.colour
-    }
+        MaterialIcon {
+            id: icon
 
-    StyledText {
-        id: colIndicator
+            anchors.verticalCenter: parent.verticalCenter
 
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
+            animate: true
+            text: Icons.getAppCategoryIcon(Niri.focusedWindowClass, "desktop_windows")
+            color: root.colour
+        }
 
-        visible: root.columnCount > 1
-        text: `${root.focusedColumn}/${root.columnCount}`
-        color: Colours.palette.m3onSurfaceVariant
-        font.pointSize: Appearance.font.size.labelSmall
-        font.family: Appearance.font.family.mono
-    }
+        Item {
+            id: titleBox
 
-    Title {
-        id: text1
-    }
+            anchors.verticalCenter: parent.verticalCenter
+            width: Math.max(text1.implicitWidth, text2.implicitWidth)
+            height: Math.max(text1.implicitHeight, text2.implicitHeight)
 
-    Title {
-        id: text2
+            Title {
+                id: text1
+            }
+
+            Title {
+                id: text2
+            }
+        }
+
+        StyledText {
+            id: colIndicator
+
+            anchors.verticalCenter: parent.verticalCenter
+
+            visible: root.columnCount > 1
+            text: `${root.focusedColumn}/${root.columnCount}`
+            color: Colours.palette.m3onSurfaceVariant
+            font.pointSize: Appearance.font.size.labelSmall
+            font.family: Appearance.font.family.mono
+        }
     }
 
     TextMetrics {
         id: metrics
 
-        text: Config.bar.activeWindow.compact ? root.getCompactName() : root.windowTitle //Niri.focusedWindowTitle ?? qsTr("Desktop")
+        text: Config.bar.activeWindow.compact ? root.getCompactName() : root.windowTitle
         font.pointSize: Appearance.font.size.bodySmall
         font.family: Appearance.font.family.mono
         elide: Qt.ElideRight
-        elideWidth: root.maxHeight - icon.height
+        elideWidth: Math.max(0, root.maxWidth - icon.width - (colIndicator.visible ? colIndicator.implicitWidth + root.itemSpacing : 0) - root.itemSpacing * 2)
 
         onTextChanged: {
             const next = root.current === text1 ? text2 : text1;
@@ -112,7 +128,7 @@ Item {
         onElideWidthChanged: root.current.text = elidedText
     }
 
-    Behavior on implicitHeight {
+    Behavior on implicitWidth {
         Anim {
             easing.bezierCurve: Appearance.anim.curves.emphasized
         }
@@ -121,28 +137,13 @@ Item {
     component Title: StyledText {
         id: text
 
-        anchors.horizontalCenter: icon.horizontalCenter
-        anchors.top: icon.bottom
-        anchors.topMargin: Appearance.spacing.sm
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
 
         font.pointSize: metrics.font.pointSize
         font.family: metrics.font.family
         color: root.colour
         opacity: root.current === this ? 1 : 0
-
-        transform: [
-            Translate {
-                x: Config.bar.activeWindow.inverted ? -implicitWidth + text.implicitHeight : 0
-            },
-            Rotation {
-                angle: Config.bar.activeWindow.inverted ? 270 : 90
-                origin.x: text.implicitHeight / 2
-                origin.y: text.implicitHeight / 2
-            }
-        ]
-
-        width: implicitHeight
-        height: implicitWidth
 
         Behavior on opacity {
             Anim {}

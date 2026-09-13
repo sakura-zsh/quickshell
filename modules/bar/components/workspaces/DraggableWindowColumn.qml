@@ -169,22 +169,22 @@ Item {
     // Drop indicator
     Rectangle {
         id: dropIndicator
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width - Appearance.padding.xs
-        height: Appearance.padding.xs
+        anchors.verticalCenter: parent.verticalCenter
+        height: parent.height - Appearance.padding.xs
+        width: Appearance.padding.xs
         color: root.isWsFocused ? Colours.palette.m3primaryContainer : Colours.palette.m3primaryContainer
         radius: Appearance.rounding.small
         visible: false
         z: 200
 
-        Behavior on y {
+        Behavior on x {
             Anim {
                 easing.bezierCurve: Appearance.anim.curves.emphasized
             }
         }
     }
 
-    Column {
+    Row {
         id: column
 
         add: Transition {
@@ -230,7 +230,7 @@ Item {
         Repeater {
             id: repeater
             model: root.model
-            anchors.left: parent.left
+            anchors.top: parent.top
 
             delegate: WindowIcon {
                 id: icon
@@ -262,7 +262,7 @@ Item {
                     icon.z = 100;
                     icon.opacity = 0.7;
                     dropIndicator.visible = true;
-                    root.updateDropIndicator(icon.y);
+                    root.updateDropIndicator(icon.x);
                 }
 
                 onDragUpdate: (iconItem, mouseY, mouseX) => {
@@ -273,7 +273,7 @@ Item {
                     let globalPos = iconItem.mapToItem(iconItem, mouseX, mouseY);
                     icon.dgprw.x = globalPos.x - icon.dgprw.height / 2;
                     icon.dgprw.y = globalPos.y - icon.dgprw.height / 2;
-                    root.updateDropIndicator(iconItem.mapToItem(iconItem, 0, mouseY).y);
+                    root.updateDropIndicator(iconItem.mapToItem(iconItem, mouseX, 0).x);
                 }
 
                 onDragEnd: iconItem => {
@@ -300,9 +300,9 @@ Item {
         }
     }
 
-    function updateDropIndicator(globalY) {
+    function updateDropIndicator(globalX) {
         let targetIndex = 0;
-        let targetY = 0;
+        let targetX = 0;
 
         for (let i = 0; i < repeater.count; i++) {
             let child = repeater.itemAt(i);
@@ -310,19 +310,19 @@ Item {
             if (!child || child === root.draggedItem)
                 continue;
 
-            let childY = child.y + child.height / 2;
-            if (globalY < childY) {
+            let childX = child.x + child.width / 2;
+            if (globalX < childX) {
                 targetIndex = i;
-                targetY = child.y - Config.bar.workspaces.windowIconGap;
+                targetX = child.x - Config.bar.workspaces.windowIconGap;
                 break;
             }
             targetIndex = i + 1;
-            targetY = child.y + child.height + root.spacing;
+            targetX = child.x + child.width + root.spacing;
         }
 
         if (root.draggedItem) {
             root.draggedItem.dropTargetIndex = targetIndex;
         }
-        dropIndicator.y = targetY;
+        dropIndicator.x = targetX;
     }
 }

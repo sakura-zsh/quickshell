@@ -19,8 +19,8 @@ StyledRect {
 
     readonly property int focusedWindowId: Niri.focusedWindow?.id ?? -1
 
-    implicitHeight: layout.implicitHeight + Appearance.padding.xs * 2
-    implicitWidth: Config.bar.sizes.innerWidth
+    implicitHeight: Config.bar.sizes.innerWidth
+    implicitWidth: layout.implicitWidth + Appearance.padding.xs * 2
 
     color: Colours.tPalette.m3surfaceContainer
     radius: Appearance.rounding.full
@@ -59,14 +59,14 @@ StyledRect {
         active: Config.bar.workspaces.windowRighClickContext && Niri.wsContextType !== "none"
         asynchronous: true
 
-        anchors.left: parent.left
-        anchors.leftMargin: Appearance.padding.xs
+        anchors.top: parent.top
+        anchors.topMargin: Appearance.padding.xs
 
         z: Niri.wsContextType === "workspaces" ? -10 : 0
 
         sourceComponent: ContextBg {
             groupOffset: root.groupOffset
-            wsOffset: root.y
+            wsOffset: root.x
             anchorWs: Niri.wsContextAnchor
         }
     }
@@ -87,14 +87,14 @@ StyledRect {
     //     }
     // }
 
-    ColumnLayout {
+    RowLayout {
         id: layout
 
         z: 0
 
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.leftMargin: Appearance.padding.xs
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: Appearance.padding.xs
         spacing: Math.floor(Appearance.spacing.sm / 2)
 
         Repeater {
@@ -114,8 +114,8 @@ StyledRect {
 
     Loader {
         z: 1
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         active: Config.bar.workspaces.activeIndicator
         asynchronous: true
 
@@ -131,8 +131,8 @@ StyledRect {
         id: pager
         active: Config.bar.workspaces.pagerActive
 
-        anchors.top: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.right
+        anchors.verticalCenter: parent.verticalCenter
         z: -1
 
         sourceComponent: Pager {

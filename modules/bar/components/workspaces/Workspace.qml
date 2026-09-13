@@ -6,7 +6,7 @@ import qs.config
 import QtQuick
 import QtQuick.Layouts
 
-ColumnLayout {
+RowLayout {
     id: root
 
     required property int index
@@ -18,7 +18,7 @@ ColumnLayout {
     required property Item windowPopoutSignal
 
     readonly property bool isWorkspace: true // Flag for finding workspace children
-    readonly property int size: isWorkspace ? implicitHeight + (hasWindows ? Appearance.padding.xs : 0) : 0
+    readonly property int size: isWorkspace ? implicitWidth + (hasWindows ? Appearance.padding.xs : 0) : 0
     readonly property int ws: groupOffset + index + 1
     readonly property bool isOccupied: occupied[ws] ?? false
     readonly property bool hasWindows: isOccupied && Config.bar.workspaces.showWindows
@@ -35,12 +35,12 @@ ColumnLayout {
         Anim {}
     }
 
-    Behavior on Layout.preferredHeight {
+    Behavior on Layout.preferredWidth {
         Anim {}
     }
 
-    Layout.alignment: Qt.AlignLeft
-    Layout.preferredHeight: size
+    Layout.alignment: Qt.AlignTop
+    Layout.preferredWidth: size
 
     spacing: 0
 
@@ -52,8 +52,8 @@ ColumnLayout {
         id: windows
 
         Layout.alignment: Qt.AlignCenter
-        // Layout.fillHeight: true
-        Layout.topMargin: -Config.bar.sizes.innerWidth / 10
+        // Layout.fillWidth: true
+        Layout.leftMargin: -Config.bar.sizes.innerWidth / 10
 
         visible: active
         active: root.hasWindows

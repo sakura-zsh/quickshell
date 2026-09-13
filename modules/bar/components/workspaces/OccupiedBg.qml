@@ -62,19 +62,19 @@ Item {
             }
 
             anchors {
-                // horizontalCenter: root.horizontalCenter
-                left: root.left
-                right: root.right
-                rightMargin: isContextActiveInWs ? -Config.bar.workspaces.windowContextWidth + Appearance.padding.xs : 0
+                // verticalCenter: root.verticalCenter
+                top: root.top
+                bottom: root.bottom
+                bottomMargin: isContextActiveInWs ? -Config.bar.workspaces.windowContextWidth + Appearance.padding.xs : 0
             }
 
-            topRightRadius: isContextActiveInWs ? Appearance.rounding.normal : radius
+            bottomLeftRadius: isContextActiveInWs ? Appearance.rounding.normal : radius
             bottomRightRadius: isContextActiveInWs ? Appearance.rounding.normal : radius
 
-            y: (start?.y ?? 0)
-            // implicitWidth: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2 + 2
-            implicitHeight: start && end ? end.y + end.size - start.y : 0
-            // implicitHeight: end?.y + end?.height - start?.y
+            x: (start?.x ?? 0)
+            // implicitHeight: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2 + 2
+            implicitWidth: start && end ? end.x + end.size - start.x : 0
+            // implicitWidth: end?.x + end?.width - start?.x
 
             color: Colours.layer(Colours.palette.m3surfaceContainerHigh, 2)
             radius: Appearance.rounding.full
@@ -82,7 +82,7 @@ Item {
             scale: 0
             Component.onCompleted: scale = 1.0
 
-            Behavior on topRightRadius {
+            Behavior on bottomLeftRadius {
                 Anim {
                     easing.bezierCurve: Appearance.anim.curves.emphasized
                 }
@@ -99,7 +99,7 @@ Item {
                 }
             }
 
-            Behavior on anchors.rightMargin {
+            Behavior on anchors.bottomMargin {
                 Anim {
                     duration: Appearance.anim.durations.normal
                     easing.type: Easing.BezierSpline
@@ -107,11 +107,11 @@ Item {
                 }
             }
 
-            Behavior on y {
+            Behavior on x {
                 Anim {}
             }
 
-            Behavior on implicitHeight {
+            Behavior on implicitWidth {
                 Anim {}
             }
         }

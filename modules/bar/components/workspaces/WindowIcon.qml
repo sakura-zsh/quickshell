@@ -38,14 +38,14 @@ Item {
     signal dragUpdate(var iconItem, real mouseY, real mouseX)
     signal dragEnd(var iconItem)
 
-    anchors.left: parent.left
+    anchors.top: parent.top
 
-    implicitWidth: iconLoader.implicitWidth + (popupActive ? Config.bar.workspaces.windowContextWidth : 0)
-    implicitHeight: iconLoader.implicitHeight
+    implicitHeight: iconLoader.implicitHeight + (popupActive ? Config.bar.workspaces.windowContextWidth : 0)
+    implicitWidth: iconLoader.implicitWidth
 
     z: popupActive ? 90 : 0
 
-    Behavior on implicitWidth {
+    Behavior on implicitHeight {
         Anim {
             easing.bezierCurve: Appearance.anim.curves.emphasized
         }
@@ -53,9 +53,9 @@ Item {
 
     Loader {
         id: contextLoader
-        anchors.left: parent.left
-        anchors.leftMargin: iconLoader.implicitWidth + Appearance.padding.xs
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: parent.top
+        anchors.topMargin: iconLoader.implicitHeight + Appearance.padding.xs
+        anchors.horizontalCenter: parent.horizontalCenter
         active: (Niri.wsContextType !== "none" && Config.bar.workspaces.windowRighClickContext)
         sourceComponent: WindowIconContext {
             iconObj: iconItem
@@ -66,9 +66,9 @@ Item {
         id: iconLoader
 
         // anchors.centerIn: parent
-        anchors.left: parent.left
+        anchors.top: parent.top
 
-        // anchors.horizontalCenter: parent.horizontalCenter
+        // anchors.verticalCenter: parent.verticalCenter
         sourceComponent: iconItem.useImageIcon ? imageIconComp : materialIconComp
         property var windowData: iconItem.windowData
         property var windowCount: iconItem.windowCount
@@ -80,8 +80,8 @@ Item {
         StyledRect {
             anchors.centerIn: parent
 
-            implicitHeight: Config.bar.workspaces.windowIconSize + Config.bar.workspaces.windowIconGap
-            implicitWidth: Config.bar.workspaces.windowIconSize
+            implicitWidth: Config.bar.workspaces.windowIconSize + Config.bar.workspaces.windowIconGap
+            implicitHeight: Config.bar.workspaces.windowIconSize
             color: "transparent"
             radius: Appearance.rounding.small / 2
 
@@ -107,8 +107,8 @@ Item {
         StyledRect {
             anchors.centerIn: parent
 
-            implicitHeight: Config.bar.workspaces.windowIconSize + Config.bar.workspaces.windowIconGap
-            implicitWidth: Config.bar.workspaces.windowIconSize
+            implicitWidth: Config.bar.workspaces.windowIconSize + Config.bar.workspaces.windowIconGap
+            implicitHeight: Config.bar.workspaces.windowIconSize
 
             MaterialIcon {
                 anchors.centerIn: parent
@@ -246,7 +246,7 @@ Item {
             if (iconItem.popupActive && Niri.wsContextType === "item")
                 return {
                     right: -Appearance.padding.xl,
-                    bottom: (iconLoader.implicitHeight - badgeLoader.height) / 2 - (!iconItem.isFocused ? Appearance.padding.xs / 2 : Config.bar.workspaces.windowIconGap),
+                    bottom: (iconLoader.implicitWidth - badgeLoader.height) / 2 - (!iconItem.isFocused ? Appearance.padding.xs / 2 : Config.bar.workspaces.windowIconGap),
                     size: Appearance.padding.xl
                 };
             else if (iconItem.isFocused)
