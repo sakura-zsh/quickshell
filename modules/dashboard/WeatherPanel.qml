@@ -11,7 +11,7 @@ Item {
     implicitWidth: Math.max(minWidth, weatherDashboard.implicitWidth + Appearance.padding.xl * 2)
     implicitHeight: weatherDashboard.implicitHeight + Appearance.padding.xl * 2
 
-    readonly property int minWidth: 640
+    readonly property int minWidth: 1080
     readonly property var today: Weather.forecast && Weather.forecast.length > 0 ? Weather.forecast[0] : null
 
     Component.onCompleted: Weather.reload()
@@ -20,6 +20,7 @@ Item {
         id: weatherDashboard
 
         anchors.centerIn: parent
+        width: root.implicitWidth - Appearance.padding.xl * 2
         spacing: Appearance.spacing.lg
 
         // ── Header: city / date / sunrise & sunset ──
@@ -170,10 +171,22 @@ Item {
             color: Colours.palette.m3surfaceContainer
 
             Flickable {
+                id: hourlyFlick
+
                 anchors.fill: parent
                 contentWidth: hourlyRow.implicitWidth + Appearance.padding.md * 2
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
+                // Wheel-only: dragging here conflicts with the dashboard close gesture
+                interactive: false
+
+                WheelHandler {
+                    onWheel: event => {
+                        const delta = event.angleDelta.y || event.angleDelta.x;
+                        hourlyFlick.contentX = Math.max(0, Math.min(hourlyFlick.contentWidth - hourlyFlick.width, hourlyFlick.contentX - delta));
+                        event.accepted = true;
+                    }
+                }
 
                 Row {
                     id: hourlyRow
@@ -263,10 +276,21 @@ Item {
             color: Colours.palette.m3surfaceContainer
 
             Flickable {
+                id: forecastFlick
+
                 anchors.fill: parent
                 contentWidth: forecastRow.implicitWidth + Appearance.padding.md * 2
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
+                interactive: false
+
+                WheelHandler {
+                    onWheel: event => {
+                        const delta = event.angleDelta.y || event.angleDelta.x;
+                        forecastFlick.contentX = Math.max(0, Math.min(forecastFlick.contentWidth - forecastFlick.width, forecastFlick.contentX - delta));
+                        event.accepted = true;
+                    }
+                }
 
                 Row {
                     id: forecastRow
