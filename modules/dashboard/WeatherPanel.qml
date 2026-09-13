@@ -1,4 +1,5 @@
 import qs.components
+import qs.components.controls
 import qs.services
 import qs.config
 import qs.utils
@@ -192,16 +193,6 @@ Item {
                 // Wheel-only: dragging here conflicts with the dashboard close gesture
                 interactive: false
 
-                MouseArea {
-                    acceptedButtons: Qt.NoButton
-
-                    onWheel: event => {
-                        const delta = event.angleDelta.y || event.angleDelta.x;
-                        hourlyFlick.contentX = Math.max(0, Math.min(hourlyFlick.contentWidth - hourlyFlick.width, hourlyFlick.contentX - delta));
-                        event.accepted = true;
-                    }
-                }
-
                 Row {
                     id: hourlyRow
 
@@ -273,6 +264,17 @@ Item {
                     }
                 }
             }
+
+            // Wheel scroll, Calendar-style stepped scrolling. Drag stays with
+            // the dashboard's tab/close gestures on purpose.
+            CustomMouseArea {
+                anchors.fill: parent
+
+                function onWheel(event: WheelEvent): void {
+                    const delta = (event.angleDelta.y || event.angleDelta.x) * 2;
+                    hourlyFlick.contentX = Math.max(0, Math.min(hourlyFlick.contentWidth - hourlyFlick.width, hourlyFlick.contentX - delta));
+                }
+            }
         }
 
         // ── 16-day forecast, scrollable ──
@@ -297,16 +299,6 @@ Item {
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
                 interactive: false
-
-                MouseArea {
-                    acceptedButtons: Qt.NoButton
-
-                    onWheel: event => {
-                        const delta = event.angleDelta.y || event.angleDelta.x;
-                        forecastFlick.contentX = Math.max(0, Math.min(forecastFlick.contentWidth - forecastFlick.width, forecastFlick.contentX - delta));
-                        event.accepted = true;
-                    }
-                }
 
                 Row {
                     id: forecastRow
@@ -404,6 +396,15 @@ Item {
                             }
                         }
                     }
+                }
+            }
+
+            CustomMouseArea {
+                anchors.fill: parent
+
+                function onWheel(event: WheelEvent): void {
+                    const delta = (event.angleDelta.y || event.angleDelta.x) * 2;
+                    forecastFlick.contentX = Math.max(0, Math.min(forecastFlick.contentWidth - forecastFlick.width, forecastFlick.contentX - delta));
                 }
             }
         }
