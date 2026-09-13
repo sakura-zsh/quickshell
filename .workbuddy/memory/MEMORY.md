@@ -19,6 +19,7 @@
 - 运行中新增 service 单例文件：必须 `import Quickshell`（否则根类型 Singleton 解析失败），且避免 `Component.onCompleted`（Component 附加对象在热重载降级上下文不可用）——冷启动无此限制。
 - 触发重载：修改 shell.qml 内容（touch 有时不触发）；看日志：`quickshell log -t N`。
 - **大改动后不要依赖热重载**：多次 reload 会让实例进入"配置加载成功但组件不实例化"甚至进程崩溃的状态。改完直接重启：`pkill -x quickshell; setsid quickshell -c /home/sakura/.config/quickshell > /tmp/qs.log 2>&1 &`。判断实例是否存活用 `pgrep -x quickshell`（无输出=已崩溃，不是代码问题）。
+- **重启 quickshell 禁止用 WorkBuddy 内嵌终端直接 setsid**：会把 ELECTRON_RUN_AS_NODE=1 等 WorkBuddy 环境变量带进 quickshell，dock/启动器经 execDetached 继承该环境，导致 Cider 等 Electron 应用被以纯 Node 模式拉起、静默失败（2026-09-13 实际发生）。正确方式：niri msg action spawn -- quickshell -c ~/.config/quickshell（继承 niri 干净环境），或 env -u ELECTRON_RUN_AS_NODE setsid ...
 - 截图验证 bar 前需确认**没有全屏窗口**（niri 全屏窗口会遮挡 layer-shell top 层）；无鼠标模拟工具时可用 `quickshell ipc call drawers toggle dashboard` / `quicktoggles open` 验证面板定位。
 - 系统自带 `/usr/bin/qmllint` 是 Qt5 旧版；用 `/usr/lib/qt6/bin/qmllint` 做语法检查。
 - Flickable 内的 ColumnLayout 不要用 `anchors.left/right: parent` 拿宽度（contentItem 宽度不可靠），用 `width: <flickable id>.width` 显式绑定。
