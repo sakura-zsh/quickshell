@@ -4,6 +4,7 @@
 
 - Caelestia shell（niri compositor）。服务层 `services/`（qs.services 单例），组件库 `components/`（qs.components，含 controls/containers/effects），控制中心 `modules/controlcenter/`，面板注册在 `PaneRegistry.qml`，面板通过 Loader 按路径懒加载。
 - **bar 为顶部横向布局**（2026-09-13 由竖向左侧重构而来）。`modules/bar/BarWrapper.qml` 是容器（`implicitHeight`/`anchors.bottom`/`contentHeight`），`Bar.qml` 根为 `RowLayout`，`hPadding` 为首尾内边距；bar 的**厚度**复用 `Config.bar.sizes.innerWidth`（不新增字段以免配置迁移）。drawers 中所有定位以 `bar.implicitHeight` 为垂直偏移、`Config.border.thickness` 为水平偏移。workspaces/context 右键菜单尚未横向化（遗留）。
+- popouts 弹出语义已横向化：Wrapper 挂在 bar 下方，宽度不参与动画、高度收合（implicitHeight: open ? H : 0）；Background.qml 融合形状顶部直角、底部圆角。勿恢复旧 x>0||hasCurrent 宽度条件（关闭不收敛→白背景残留）。
 - 抽屉系统：`modules/drawers/Drawers.qml` 定义全屏 StyledWindow（mask + regions + Interactions{Panels, BarWrapper}），`Exclusions/Border/Backgrounds/Panels/Interactions` 都依赖 `bar.implicitHeight` 定位。
 - niri IPC：`plugin/src/Caelestia/Internal/niriipc.cpp` 原生 socket（NiriIpc 单例，outputs/workspaces/windows 实时事件）；`services/NiriService`-ish 封装在 `Niri.qml`；外部命令走 `Quickshell.Io` Process（如 DisplayService.qml）。
 - niri 26.04：`niri msg output <name> {on|off|mode|scale|transform|position|vrr}`；outputs JSON 的 scale/transform/position 在 `logical` 对象内；mode 字符串 `WxH@R.fff`，refresh_rate 单位 mHz。
