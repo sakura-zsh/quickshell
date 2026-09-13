@@ -13,7 +13,8 @@ Item {
 
     required property ShellScreen screen
 
-    readonly property real nonAnimWidth: x > 0 || hasCurrent ? children.find(c => c.shouldBeActive)?.implicitWidth ?? content.implicitWidth : 0
+    readonly property bool open: hasCurrent || isDetached
+    readonly property real nonAnimWidth: children.find(c => c.shouldBeActive)?.implicitWidth ?? content.implicitWidth
     readonly property real nonAnimHeight: children.find(c => c.shouldBeActive)?.implicitHeight ?? content.implicitHeight
 
     property string currentName
@@ -49,7 +50,7 @@ Item {
     clip: true
 
     implicitWidth: nonAnimWidth
-    implicitHeight: nonAnimHeight
+    implicitHeight: open ? nonAnimHeight : 0
 
     focus: hasCurrent
     Keys.onEscapePressed: {
@@ -86,8 +87,8 @@ Item {
 
         shouldBeActive: root.hasCurrent && !root.detachedMode
         asynchronous: true
-        anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
 
         sourceComponent: Content {
             wrapper: root
@@ -133,16 +134,10 @@ Item {
         y: root.animY - root.y
     }
 
-    Behavior on implicitWidth {
-        Anim {
-            duration: root.animLength
-            easing.bezierCurve: root.animCurve
-        }
-    }
-
+    // Dropdown from the top bar: only the height animates (retracts upward
+    // into the bar); the width is set directly so the box keeps its final
+    // horizontal position while opening/closing.
     Behavior on implicitHeight {
-        enabled: root.implicitWidth > 0
-
         Anim {
             duration: root.animLength
             easing.bezierCurve: root.animCurve

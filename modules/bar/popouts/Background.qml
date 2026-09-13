@@ -4,6 +4,10 @@ import qs.config
 import QtQuick
 import QtQuick.Shapes
 
+// Fused background for a popout attached to the *bottom* of the top bar.
+// The top edge is square so it merges seamlessly with the bar above it;
+// only the bottom corners are rounded (unless the popout reaches the
+// bottom screen edge, in which case they flatten too).
 ShapePath {
     id: root
 
@@ -14,49 +18,48 @@ ShapePath {
     readonly property real roundingX: flatten ? wrapper.width / 2 : rounding
     property real ibr: invertBottomRounding ? -1 : 1
 
-    property real sideRounding: startX > 0 ? -1 : 1
+    // Kept for API compatibility with the callers; the attached edge is
+    // always the top one in the horizontal layout.
+    readonly property real sideRounding: 1
 
     strokeWidth: -1
     fillColor: Colours.palette.m3surface
 
-    PathArc {
-        relativeX: root.roundingX
-        relativeY: root.rounding * root.sideRounding
-        radiusX: Math.min(root.rounding, root.wrapper.width)
-        radiusY: root.rounding
-        direction: root.sideRounding < 0 ? PathArc.Clockwise : PathArc.Counterclockwise
-    }
+    // Top edge — square, runs along the bottom of the bar
     PathLine {
-        relativeX: root.wrapper.width - root.roundingX * 2
+        relativeX: root.wrapper.width
         relativeY: 0
     }
-    PathArc {
-        relativeX: root.roundingX
-        relativeY: root.rounding
-        radiusX: Math.min(root.rounding, root.wrapper.width)
-        radiusY: root.rounding
-    }
+    // Right edge down to the bottom-right corner
     PathLine {
         relativeX: 0
-        relativeY: root.wrapper.height - root.rounding * 2
+        relativeY: root.wrapper.height - root.rounding
     }
-    PathArc {
-        relativeX: -root.roundingX * root.ibr
-        relativeY: root.rounding
-        radiusX: Math.min(root.rounding, root.wrapper.width)
-        radiusY: root.rounding
-        direction: root.ibr < 0 ? PathArc.Counterclockwise : PathArc.Clockwise
-    }
-    PathLine {
-        relativeX: -(root.wrapper.width - root.roundingX - root.roundingX * root.ibr)
-        relativeY: 0
-    }
+    // Bottom-right corner
     PathArc {
         relativeX: -root.roundingX
-        relativeY: root.rounding * root.sideRounding
+        relativeY: root.rounding * root.ibr
         radiusX: Math.min(root.rounding, root.wrapper.width)
         radiusY: root.rounding
-        direction: root.sideRounding < 0 ? PathArc.Clockwise : PathArc.Counterclockwise
+        direction: root.ibr > 0 ? PathArc.Clockwise : PathArc.Counterclockwise
+    }
+    // Bottom edge
+    PathLine {
+        relativeX: -(root.wrapper.width - root.roundingX * 2)
+        relativeY: 0
+    }
+    // Bottom-left corner
+    PathArc {
+        relativeX: -root.roundingX
+        relativeY: -root.rounding * root.ibr
+        radiusX: Math.min(root.rounding, root.wrapper.width)
+        radiusY: root.rounding
+        direction: root.ibr > 0 ? PathArc.Clockwise : PathArc.Counterclockwise
+    }
+    // Left edge back up to the start
+    PathLine {
+        relativeX: 0
+        relativeY: -(root.wrapper.height - root.rounding * 2)
     }
 
     Behavior on fillColor {
@@ -64,10 +67,6 @@ ShapePath {
     }
 
     Behavior on ibr {
-        Anim {}
-    }
-
-    Behavior on sideRounding {
         Anim {}
     }
 }
