@@ -31,6 +31,8 @@ Variants {
             screen: scope.modelData
             name: "drawers"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
+            // Raise above the dock (separate Top-layer window) while the launcher is open
+            WlrLayershell.layer: visibilities.launcher ? WlrLayer.Overlay : WlrLayer.Top
             WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.session || visibilities.keybinds || visibilities.editingWeatherLocation || visibilities.dashboard || visibilities.manga || visibilities.novel || panels.popouts.isDetached ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
             mask: Region {
