@@ -204,6 +204,15 @@ Singleton {
         return NiriIpc.action("focus-workspace-" + direction, []);
     }
 
+    // Remove leading non-ASCII (favicon/emoji) characters — Firefox fix.
+    // Mirrors modules/dashboard/ActiveWindow.qml; used by workspace context menus.
+    function cleanWindowTitle(windowClass, windowTitle) {
+        if (windowClass && windowClass.toLowerCase() === "firefox" && windowTitle) {
+            return windowTitle.replace(/^[^\x20-\x7E]+/, "");
+        }
+        return windowTitle;
+    }
+
     function switchToWorkspaceByIndex(index) {
         if (!niriAvailable || index < 0 || index >= allWorkspaces.length) return false;
         return switchToWorkspace(allWorkspaces[index].idx);

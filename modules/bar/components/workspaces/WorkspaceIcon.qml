@@ -15,9 +15,9 @@ Item {
     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
     Layout.preferredWidth: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2
 
-    implicitHeight: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2
-    implicitWidth: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2 + (popupActive ? Config.bar.workspaces.windowContextWidth : 0)
-    Behavior on implicitWidth {
+    implicitWidth: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2
+    implicitHeight: Config.bar.sizes.innerWidth - Appearance.padding.xs * 2 + (popupActive ? Config.bar.workspaces.windowContextWidth : 0)
+    Behavior on implicitHeight {
         Anim {
             easing.bezierCurve: Appearance.anim.curves.emphasized
         }
@@ -25,10 +25,10 @@ Item {
 
     z: popupActive ? 90 : 0
 
-    RowLayout {
+    ColumnLayout {
         id: content
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
         spacing: Appearance.padding.xs
 
         Item {

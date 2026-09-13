@@ -14,7 +14,7 @@ Rectangle {
     readonly property int contextWidth: Config.bar.workspaces.windowContextWidth
     readonly property int baseRadius: Appearance.rounding.normal
     readonly property int hPadding: Appearance.padding.xs
-    readonly property int textWidth: mouseArea.containsMouse ? contextWidth - hPadding * 2 - windowDecs.implicitWidth : contextWidth
+    readonly property int textWidth: root.itemH - hPadding * 2
 
     required property bool onPrimary
     required property bool isFocused
@@ -28,71 +28,69 @@ Rectangle {
 
     color: "transparent"
 
-    anchors.left: parent.left
+    anchors.top: parent.top
 
     required property string displayTitle
     required property string displaySubtitle
 
     clip: true
 
-    implicitWidth: root.popupActive && Niri.wsContextAnchor && root.activated ? root.contextWidth + root.hPadding : 0
-    // implicitHeight: root.activated && root.popupActive && Niri.wsContextAnchor ? root.itemH : 0
-    implicitHeight: root.itemH
+    // Vertical extension hanging below the window icon in the horizontal bar:
+    // fixed thickness (= icon width), length grows downward when active.
+    implicitWidth: root.itemH
+    implicitHeight: root.popupActive && Niri.wsContextAnchor && root.activated ? root.contextWidth + root.hPadding : 0
 
-    Behavior on implicitWidth {
+    Behavior on implicitHeight {
         Anim {
             duration: Appearance.anim.durations.large
             easing.bezierCurve: Appearance.anim.curves.emphasized
         }
     }
 
-    RowLayout {
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
+    ColumnLayout {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
 
-        ColumnLayout {
-            spacing: 0
-            Layout.alignment: Qt.AlignVCenter
-            AnimatedText {
-                Layout.leftMargin: 0
-                text: root.displayTitle
-                font.pointSize: Appearance.font.size.labelMedium
-                font.italic: root.isFocused
-                color: root.onPrimary ? Colours.palette.m3onPrimary : Colours.palette.m3onSurfaceVariant
+        AnimatedText {
+            Layout.topMargin: 0
+            text: root.displayTitle
+            font.pointSize: Appearance.font.size.labelMedium
+            font.italic: root.isFocused
+            color: root.onPrimary ? Colours.palette.m3onPrimary : Colours.palette.m3onSurfaceVariant
+        }
+
+        Rectangle {
+            implicitWidth: classText.width + Appearance.padding.xs * 2
+            implicitHeight: classText.height
+            color: root.onPrimary ? Colours.palette.m3tertiary : "transparent"
+
+            radius: root.baseRadius / 2
+
+            Behavior on color {
+                CAnim {}
             }
 
-            Rectangle {
-                implicitWidth: classText.width + Appearance.padding.xs * 2
-                implicitHeight: classText.height
-                color: root.onPrimary ? Colours.palette.m3tertiary : "transparent"
+            AnimatedText {
+                id: classText
 
-                radius: root.baseRadius / 2
+                anchors.centerIn: parent
 
-                Behavior on color {
-                    CAnim {}
-                }
-
-                AnimatedText {
-                    id: classText
-
-                    anchors.centerIn: parent
-
-                    text: root.displaySubtitle
-                    font.pointSize: Appearance.font.size.labelSmall
-                    font.family: Appearance.font.family.mono
-                    font.bold: root.isFocused
-                    color: root.onPrimary ? Colours.palette.m3onTertiary : Colours.palette.m3tertiaryContainer
-                }
+                text: root.displaySubtitle
+                font.pointSize: Appearance.font.size.labelSmall
+                font.family: Appearance.font.family.mono
+                font.bold: root.isFocused
+                color: root.onPrimary ? Colours.palette.m3onTertiary : Colours.palette.m3tertiaryContainer
             }
         }
 
         Rectangle {
             id: windowDecs
-            Layout.alignment: Qt.AlignVCenter
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: Appearance.padding.xs
             color: "transparent"
 
             implicitWidth: decs.implicitWidth + root.hPadding
-            implicitHeight: root.itemH
+            implicitHeight: decs.implicitHeight + root.hPadding
             radius: Appearance.rounding.small
 
             WindowDecorations {
@@ -112,16 +110,16 @@ Rectangle {
 
     StateLayer {
         id: mouseArea
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
 
         propagateComposedEvents: true
         hoverEnabled: true
 
         cursorShape: Qt.ArrowCursor
 
-        width: windowDecs.implicitWidth + root.hPadding * 2
-        height: parent.height
+        width: parent.width
+        height: windowDecs.implicitHeight + root.hPadding * 2
     }
 
     // Local reusable StyledText with common props
@@ -129,12 +127,7 @@ Rectangle {
         Layout.preferredWidth: root.textWidth
         animate: true
         elide: Text.ElideRight
-
-        Behavior on Layout.preferredWidth {
-            Anim {
-                easing.bezierCurve: Appearance.anim.curves.emphasized
-            }
-        }
+        horizontalAlignment: Text.AlignHCenter
 
         Behavior on color {
             CAnim {

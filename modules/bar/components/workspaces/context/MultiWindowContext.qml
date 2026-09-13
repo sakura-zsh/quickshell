@@ -40,9 +40,9 @@ Rectangle {
 
     clip: true
 
-    anchors.left: parent.left
-    anchors.leftMargin: root.sideMargin
-    anchors.verticalCenter: parent.verticalCenter
+    anchors.top: parent.top
+    anchors.topMargin: root.sideMargin
+    anchors.horizontalCenter: parent.horizontalCenter
 
     Behavior on implicitWidth {
         Anim {
@@ -54,7 +54,7 @@ Rectangle {
             easing.bezierCurve: Appearance.anim.curves.emphasized
         }
     }
-    Behavior on anchors.leftMargin {
+    Behavior on anchors.topMargin {
         Anim {
             easing.bezierCurve: Appearance.anim.curves.emphasized
         }
@@ -79,7 +79,7 @@ Rectangle {
         readonly property bool itemIsFocused: Number(Niri.focusedWindowId) === Number(modelData.id)
         readonly property bool onPrimary: root.fokus.workspace
 
-        readonly property string displayTitle: Niri.cleanWindowTitle(modelData.title || "Untitled")
+        readonly property string displayTitle: Niri.cleanWindowTitle(modelData.app_id, modelData.title || "Untitled")
         readonly property string displaySubtitle: (modelData.app_id || "Untitled")
 
         color: itemIsFocused ? Colours.palette.m3primary : Colours.palette.m3surfaceContainerHighest

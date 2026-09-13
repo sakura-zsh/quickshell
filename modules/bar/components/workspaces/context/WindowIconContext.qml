@@ -24,7 +24,7 @@ Item {
     readonly property var mainWindow: root.iconObj.windowData
     readonly property bool multiWindow: windowCount > 1 && !isWorkspace
 
-    readonly property int itemH: iconObj.height
+    readonly property int itemH: iconObj.width
 
     property bool activated: false
     Component.onCompleted: activated = true
@@ -55,7 +55,7 @@ Item {
 
             mainWindow: root.mainWindow
 
-            displayTitle: Niri.cleanWindowTitle(root.mainWindow.title || "Untitled")
+            displayTitle: Niri.cleanWindowTitle(root.mainWindow.app_id, root.mainWindow.title || "Untitled")
             displaySubtitle: (root.mainWindow.app_id || "Untitled")  /* + (root.windowCount > 1 ? " (" + root.windowCount + " windows)" : "") */
 
             // activated: root.activated
@@ -77,8 +77,8 @@ Item {
     Loader {
         id: contextLoader
 
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
         active: root.popupActive && root.activated
         // active: root.activated && !(Niri.wsContextType === "none") && root.popupActive
 
