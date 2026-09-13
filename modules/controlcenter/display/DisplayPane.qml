@@ -84,8 +84,7 @@ Item {
             ColumnLayout {
                 id: layout
 
-                anchors.left: parent.left
-                anchors.right: parent.right
+                width: flick.width
                 anchors.top: parent.top
                 spacing: Appearance.spacing.sm
 
