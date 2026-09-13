@@ -26,12 +26,9 @@ PanelWindow {
     // so "active player" alone is not enough for auto-hide.
     readonly property bool hasMedia: !!Players.active && !!Players.active.trackTitle
 
-    // Left offset: just right of the status bar +10px so the desktop/taskbar
-    // rounded corners are not overlapped. Derived from config, no window refs.
-    readonly property int leftMargin: {
-        const barWidth = Config.bar.sizes.innerWidth + 2 * Math.max(Appearance.padding.sm, Config.border.thickness);
-        return barWidth + (Config.dock.visualiser.leftMargin ?? 10);
-    }
+    // Left offset: flush against the screen edge. The top bar no longer
+    // reserves any left-side space; config value is the only offset.
+    readonly property int leftMargin: Config.dock.visualiser.leftMargin ?? 0
 
     // Length: about half the status-bar→dock span. The right edge is free
     // (no longer touching the dock), so a screen-relative width is enough.

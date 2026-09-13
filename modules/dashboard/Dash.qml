@@ -34,7 +34,9 @@ GridLayout {
         Layout.preferredWidth: Config.dashboard.sizes.weatherWidth
         Layout.fillHeight: true
 
-        Weather {}
+        Weather {
+            state: root.state
+        }
     }
 
     Rect {

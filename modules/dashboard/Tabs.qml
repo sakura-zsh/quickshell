@@ -44,6 +44,11 @@ Item {
             iconName: "speed"
             text: qsTr("系统")
         }
+
+        Tab {
+            iconName: "wb_sunny"
+            text: qsTr("天气")
+        }
     }
 
     Item {

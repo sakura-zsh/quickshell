@@ -13,6 +13,7 @@ Singleton {
     property string loc
     property var cc
     property var forecast
+    property var hourly: []
     property string error: ""
     property string _cachedLoc: ""
     property string _cachedCity: ""
@@ -127,6 +128,13 @@ Singleton {
         fetchWeatherData()
     }
 
+    readonly property int windDirection: cc?.windDirection ?? 0
+
+    readonly property string windDirName: {
+        const dirs = [qsTr("北"), qsTr("东北"), qsTr("东"), qsTr("东南"), qsTr("南"), qsTr("西南"), qsTr("西"), qsTr("西北")];
+        return dirs[Math.round(((windDirection % 360) + 360) % 360 / 45) % 8];
+    }
+
     function fetchWeatherData() {
         let url = getWeatherUrl();
         if (url === "") return;
@@ -146,6 +154,8 @@ Singleton {
                     "FeelsLikeF": Math.round(json.current.apparent_temperature * 9/5 + 32),
                     "humidity": json.current.relative_humidity_2m,
                     "windSpeed": json.current.wind_speed_10m,
+                    "windDirection": json.current.wind_direction_10m ?? 0,
+                    "precipitation": json.current.precipitation ?? 0,
                     "isDay": json.current.is_day,
                     "sunrise": json.daily.sunrise[0].split("T")[1],
                     "sunset": json.daily.sunset[0].split("T")[1]
@@ -160,10 +170,39 @@ Singleton {
                         "minTempC": Math.round(json.daily.temperature_2m_min[i]),
                         "minTempF": Math.round(json.daily.temperature_2m_min[i] * 9/5 + 32),
                         "weatherCode": String(json.daily.weather_code[i]),
-                        "icon": Icons.getWeatherIcon(String(json.daily.weather_code[i]))
+                        "icon": Icons.getWeatherIcon(String(json.daily.weather_code[i])),
+                        "precipProb": json.daily.precipitation_probability_max?.[i] ?? 0,
+                        "precipSum": json.daily.precipitation_sum?.[i] ?? 0,
+                        "windMax": Math.round(json.daily.wind_speed_10m_max?.[i] ?? 0),
+                        "windDir": json.daily.wind_direction_10m_dominant?.[i] ?? 0
                     });
                 }
                 forecast = forecastList;
+
+                // Hourly series starting from the current hour, next 48h
+                let hourlyList = [];
+                if (json.hourly && json.hourly.time) {
+                    const now = new Date();
+                    const nowMs = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()).getTime();
+                    let start = 0;
+                    while (start < json.hourly.time.length && new Date(json.hourly.time[start]).getTime() < nowMs)
+                        start++;
+                    for (let i = start; i < json.hourly.time.length && i < start + 48; i++) {
+                        const t = new Date(json.hourly.time[i]);
+                        hourlyList.push({
+                            "hour": String(t.getHours()).padStart(2, "0") + ":00",
+                            "tempC": Math.round(json.hourly.temperature_2m[i]),
+                            "tempF": Math.round(json.hourly.temperature_2m[i] * 9/5 + 32),
+                            "icon": Icons.getWeatherIcon(String(json.hourly.weather_code[i])),
+                            "precipProb": json.hourly.precipitation_probability?.[i] ?? 0,
+                            "precip": json.hourly.precipitation?.[i] ?? 0,
+                            "humidity": json.hourly.relative_humidity_2m?.[i] ?? 0,
+                            "windSpeed": Math.round(json.hourly.wind_speed_10m?.[i] ?? 0),
+                            "windDir": json.hourly.wind_direction_10m?.[i] ?? 0
+                        });
+                    }
+                }
+                hourly = hourlyList;
             } catch (e) {
                 console.warn("Weather: Failed to parse weather data:", e);
                 error = qsTr("天气数据不可用");
@@ -185,10 +224,11 @@ Singleton {
         const params = [
             "latitude=" + lat,
             "longitude=" + lon,
-            "daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset",
-            "current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m",
+            "daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant",
+            "hourly=temperature_2m,weather_code,precipitation_probability,precipitation,relative_humidity_2m,wind_speed_10m,wind_direction_10m",
+            "current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m,wind_direction_10m,precipitation",
             "timezone=auto",
-            "forecast_days=7"
+            "forecast_days=16"
         ];
 
         return baseUrl + "?" + params.join("&");

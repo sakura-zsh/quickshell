@@ -129,7 +129,10 @@ Switch {
             }
 
             Behavior on x {
-                Anim {}
+                Anim {
+                    duration: Appearance.anim.durations.expressiveFastSpatial
+                    easing.bezierCurve: Appearance.anim.curves.expressiveFastSpatial
+                }
             }
 
             Behavior on implicitWidth {

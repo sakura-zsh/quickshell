@@ -2,10 +2,13 @@ import qs.components
 import qs.services
 import qs.config
 import qs.utils
+import Quickshell
 import QtQuick
 
 Item {
     id: root
+
+    required property PersistentProperties state
 
     anchors.centerIn: parent
 
@@ -93,6 +96,12 @@ Item {
                 elide: Text.ElideRight
                 width: Math.min(implicitWidth, root.parent ? root.parent.width - icon.implicitWidth - content.spacing - Appearance.padding.xl * 2 : implicitWidth)
             }
+        }
+    }
+
+    StateLayer {
+        function onClicked(): void {
+            root.state.currentTab = 3; // weather tab
         }
     }
 }

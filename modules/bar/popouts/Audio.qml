@@ -92,17 +92,15 @@ Item {
                     Audio.decrementVolume();
             }
 
-            StyledSlider {
+            WaveSlider {
                 anchors.left: parent.left
                 anchors.right: parent.right
-                implicitHeight: parent.implicitHeight
+                anchors.verticalCenter: parent.verticalCenter
 
-                value: Audio.volume
-                onMoved: Audio.setVolume(value)
+                progress: Audio.volume
+                waveColor: Colours.palette.m3primary
 
-                Behavior on value {
-                    Anim {}
-                }
+                onSeekRequested: position => Audio.setVolume(position)
             }
         }
 
