@@ -68,12 +68,24 @@ Item {
             }
         }
 
-        // ── Current conditions ──
-        StyledRect {
+        // ── Current conditions (animated sky backdrop) ──
+        StyledClippingRect {
             Layout.fillWidth: true
             Layout.preferredHeight: 160
             radius: Appearance.rounding.normal
             color: Colours.palette.m3surfaceContainer
+
+            WeatherBackground {
+                anchors.fill: parent
+                weatherCode: Weather.cc ? Number(Weather.cc.weatherCode) : -1
+                iconName: Weather.icon
+                windSpeedMs: (Weather.windSpeed ?? 0) / 3.6
+                night: Weather.cc ? !(Weather.cc.isDay) : false
+                rainBounceY: height
+                scrollProgress: 0
+                animate: Weather.error === ""
+                fullCardParticleBounds: true
+            }
 
             Row {
                 anchors.centerIn: parent
