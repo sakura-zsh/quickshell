@@ -56,16 +56,18 @@ CustomMouseArea {
         return x > Config.border.thickness + panel.x && withinPanelHeight(panel, x, y);
     }
 
-    // Dashboard hover trigger: the bar strip itself only, so moving the
-    // cursor horizontally in the area *below* the bar (window title bars,
-    // desktop) no longer opens the dashboard by accident.
+    // Dashboard summon zone: a thin hot strip along the very top screen edge
+    // (the bar's upper boundary). Pushing the cursor to the screen edge is far
+    // less prone to accidental triggering than the whole bar strip.
     function inDashboardTrigger(panel: Item, x: real, y: real): bool {
-        return y < bar.implicitHeight && withinPanelWidth(panel, x, y);
+        return y < Math.max(6, Config.dashboard.hoverTriggerHeight) && withinPanelWidth(panel, x, y);
     }
 
-    // While the dashboard is open, hovering inside its panel keeps it open.
+    // Retention zone: while the dashboard is open, any position within its
+    // horizontal span above the panel's bottom edge keeps it open, so the
+    // cursor can travel from the top summon strip down into the panel.
     function inDashboardOpenArea(panel: Item, x: real, y: real): bool {
-        return withinPanelWidth(panel, x, y) && withinPanelHeight(panel, x, y);
+        return y < bar.implicitHeight + panel.y + panel.height && withinPanelWidth(panel, x, y);
     }
 
     function inBottomPanel(panel: Item, x: real, y: real): bool {

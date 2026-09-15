@@ -7,6 +7,9 @@ JsonObject {
     property int mediaUpdateInterval: 500
     property int resourceUpdateInterval: 1000
     property int dragThreshold: 50
+    // Height (px) of the summon strip along the very top screen edge used to
+    // open the dashboard on hover. Keep it small to avoid accidental triggers.
+    property int hoverTriggerHeight: 12
     property int updateInterval: 1000
     property Sizes sizes: Sizes {}
     property Performance performance: Performance {}
