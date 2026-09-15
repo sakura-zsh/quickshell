@@ -56,8 +56,16 @@ CustomMouseArea {
         return x > Config.border.thickness + panel.x && withinPanelHeight(panel, x, y);
     }
 
-    function inTopPanel(panel: Item, x: real, y: real): bool {
-        return y < bar.implicitHeight + panel.y + panel.height && withinPanelWidth(panel, x, y);
+    // Dashboard hover trigger: the bar strip itself only, so moving the
+    // cursor horizontally in the area *below* the bar (window title bars,
+    // desktop) no longer opens the dashboard by accident.
+    function inDashboardTrigger(panel: Item, x: real, y: real): bool {
+        return y < bar.implicitHeight && withinPanelWidth(panel, x, y);
+    }
+
+    // While the dashboard is open, hovering inside its panel keeps it open.
+    function inDashboardOpenArea(panel: Item, x: real, y: real): bool {
+        return withinPanelWidth(panel, x, y) && withinPanelHeight(panel, x, y);
     }
 
     function inBottomPanel(panel: Item, x: real, y: real): bool {
@@ -162,8 +170,9 @@ CustomMouseArea {
                 visibilities.launcher = false;
         }
 
-        // Show dashboard on hover
-        const showDashboard = Config.dashboard.showOnHover && inTopPanel(panels.dashboard, x, y);
+        // Show dashboard on hover: trigger from the bar strip only, and keep
+        // it open while the cursor is inside the opened dashboard panel.
+        const showDashboard = Config.dashboard.showOnHover && (inDashboardTrigger(panels.dashboard, x, y) || (visibilities.dashboard && inDashboardOpenArea(panels.dashboard, x, y)));
 
         // Always update visibility based on hover if not in shortcut mode
         if (!isShortcutActive("dashboard")) {
@@ -174,7 +183,7 @@ CustomMouseArea {
         }
 
         // Show/hide dashboard on drag (for touchscreen devices)
-        if (pressed && inTopPanel(panels.dashboard, dragStart.x, dragStart.y) && withinPanelWidth(panels.dashboard, x, y)) {
+        if (pressed && inDashboardTrigger(panels.dashboard, dragStart.x, dragStart.y) && withinPanelWidth(panels.dashboard, x, y)) {
             const dragY = y - dragStart.y;
             if (dragY > Config.dashboard.dragThreshold)
                 visibilities.dashboard = true;
@@ -222,7 +231,7 @@ CustomMouseArea {
         function onDashboardChanged() {
             if (root.visibilities.dashboard) {
                 // Dashboard became visible, check if this should be shortcut mode
-                const inDashboardArea = root.inTopPanel(root.panels.dashboard, root.mouseX, root.mouseY);
+                const inDashboardArea = root.inDashboardTrigger(root.panels.dashboard, root.mouseX, root.mouseY) || root.inDashboardOpenArea(root.panels.dashboard, root.mouseX, root.mouseY);
                 if (!inDashboardArea) {
                     root.setShortcutPanel("dashboard");
                 }
