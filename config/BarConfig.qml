@@ -96,6 +96,10 @@ JsonObject {
     component ActiveWindow: JsonObject {
         property bool compact: false
         property bool inverted: false
+        // Upper bound (px) for the title width; 0 = fill all free space.
+        // Keeps a long window title from squeezing the bar spacers (and thus
+        // from pushing a centred clock off-centre).
+        property int maxWidth: 0
     }
 
     component Tray: JsonObject {

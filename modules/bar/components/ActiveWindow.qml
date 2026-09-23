@@ -44,7 +44,9 @@ Item {
         const otherModules = bar.children.filter(c => c.id && c.item !== this && c.id !== "spacer");
         const otherWidth = otherModules.reduce((acc, curr) => acc + curr.width, 0);
         // Length - 2 cause repeater counts as a child
-        return bar.width - otherWidth - bar.spacing * (bar.children.length - 1) - bar.hPadding * 2;
+        const available = bar.width - otherWidth - bar.spacing * (bar.children.length - 1) - bar.hPadding * 2;
+        const cap = Config.bar.activeWindow.maxWidth;
+        return cap > 0 ? Math.min(available, cap) : available;
     }
     property Title current: text1
 
