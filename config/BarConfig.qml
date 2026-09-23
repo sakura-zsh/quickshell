@@ -96,6 +96,7 @@ JsonObject {
     component ActiveWindow: JsonObject {
         property bool compact: false
         property bool inverted: false
+        property bool background: false
         // Upper bound (px) for the title width; 0 = fill all free space.
         // Keeps a long window title from squeezing the bar spacers (and thus
         // from pushing a centred clock off-centre).
@@ -124,6 +125,7 @@ JsonObject {
         property bool background: false
         property bool showDate: true
         property bool showIcon: true
+        property bool showSeconds: false
     }
 
     component Popouts: JsonObject {

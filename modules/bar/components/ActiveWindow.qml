@@ -9,7 +9,7 @@ import QtQuick
 // Horizontal active-window indicator: [icon] [title] [col/total]
 // Config.bar.activeWindow.inverted is a no-op in the top layout (it used to
 // flip the 90° rotation of the vertical title).
-Item {
+StyledRect {
     id: root
 
     required property var bar
@@ -63,15 +63,21 @@ Item {
     }
 
     readonly property int itemSpacing: Appearance.spacing.sm
+    readonly property int hPadding: Config.bar.activeWindow.background ? Appearance.padding.md : 0
 
     clip: true
-    implicitWidth: row.implicitWidth
+    implicitWidth: row.implicitWidth + root.hPadding * 2
     implicitHeight: row.implicitHeight
+
+    // Same colour token as the clock / tray / status pills so every bar
+    // module shares one background colour.
+    color: Qt.alpha(Colours.tPalette.m3surfaceContainer, Config.bar.activeWindow.background ? Colours.tPalette.m3surfaceContainer.a : 0)
+    radius: Appearance.rounding.full
 
     Row {
         id: row
 
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.centerIn: parent
         spacing: root.itemSpacing
 
         MaterialIcon {
@@ -120,7 +126,7 @@ Item {
         font.pointSize: Appearance.font.size.bodySmall
         font.family: Appearance.font.family.mono
         elide: Qt.ElideRight
-        elideWidth: Math.max(0, root.maxWidth - icon.width - (colIndicator.visible ? colIndicator.implicitWidth + root.itemSpacing : 0) - root.itemSpacing * 2)
+        elideWidth: Math.max(0, root.maxWidth - root.hPadding * 2 - icon.width - (colIndicator.visible ? colIndicator.implicitWidth + root.itemSpacing : 0) - root.itemSpacing * 2)
 
         onTextChanged: {
             const next = root.current === text1 ? text2 : text1;

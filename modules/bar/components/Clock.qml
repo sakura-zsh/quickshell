@@ -60,7 +60,7 @@ StyledRect {
         StyledText {
             anchors.verticalCenter: parent.verticalCenter
 
-            text: Time.format(Config.services.useTwelveHourClock ? "hh:mm A" : "hh:mm")
+            text: Time.format(Config.services.useTwelveHourClock ? (Config.bar.clock.showSeconds ? "hh:mm:ss A" : "hh:mm A") : (Config.bar.clock.showSeconds ? "hh:mm:ss" : "hh:mm"))
             font.pointSize: Appearance.font.size.smaller
             font.family: Appearance.font.family.mono
             color: root.colour

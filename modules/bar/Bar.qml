@@ -86,6 +86,64 @@ RowLayout {
 
     spacing: Appearance.spacing.lg
 
+    // ── Centring compensation ───────────────────────────────────────────────
+    // With two fill-width spacers the module between them sits at the centre of
+    // the *free* space, which drifts off the screen centre as soon as the left
+    // and right groups differ in width. Feed that difference into the spacer on
+    // the narrower side so the centred module lands on the true centre.
+    readonly property var enabledSpacers: {
+        const out = [];
+        for (let i = 0; i < repeater.count; i++) {
+            const it = repeater.itemAt(i);
+            if (it?.enabled && it.id === "spacer")
+                out.push(it);
+        }
+        return out;
+    }
+
+    readonly property real leftSideWidth: root.sideWidth(true)
+    readonly property real rightSideWidth: root.sideWidth(false)
+
+    function childIndex(item: Item): int {
+        for (let i = 0; i < repeater.count; i++) {
+            if (repeater.itemAt(i) === item)
+                return i;
+        }
+        return 0;
+    }
+
+    function sideWidth(left: bool): real {
+        const spacers = root.enabledSpacers;
+        if (spacers.length !== 2)
+            return 0;
+
+        let from = 0;
+        let to = repeater.count;
+        if (left)
+            to = root.childIndex(spacers[0]);
+        else
+            from = root.childIndex(spacers[1]) + 1;
+
+        let sum = 0;
+        for (let i = from; i < to; i++) {
+            const it = repeater.itemAt(i);
+            if (it?.enabled)
+                sum += it.width + root.spacing;
+        }
+        return sum;
+    }
+
+    function spacerPreferredWidth(item: Item): real {
+        const spacers = root.enabledSpacers;
+        if (spacers.length !== 2)
+            return 0;
+        if (item === spacers[0])
+            return Math.max(0, root.rightSideWidth - root.leftSideWidth);
+        if (item === spacers[1])
+            return Math.max(0, root.leftSideWidth - root.rightSideWidth);
+        return 0;
+    }
+
     Repeater {
         id: repeater
 
@@ -98,6 +156,7 @@ RowLayout {
                 roleValue: "spacer"
                 delegate: WrappedLoader {
                     Layout.fillWidth: enabled
+                    Layout.preferredWidth: root.spacerPreferredWidth(this)
                 }
             }
             DelegateChoice {
