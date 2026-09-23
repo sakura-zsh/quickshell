@@ -126,6 +126,10 @@ JsonObject {
         property bool showDate: true
         property bool showIcon: true
         property bool showSeconds: false
+        // Manual nudge (px) for the module between the two bar spacers:
+        // positive moves it right, negative moves it left. Applied on top of
+        // the automatic centring compensation.
+        property int offset: 0
     }
 
     component Popouts: JsonObject {

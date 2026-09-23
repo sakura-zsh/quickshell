@@ -134,11 +134,18 @@ RowLayout {
 
         const l = root.leftSideWidth;
         const r = root.rightSideWidth;
-        const wanted = index === idx[0] ? Math.max(0, r - l) : Math.max(0, l - r);
+        const off = Config.bar.clock.offset;
 
-        // Safety clamp: never hand a spacer more than a quarter of the bar
-        // (an unbounded value would wreck the whole layout).
-        return Math.min(wanted, root.width * 0.25);
+        // Moving the centred group by d px needs 2*d of preferred width on the
+        // spacer of the opposite side (each spacer only moves it half as far).
+        const auto = index === idx[0] ? Math.max(0, r - l) : Math.max(0, l - r);
+        const manual = off > 0
+            ? (index === idx[0] ? 2 * off : 0)
+            : (index === idx[1] ? -2 * off : 0);
+        // Safety clamp per part: the automatic part can never wreck the layout,
+        // and the manual offset always gets its full range on top of it.
+        const cap = root.width * 0.25;
+        return Math.min(Math.max(0, auto), cap) + Math.min(Math.max(0, manual), cap);
     }
 
     Repeater {
