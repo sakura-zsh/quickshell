@@ -126,9 +126,10 @@ JsonObject {
         property bool showDate: true
         property bool showIcon: true
         property bool showSeconds: false
-        // Manual nudge (px) for the module between the two bar spacers:
-        // positive moves it right, negative moves it left. Applied on top of
-        // the automatic centring compensation.
+        // Manual nudge (px) for the module between the two bar spacers
+        // (normally the clock): positive moves it right, negative moves it
+        // left, measured from the bar's own centre. The module is pinned to
+        // that centre, so neighbouring modules changing size cannot move it.
         property int offset: 0
     }
 

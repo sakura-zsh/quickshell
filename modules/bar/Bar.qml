@@ -86,15 +86,17 @@ RowLayout {
 
     spacing: Appearance.spacing.lg
 
-    // ── Centring compensation ───────────────────────────────────────────────
-    // With two fill-width spacers the module between them sits at the centre of
-    // the *free* space, which drifts off the screen centre as soon as the left
-    // and right groups differ in width. Feed that difference into the spacer on
-    // the narrower side so the centred module lands on the true centre.
+    // ── Centred module pinning ──────────────────────────────────────────────
+    // The module sitting between the two spacers (normally the clock) used to be
+    // laid out by the row itself, which put it at the centre of the *free* space
+    // — so its position drifted as the modules left and right of it changed
+    // width (extra workspaces, a longer window title, more status icons...).
     //
-    // Index arithmetic only (no object identity, no object arrays): the summed
-    // ranges are derived from the spacer *indices*, so a spacer's own width can
-    // never leak into the sums (that would create a feedback loop).
+    // It is now pinned to the bar's own centre instead: the slot keeps a zero
+    // layout footprint, and the module itself is drawn as an overlay whose x is
+    // computed from the bar width only. Nothing that happens elsewhere on the
+    // bar can move it. Config.bar.clock.offset is applied here as a plain px
+    // nudge (positive = right).
     readonly property var spacerIndices: {
         const out = [];
         for (let i = 0; i < repeater.count; i++) {
@@ -105,47 +107,9 @@ RowLayout {
         return out;
     }
 
-    readonly property real leftSideWidth: root.sideWidth(true)
-    readonly property real rightSideWidth: root.sideWidth(false)
-
-    function sideWidth(left: bool): real {
+    function isCentredModule(index: int): bool {
         const idx = root.spacerIndices;
-        if (idx.length !== 2)
-            return 0;
-
-        const from = left ? 0 : idx[1] + 1;
-        const to = left ? idx[0] : repeater.count;
-
-        let sum = 0;
-        for (let i = from; i < to; i++) {
-            const it = repeater.itemAt(i);
-            if (it && it.enabled)
-                sum += it.width + root.spacing;
-        }
-        return sum;
-    }
-
-    function spacerPreferredWidth(index: int): real {
-        const idx = root.spacerIndices;
-        if (idx.length !== 2)
-            return 0;
-        if (index !== idx[0] && index !== idx[1])
-            return 0;
-
-        const l = root.leftSideWidth;
-        const r = root.rightSideWidth;
-        const off = Config.bar.clock.offset;
-
-        // Moving the centred group by d px needs 2*d of preferred width on the
-        // spacer of the opposite side (each spacer only moves it half as far).
-        const auto = index === idx[0] ? Math.max(0, r - l) : Math.max(0, l - r);
-        const manual = off > 0
-            ? (index === idx[0] ? 2 * off : 0)
-            : (index === idx[1] ? -2 * off : 0);
-        // Safety clamp per part: the automatic part can never wreck the layout,
-        // and the manual offset always gets its full range on top of it.
-        const cap = root.width * 0.25;
-        return Math.min(Math.max(0, auto), cap) + Math.min(Math.max(0, manual), cap);
+        return idx.length === 2 && index > idx[0] && index < idx[1];
     }
 
     Repeater {
@@ -160,7 +124,6 @@ RowLayout {
                 roleValue: "spacer"
                 delegate: WrappedLoader {
                     Layout.fillWidth: enabled
-                    Layout.preferredWidth: root.spacerPreferredWidth(index)
                 }
             }
             DelegateChoice {
@@ -227,7 +190,33 @@ RowLayout {
             DelegateChoice {
                 roleValue: "clock"
                 delegate: WrappedLoader {
-                    sourceComponent: Clock {}
+                    id: clockSlot
+
+                    readonly property bool pinned: root.isCentredModule(index)
+
+                    // When pinned the slot itself takes no width in the row, and
+                    // the row still reserves the bar's pill height so the bar
+                    // height is unchanged.
+                    Layout.preferredWidth: clockSlot.pinned ? 0 : implicitWidth
+                    Layout.preferredHeight: Config.bar.sizes.innerWidth
+
+                    // The Clock sits inside a wrapper Item: the slot is zero-wide
+                    // when pinned, so the wrapper is too, but a child keeps its
+                    // own size (a Loader resizes only its direct item, never that
+                    // item's children). Without this the pill would collapse to
+                    // zero width.
+                    sourceComponent: Item {
+                        implicitWidth: clockPill.implicitWidth
+                        implicitHeight: clockPill.implicitHeight
+
+                        Clock {
+                            id: clockPill
+
+                            // Pinned to the bar centre: depends on the bar width
+                            // only, so nothing to the left or right can move it.
+                            x: clockSlot.pinned ? (root.width / 2 + Config.bar.clock.offset - clockSlot.x - width / 2) : 0
+                        }
+                    }
                 }
             }
             DelegateChoice {
