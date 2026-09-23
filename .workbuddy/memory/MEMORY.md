@@ -3,6 +3,7 @@
 ## 架构
 
 - Caelestia shell（niri compositor）。服务层 `services/`（qs.services 单例），组件库 `components/`（qs.components，含 controls/containers/effects），控制中心 `modules/controlcenter/`，面板注册在 `PaneRegistry.qml`，面板通过 Loader 按路径懒加载。
+- **bar 居中模块（时钟）钉死约定**：位于两个 `spacer` 之间的条目（`Config.bar.entries` 中 clock）在 `Bar.qml` 里被**钉在栏中心**，不参与流式布局：槽位 `Layout.preferredWidth: 0`，条目内容包一层 `Item` 后由 `x = root.width/2 + Config.bar.clock.offset - slot.x - width/2` 定位。原因：曾用"两侧宽度补偿"让模块居中，但邻居（工作区/标题/托盘/status）一变化就会漂移。**注意 Loader 会把直接子项尺寸改成自身尺寸**，所以零宽槽位必须再包一层 Item，否则被承载组件宽度变 0。
 - **bar 为顶部横向布局**（2026-09-13 由竖向左侧重构而来）。`modules/bar/BarWrapper.qml` 是容器（`implicitHeight`/`anchors.bottom`/`contentHeight`），`Bar.qml` 根为 `RowLayout`，`hPadding` 为首尾内边距；bar 的**厚度**复用 `Config.bar.sizes.innerWidth`（不新增字段以免配置迁移）。drawers 中所有定位以 `bar.implicitHeight` 为垂直偏移、`Config.border.thickness` 为水平偏移。workspaces/context 右键菜单尚未横向化（遗留）。
 - popouts 弹出语义已横向化：Wrapper 挂在 bar 下方，宽度不参与动画、高度收合（implicitHeight: open ? H : 0）；Background.qml 融合形状顶部直角、底部圆角。勿恢复旧 x>0||hasCurrent 宽度条件（关闭不收敛→白背景残留）。
 - 抽屉系统：`modules/drawers/Drawers.qml` 定义全屏 StyledWindow（mask + regions + Interactions{Panels, BarWrapper}），`Exclusions/Border/Backgrounds/Panels/Interactions` 都依赖 `bar.implicitHeight` 定位。
