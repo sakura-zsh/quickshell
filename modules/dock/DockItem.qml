@@ -186,7 +186,11 @@ Item {
             asynchronous: true
             source: {
                 const entry = root.resolveEntry();
-                return Icons.getAppIcon(entry?.icon || root.desktopId() || root.app?.icon || "", "image-missing");
+                // The explicitly configured icon wins. Otherwise a pinned entry
+                // whose id no longer matches an installed .desktop file (stale id,
+                // e.g. renamed package) would push the lookup onto that dead id
+                // and end up on the "image-missing" placeholder.
+                return Icons.getAppIcon(root.app?.icon || entry?.icon || root.desktopId() || "", "image-missing");
             }
         }
 
