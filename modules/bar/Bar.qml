@@ -91,12 +91,16 @@ RowLayout {
     // the *free* space, which drifts off the screen centre as soon as the left
     // and right groups differ in width. Feed that difference into the spacer on
     // the narrower side so the centred module lands on the true centre.
-    readonly property var enabledSpacers: {
+    //
+    // Index arithmetic only (no object identity, no object arrays): the summed
+    // ranges are derived from the spacer *indices*, so a spacer's own width can
+    // never leak into the sums (that would create a feedback loop).
+    readonly property var spacerIndices: {
         const out = [];
         for (let i = 0; i < repeater.count; i++) {
             const it = repeater.itemAt(i);
-            if (it?.enabled && it.id === "spacer")
-                out.push(it);
+            if (it && it.enabled && it.id === "spacer")
+                out.push(i);
         }
         return out;
     }
@@ -104,44 +108,37 @@ RowLayout {
     readonly property real leftSideWidth: root.sideWidth(true)
     readonly property real rightSideWidth: root.sideWidth(false)
 
-    function childIndex(item: Item): int {
-        for (let i = 0; i < repeater.count; i++) {
-            if (repeater.itemAt(i) === item)
-                return i;
-        }
-        return 0;
-    }
-
     function sideWidth(left: bool): real {
-        const spacers = root.enabledSpacers;
-        if (spacers.length !== 2)
+        const idx = root.spacerIndices;
+        if (idx.length !== 2)
             return 0;
 
-        let from = 0;
-        let to = repeater.count;
-        if (left)
-            to = root.childIndex(spacers[0]);
-        else
-            from = root.childIndex(spacers[1]) + 1;
+        const from = left ? 0 : idx[1] + 1;
+        const to = left ? idx[0] : repeater.count;
 
         let sum = 0;
         for (let i = from; i < to; i++) {
             const it = repeater.itemAt(i);
-            if (it?.enabled)
+            if (it && it.enabled)
                 sum += it.width + root.spacing;
         }
         return sum;
     }
 
-    function spacerPreferredWidth(item: Item): real {
-        const spacers = root.enabledSpacers;
-        if (spacers.length !== 2)
+    function spacerPreferredWidth(index: int): real {
+        const idx = root.spacerIndices;
+        if (idx.length !== 2)
             return 0;
-        if (item === spacers[0])
-            return Math.max(0, root.rightSideWidth - root.leftSideWidth);
-        if (item === spacers[1])
-            return Math.max(0, root.leftSideWidth - root.rightSideWidth);
-        return 0;
+        if (index !== idx[0] && index !== idx[1])
+            return 0;
+
+        const l = root.leftSideWidth;
+        const r = root.rightSideWidth;
+        const wanted = index === idx[0] ? Math.max(0, r - l) : Math.max(0, l - r);
+
+        // Safety clamp: never hand a spacer more than a quarter of the bar
+        // (an unbounded value would wreck the whole layout).
+        return Math.min(wanted, root.width * 0.25);
     }
 
     Repeater {
@@ -156,7 +153,7 @@ RowLayout {
                 roleValue: "spacer"
                 delegate: WrappedLoader {
                     Layout.fillWidth: enabled
-                    Layout.preferredWidth: root.spacerPreferredWidth(this)
+                    Layout.preferredWidth: root.spacerPreferredWidth(index)
                 }
             }
             DelegateChoice {

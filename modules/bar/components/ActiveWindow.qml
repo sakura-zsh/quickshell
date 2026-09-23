@@ -67,7 +67,8 @@ StyledRect {
 
     clip: true
     implicitWidth: row.implicitWidth + root.hPadding * 2
-    implicitHeight: row.implicitHeight
+    // Same pill height as the clock / tray / status modules
+    implicitHeight: Config.bar.sizes.innerWidth
 
     // Same colour token as the clock / tray / status pills so every bar
     // module shares one background colour.
