@@ -29,6 +29,12 @@ Item {
     property bool showDynamicApps: Config.dock.showDynamicApps ?? true
     property int settleDuration: Config.dock.settleDuration ?? 160
 
+    // Hover preview + context menu
+    property bool showThumbnails: Config.dock.showThumbnails ?? true
+    property bool contextMenu: Config.dock.contextMenu ?? true
+    property int previewWidth: Config.dock.previewWidth ?? 220
+    property int previewDelay: Config.dock.previewDelay ?? 320
+
     // Sizes
     property int iconSize: Config.dock.sizes.iconSize ?? 48
     property int iconGap: Config.dock.sizes.iconGap ?? 14
@@ -36,15 +42,10 @@ Item {
     property int vPad: Config.dock.sizes.vPad ?? 10
     property int indicatorGap: Config.dock.sizes.indicatorGap ?? 6
 
-    // Media bar (desktop lyrics)
+    // Desktop lyrics band (display-only; media controls live in the island)
     property bool mediaEnabled: Config.dock.media.enabled ?? true
-    property bool mediaAutoHide: Config.dock.media.autoHide ?? true
-    property bool mediaCompact: Config.dock.media.compact ?? false
-    property bool mediaShowControls: Config.dock.media.showControls ?? true
-    property bool mediaShowSecondary: Config.dock.media.showSecondary ?? true
     property int mediaWidth: Config.dock.media.width ?? 420
     property int mediaRightMargin: Config.dock.media.rightMargin ?? 12
-    property int mediaBottomMargin: Config.dock.media.bottomMargin ?? 10
 
     // Visualiser
     property bool vizEnabled: Config.dock.visualiser.enabled ?? true
@@ -211,6 +212,11 @@ Item {
         Config.dock.showDynamicApps = root.showDynamicApps;
         Config.dock.settleDuration = root.settleDuration;
 
+        Config.dock.showThumbnails = root.showThumbnails;
+        Config.dock.contextMenu = root.contextMenu;
+        Config.dock.previewWidth = root.previewWidth;
+        Config.dock.previewDelay = root.previewDelay;
+
         Config.dock.sizes.iconSize = root.iconSize;
         Config.dock.sizes.iconGap = root.iconGap;
         Config.dock.sizes.hPad = root.hPad;
@@ -218,13 +224,8 @@ Item {
         Config.dock.sizes.indicatorGap = root.indicatorGap;
 
         Config.dock.media.enabled = root.mediaEnabled;
-        Config.dock.media.autoHide = root.mediaAutoHide;
-        Config.dock.media.compact = root.mediaCompact;
-        Config.dock.media.showControls = root.mediaShowControls;
-        Config.dock.media.showSecondary = root.mediaShowSecondary;
         Config.dock.media.width = root.mediaWidth;
         Config.dock.media.rightMargin = root.mediaRightMargin;
-        Config.dock.media.bottomMargin = root.mediaBottomMargin;
 
         Config.dock.visualiser.enabled = root.vizEnabled;
         Config.dock.visualiser.autoHide = root.vizAutoHide;
@@ -352,6 +353,60 @@ Item {
                         checked: root.showOnHover
                         onToggled: checked => {
                             root.showOnHover = checked;
+                            root.saveConfig();
+                        }
+                    }
+
+                    SwitchRow {
+                        label: qsTr("悬停显示窗口预览")
+                        checked: root.showThumbnails
+                        onToggled: checked => {
+                            root.showThumbnails = checked;
+                            root.saveConfig();
+                        }
+                    }
+
+                    SwitchRow {
+                        label: qsTr("右键菜单")
+                        checked: root.contextMenu
+                        onToggled: checked => {
+                            root.contextMenu = checked;
+                            root.saveConfig();
+                        }
+                    }
+
+                    SliderInput {
+                        Layout.fillWidth: true
+
+                        label: qsTr("预览弹出延迟")
+                        value: root.previewDelay
+                        from: 0
+                        to: 1500
+                        suffix: "ms"
+                        validator: IntValidator { bottom: 0; top: 1500 }
+                        formatValueFunction: val => Math.round(val).toString()
+                        parseValueFunction: text => parseInt(text)
+
+                        onValueModified: newValue => {
+                            root.previewDelay = Math.round(newValue);
+                            root.saveConfig();
+                        }
+                    }
+
+                    SliderInput {
+                        Layout.fillWidth: true
+
+                        label: qsTr("预览卡片宽度")
+                        value: root.previewWidth
+                        from: 140
+                        to: 400
+                        suffix: "px"
+                        validator: IntValidator { bottom: 140; top: 400 }
+                        formatValueFunction: val => Math.round(val).toString()
+                        parseValueFunction: text => parseInt(text)
+
+                        onValueModified: newValue => {
+                            root.previewWidth = Math.round(newValue);
                             root.saveConfig();
                         }
                     }
@@ -689,8 +744,16 @@ Item {
                     alignTop: true
 
                     StyledText {
-                        text: qsTr("媒体栏（桌面歌词）")
+                        text: qsTr("桌面歌词")
                         font.pointSize: Appearance.font.size.bodyMedium
+                    }
+
+                    StyledText {
+                        Layout.fillWidth: true
+                        text: qsTr("纯净歌词显示区（高度与 Dock 一致，三行滚动）。媒体控制已移到顶栏灵动岛，仅当灵动岛白名单中的媒体源正在播放时出现。")
+                        font.pointSize: Appearance.font.size.labelMedium
+                        color: Colours.palette.m3onSurfaceVariant
+                        wrapMode: Text.Wrap
                     }
 
                     SwitchRow {
@@ -698,42 +761,6 @@ Item {
                         checked: root.mediaEnabled
                         onToggled: checked => {
                             root.mediaEnabled = checked;
-                            root.saveConfig();
-                        }
-                    }
-
-                    SwitchRow {
-                        label: qsTr("无媒体时自动隐藏")
-                        checked: root.mediaAutoHide
-                        onToggled: checked => {
-                            root.mediaAutoHide = checked;
-                            root.saveConfig();
-                        }
-                    }
-
-                    SwitchRow {
-                        label: qsTr("紧凑模式")
-                        checked: root.mediaCompact
-                        onToggled: checked => {
-                            root.mediaCompact = checked;
-                            root.saveConfig();
-                        }
-                    }
-
-                    SwitchRow {
-                        label: qsTr("显示控制按钮")
-                        checked: root.mediaShowControls
-                        onToggled: checked => {
-                            root.mediaShowControls = checked;
-                            root.saveConfig();
-                        }
-                    }
-
-                    SwitchRow {
-                        label: qsTr("显示副信息")
-                        checked: root.mediaShowSecondary
-                        onToggled: checked => {
-                            root.mediaShowSecondary = checked;
                             root.saveConfig();
                         }
                     }
@@ -770,24 +797,6 @@ Item {
 
                         onValueModified: (newValue) => {
                             root.mediaRightMargin = Math.round(newValue);
-                            root.saveConfig();
-                        }
-                    }
-
-                    SliderInput {
-                        Layout.fillWidth: true
-
-                        label: qsTr("底部边距")
-                        value: root.mediaBottomMargin
-                        from: 0
-                        to: 80
-                        suffix: "px"
-                        validator: IntValidator { bottom: 0; top: 80 }
-                        formatValueFunction: (val) => Math.round(val).toString()
-                        parseValueFunction: (text) => parseInt(text)
-
-                        onValueModified: (newValue) => {
-                            root.mediaBottomMargin = Math.round(newValue);
                             root.saveConfig();
                         }
                     }

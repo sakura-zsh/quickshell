@@ -10,7 +10,13 @@ Singleton {
     id: root
 
     // --- Live player selection (prefer playing) ---
+    // When the island's whitelist is selecting the media source, the lyrics
+    // describe that source and nothing else: a background browser tab playing
+    // something different must never drive the desktop lyrics band.
     readonly property MprisPlayer livePlayer: {
+        if (Players.islandWhitelistActive)
+            return Players.islandSource;
+
         const list = Players.list;
         if (!list || list.length === 0)
             return null;
@@ -37,57 +43,133 @@ Singleton {
 
     readonly property bool hasPlayer: !!livePlayer || !!player
     readonly property bool isPlaying: livePlayer?.isPlaying ?? player?.isPlaying ?? false
-    readonly property real position: {
-        const p = livePlayer ?? player;
+
+    // --- Position tracking ---
+    // Quickshell's MprisPlayer.position is only refreshed when the player pushes
+    // a Position update, which many players (Cider included) rarely do. Relying
+    // on it froze the lyrics on the first line, so the position is tracked
+    // locally: anchor to the player's reported position when it moves
+    // meaningfully (seek / player update), otherwise advance with a clock.
+    property real anchorPosition: 0
+    property double anchorTime: 0
+    property real lastPosition: 0
+    readonly property real position: root.lastPosition
+
+    function reportedSeconds(p: MprisPlayer): real {
         if (!p)
             return 0;
-        // Quickshell MprisPlayer exposes seconds (same as dashboard Media)
-        const pos = Number(p.position) || 0;
-        const len = Number(p.length) || 0;
-        // Only convert if values look like raw MPRIS microseconds
-        if (len > 10000 && pos >= 0)
-            return pos / 1000000;
-        return Math.max(0, pos);
+        let pos = Number(p.position) || 0;
+        if (!isFinite(pos) || pos < 0)
+            pos = 0;
+        // Defensive: some players report raw MPRIS microseconds.
+        if (pos > 100000)
+            pos /= 1000000;
+        return pos;
     }
+
+    // Re-anchor the local clock so it reads `pos` seconds from now.
+    function rebasePosition(pos: real): void {
+        const len = root.length;
+        let p = Number(pos) || 0;
+        if (!isFinite(p) || p < 0)
+            p = 0;
+        if (len > 1 && p > len)
+            p = len;
+        root.anchorPosition = p;
+        root.anchorTime = Date.now();
+        root.lastPosition = p;
+    }
+
+    function refreshPosition(): void {
+        const p = root.livePlayer ?? root.player;
+        if (!p) {
+            root.lastPosition = 0;
+            return;
+        }
+        let pos = root.anchorPosition;
+        if (root.isPlaying && root.anchorTime > 0)
+            pos += (Date.now() - root.anchorTime) / 1000;
+        const len = root.length;
+        if (len > 1 && pos > len)
+            pos = len;
+        root.lastPosition = Math.max(0, pos);
+    }
+
+    // Adopt a player-pushed position when it disagrees with our clock (a seek).
+    function syncReportedPosition(): void {
+        const p = root.livePlayer ?? root.player;
+        if (!p)
+            return;
+        const reported = root.reportedSeconds(p);
+        // A stale 0 from a player that never reports must not rewind the clock.
+        if (reported <= 0 && root.lastPosition > 3)
+            return;
+        if (Math.abs(reported - root.lastPosition) > 2)
+            root.rebasePosition(reported);
+    }
+
+    // Freeze on pause, resume from the frozen value, reset on a new track.
+    onIsPlayingChanged: root.rebasePosition(root.lastPosition)
+    onTrackKeyChanged: root.rebasePosition(0)
 
     property string status: "idle"
     property string statusMessage: ""
     property var lines: []
     property bool isSynced: false
     property string plainText: ""
+    property var plainLines: []
     property int currentIndex: -1
 
-    readonly property string currentLine: {
-        if (isSynced && lines.length > 0) {
-            let i = currentIndex;
-            if (i < 0)
-                i = 0;
-            // Walk back if current slot is blank
-            while (i >= 0) {
-                const t = String(lines[i]?.text ?? "").trim();
-                if (t)
-                    return t;
-                i--;
-            }
-            // Walk forward
-            for (let j = Math.max(currentIndex, 0); j < lines.length; j++) {
-                const t2 = String(lines[j]?.text ?? "").trim();
-                if (t2)
-                    return t2;
-            }
+    // Unified line accessors: the band renders either the synced timeline or
+    // the unsynced text through these.
+    function lineCount(): int {
+        return root.isSynced ? root.lines.length : root.plainLines.length;
+    }
+
+    function lineTextAt(index: int): string {
+        const list = root.isSynced ? root.lines : root.plainLines;
+        if (index < 0 || index >= list.length)
             return "";
+        const item = list[index];
+        if (item === null || item === undefined)
+            return "";
+        return String(root.isSynced ? (item.text ?? "") : item);
+    }
+
+    readonly property string currentLine: {
+        const count = root.lineCount();
+        if (count === 0)
+            return "";
+        let i = root.currentIndex;
+        if (i < 0)
+            i = 0;
+        if (i >= count)
+            i = count - 1;
+        if (!root.isSynced)
+            return root.lineTextAt(i);
+        // Walk back to the nearest non-blank line (instrumental gaps).
+        while (i >= 0) {
+            const t = String(root.lines[i]?.text ?? "").trim();
+            if (t)
+                return t;
+            i--;
         }
-        if (plainText)
-            return plainText.split("\n").filter(l => l.trim().length > 0).slice(0, 2).join("  ·  ");
+        for (let j = Math.max(root.currentIndex, 0); j < count; j++) {
+            const t2 = String(root.lines[j]?.text ?? "").trim();
+            if (t2)
+                return t2;
+        }
         return "";
     }
 
-    readonly property string previousLine: (!isSynced || currentIndex <= 0) ? "" : (lines[currentIndex - 1]?.text ?? "")
-    readonly property string nextLine: (!isSynced || currentIndex < 0 || currentIndex + 1 >= lines.length) ? "" : (lines[currentIndex + 1]?.text ?? "")
+    readonly property string previousLine: root.lineTextAt(root.currentIndex - 1)
+    readonly property string nextLine: root.lineTextAt(root.currentIndex + 1)
 
     readonly property string displayPrimary: {
         if (!trackTitle && !hasPlayer)
             return "";
+        if (root.lineCount() > 0)
+            return root.currentLine;
         if (!trackTitle)
             return qsTr("等待曲目信息…");
         if (status === "loading")
@@ -96,10 +178,6 @@ Singleton {
             return statusMessage || qsTr("歌词获取失败");
         if (status === "empty")
             return qsTr("暂无歌词");
-        if (currentLine)
-            return currentLine;
-        if (isSynced && lines.length > 0)
-            return lines[0].text;
         return trackTitle;
     }
 
@@ -136,12 +214,11 @@ Singleton {
 
     Timer {
         interval: 250
-        running: root.visible && root.isPlaying && root.isSynced
+        running: root.visible && root.isPlaying
         repeat: true
         onTriggered: {
-            const p = root.livePlayer ?? root.player;
-            if (p)
-                p.positionChanged();
+            root.syncReportedPosition();
+            root.refreshPosition();
             root.updateCurrentIndex();
         }
     }
@@ -160,7 +237,10 @@ Singleton {
         function onTrackChanged(): void { root.syncFromLive(); }
         function onTrackTitleChanged(): void { root.syncFromLive(); }
         function onTrackArtistChanged(): void { root.syncFromLive(); }
-        function onPositionChanged(): void { root.updateCurrentIndex(); }
+        function onPositionChanged(): void {
+            root.syncReportedPosition();
+            root.updateCurrentIndex();
+        }
     }
 
     onLivePlayerChanged: root.syncFromLive()
@@ -198,19 +278,29 @@ Singleton {
     }
 
     function updateCurrentIndex(): void {
-        if (!isSynced || lines.length === 0) {
+        const count = root.lineCount();
+        if (count === 0) {
             if (currentIndex !== -1)
                 currentIndex = -1;
             return;
         }
-        const t = position + 0.08;
-        let idx = -1;
-        for (let i = 0; i < lines.length; i++) {
-            if (lines[i].time <= t)
-                idx = i;
-            else
-                break;
+
+        let idx = 0;
+        if (isSynced) {
+            const t = position + 0.08;
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].time <= t)
+                    idx = i;
+                else
+                    break;
+            }
+        } else if (length > 1 && count > 1) {
+            // Unsynced lyrics: spread the lines evenly over the track so they
+            // still advance instead of sitting on the first line forever.
+            const frac = Math.max(0, Math.min(0.9999, position / length));
+            idx = Math.floor(frac * count);
         }
+
         if (idx !== currentIndex)
             currentIndex = idx;
     }
@@ -291,7 +381,7 @@ Singleton {
                 if (!Array.isArray(list) || list.length === 0) {
                     root.status = "empty";
                     root.statusMessage = qsTr("暂无歌词");
-                    root._cache[key] = { isSynced: false, lines: [], plainText: "", empty: true };
+                    root._cache[key] = { isSynced: false, lines: [], plainText: "", plainLines: [], empty: true };
                     console.log("Lyrics: search empty");
                     return;
                 }
@@ -380,25 +470,32 @@ Singleton {
         });
     }
 
+    function splitPlain(text: string): var {
+        return String(text || "").split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+    }
+
     function normalizeResult(data: var): var {
-        if (data?.instrumental)
-            return { isSynced: false, lines: [], plainText: qsTr("纯音乐"), empty: false };
+        if (data?.instrumental) {
+            const inst = qsTr("纯音乐");
+            return { isSynced: false, lines: [], plainText: inst, plainLines: [inst], empty: false };
+        }
 
         const synced = String(data?.syncedLyrics || "");
         if (synced.trim()) {
             const parsed = parseLrc(synced);
             if (parsed.length > 0)
-                return { isSynced: true, lines: parsed, plainText: "", empty: false };
+                return { isSynced: true, lines: parsed, plainText: "", plainLines: [], empty: false };
         }
 
         const plain = String(data?.plainLyrics || "").trim();
-        return { isSynced: false, lines: [], plainText: plain, empty: !plain };
+        return { isSynced: false, lines: [], plainText: plain, plainLines: splitPlain(plain), empty: !plain };
     }
 
     function applyResult(result: var): void {
         if (result?.empty) {
             status = "empty";
             lines = [];
+            plainLines = [];
             plainText = "";
             isSynced = false;
             currentIndex = -1;
@@ -407,9 +504,10 @@ Singleton {
         }
         isSynced = !!result.isSynced;
         lines = result.lines || [];
+        plainLines = result.plainLines || [];
         plainText = result.plainText || "";
-        status = (isSynced && lines.length > 0) || plainText ? "ready" : "empty";
-        console.log("Lyrics: apply status=", status, "synced=", isSynced, "lines=", lines.length, "visible=", visible, "titleLen=", trackTitle.length);
+        status = (isSynced && lines.length > 0) || plainLines.length > 0 ? "ready" : "empty";
+        console.log("Lyrics: apply status=", status, "synced=", isSynced, "lines=", root.lineCount(), "visible=", visible, "titleLen=", trackTitle.length);
         updateCurrentIndex();
     }
 

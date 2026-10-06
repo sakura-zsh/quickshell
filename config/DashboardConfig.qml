@@ -8,8 +8,13 @@ JsonObject {
     property int resourceUpdateInterval: 1000
     property int dragThreshold: 50
     // Height (px) of the summon strip along the very top screen edge used to
-    // open the dashboard on hover. Keep it small to avoid accidental triggers.
+    // open the dashboard on hover. Unused while topEdgeTrigger is false.
     property int hoverTriggerHeight: 12
+    // Whether that top-edge strip summons/opens the dashboard at all. Off by
+    // default: the dashboard is opened with the Win (Super) key instead, which
+    // avoids accidental triggers and the pointer-hover conflicts with the bar's
+    // interactive modules.
+    property bool topEdgeTrigger: false
     property int updateInterval: 1000
     property Sizes sizes: Sizes {}
     property Performance performance: Performance {}

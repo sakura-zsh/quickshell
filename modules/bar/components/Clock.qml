@@ -5,65 +5,47 @@ import qs.services
 import qs.config
 import QtQuick
 
-StyledRect {
+// Time face of the bar's dynamic island: optional icon, date and clock.
+// The pill, padding and background live in Island.qml so the same face can be
+// reused while the island grows into a media controller.
+Row {
     id: root
 
     readonly property color colour: Colours.palette.m3tertiary
-    readonly property int padding: Config.bar.clock.background ? Appearance.padding.normal : Appearance.padding.small
+    readonly property bool showDate: Config.bar.clock.showDate
+    readonly property bool showIcon: Config.bar.clock.showIcon
 
-    implicitHeight: Config.bar.sizes.innerWidth
-    implicitWidth: layout.implicitWidth + root.padding * 2
+    spacing: Appearance.spacing.sm
 
-    color: Qt.alpha(Colours.tPalette.m3surfaceContainer, Config.bar.clock.background ? Colours.tPalette.m3surfaceContainer.a : 0)
-    radius: Appearance.rounding.full
+    Loader {
+        anchors.verticalCenter: parent.verticalCenter
 
-    Row {
-        id: layout
+        active: root.showIcon
+        visible: active
 
-        anchors.centerIn: parent
-        spacing: Appearance.spacing.sm
-
-        Loader {
-            anchors.verticalCenter: parent.verticalCenter
-
-            active: Config.bar.clock.showIcon
-            visible: active
-
-            sourceComponent: MaterialIcon {
-                text: "calendar_month"
-                color: root.colour
-            }
-        }
-
-        StyledText {
-            anchors.verticalCenter: parent.verticalCenter
-
-            visible: Config.bar.clock.showDate
-
-            text: Time.format("ddd d")
-            font.pointSize: Appearance.font.size.smaller
-            font.family: Appearance.font.family.mono
+        sourceComponent: MaterialIcon {
+            text: "calendar_month"
             color: root.colour
         }
+    }
 
-        Rectangle {
-            anchors.verticalCenter: parent.verticalCenter
+    StyledText {
+        anchors.verticalCenter: parent.verticalCenter
 
-            visible: Config.bar.clock.showDate
-            width: visible ? 1 : 0
-            height: Appearance.font.size.smaller * 1.6
+        visible: root.showDate
 
-            color: root.colour
-            opacity: 0.2
-        }
+        text: Time.format(Config.bar.clock.dateFormat ?? "M月d日 ddd")
+        font.pointSize: Appearance.font.size.smaller
+        font.family: Appearance.font.family.mono
+        color: root.colour
+    }
 
-        StyledText {
-            anchors.verticalCenter: parent.verticalCenter
+    StyledText {
+        anchors.verticalCenter: parent.verticalCenter
 
-            text: Time.format(Config.services.useTwelveHourClock ? (Config.bar.clock.showSeconds ? "hh:mm:ss A" : "hh:mm A") : (Config.bar.clock.showSeconds ? "hh:mm:ss" : "hh:mm"))
-            font.pointSize: Appearance.font.size.smaller
-            font.family: Appearance.font.family.mono
-            color: root.colour
-        }
+        text: Time.format(Config.services.useTwelveHourClock ? (Config.bar.clock.showSeconds ? "hh:mm:ss A" : "hh:mm A") : (Config.bar.clock.showSeconds ? "hh:mm:ss" : "hh:mm"))
+        font.pointSize: Appearance.font.size.smaller
+        font.family: Appearance.font.family.mono
+        color: root.colour
     }
 }

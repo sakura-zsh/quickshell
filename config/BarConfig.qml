@@ -125,12 +125,33 @@ JsonObject {
         property bool background: false
         property bool showDate: true
         property bool showIcon: true
-        property bool showSeconds: false
+        property bool showSeconds: true
+        // Qt date format for the date segment. "M月d日 ddd" renders as
+        // "10月1日 Wed"; the weekday name itself follows the system locale.
+        property string dateFormat: "M月d日 ddd"
         // Manual nudge (px) for the module between the two bar spacers
         // (normally the clock): positive moves it right, negative moves it
         // left, measured from the bar's own centre. The module is pinned to
         // that centre, so neighbouring modules changing size cannot move it.
         property int offset: 0
+
+        // Dynamic island: the clock grows downwards into a media capsule.
+        property bool island: true
+        property bool islandArtwork: true // circular media source left of the clock
+        property bool islandWaveform: false // optional second circle (off by default)
+        property int islandCircleSize: 62
+        property int islandCircleGap: 6
+        property int islandExpandedGap: 6 // gap between the clock and media capsules
+        property int islandWidth: 340 // width of the grown capsule column
+        property int islandHeight: 112 // height of the media capsule
+        property bool islandProgress: true
+        property int islandSpinDuration: 12000 // ms per disc revolution
+        property int islandAutoCollapse: 1500 // ms after the pointer leaves
+
+        // Only an active player whose identity is listed here may grow the
+        // island. Empty/disabled means any player counts as a media source.
+        property bool islandWhitelistEnabled: false
+        property list<var> islandWhitelist: []
     }
 
     component Popouts: JsonObject {
@@ -139,7 +160,14 @@ JsonObject {
     }
 
     component Sizes: JsonObject {
-        property int innerWidth: 40
+        property int innerWidth: 58
+        // Glyphs, tray entries and dividers take their size from Appearance
+        // font/padding tokens rather than from innerWidth, so they would stay
+        // small in a thicker bar. They all multiply by this ratio instead.
+        // 40 is the innerWidth the bar's icon sizes were originally laid out
+        // against, so the ratio is 1 on a default-height bar.
+        readonly property int iconBaseWidth: 40
+        readonly property real iconScale: innerWidth / iconBaseWidth
         property int windowPreviewSize: 400
         property int trayMenuWidth: 300
         property int batteryWidth: 250

@@ -35,6 +35,7 @@ Item {
         text: "power_settings_new"
         color: Colours.palette.m3error
         font.bold: true
-        font.pointSize: Appearance.font.size.bodyMedium
+        // Follows the bar's thickness; the font token alone does not.
+        font.pointSize: Math.round(Appearance.font.size.bodyMedium * Config.bar.sizes.iconScale)
     }
 }

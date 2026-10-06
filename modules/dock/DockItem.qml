@@ -8,6 +8,7 @@ import qs.modules.launcher.services
 import Quickshell
 import Quickshell.Widgets
 import QtQuick
+import "DockEntries.js" as DockEntries
 
 Item {
     id: root
@@ -17,11 +18,15 @@ Item {
     property int indicatorGap: 6
     property bool highlighted: false
 
+    signal rightClicked
+
     readonly property bool isRunning: root._runningCount > 0
     readonly property bool isFocused: {
         const fw = Niri.focusedWindow;
         return !!fw && root.matchesWindow(fw);
     }
+    // Windows of this app, in niri's order. Drives the hover preview.
+    readonly property var windows: root.matchedWindows()
 
     readonly property int _runningCount: {
         const wins = Niri.windows;
@@ -40,69 +45,19 @@ Item {
     height: iconSize + indicatorGap
 
     function desktopId(): string {
-        return String(root.app?.id ?? "").replace(/\.desktop$/i, "");
+        return DockEntries.desktopId(root.app);
     }
 
     function resolveEntry(): var {
-        const id = root.desktopId();
-        const exec = String(root.app?.exec ?? "");
-        return DesktopEntries.byId(id)
-            || DesktopEntries.heuristicLookup(id)
-            || DesktopEntries.heuristicLookup(exec)
-            || null;
+        return DockEntries.resolveEntry(root.app, DesktopEntries);
     }
 
     function matchCandidates(): list<string> {
-        const out = [];
-        function add(v) {
-            const s = String(v ?? "").trim().toLowerCase();
-            if (!s)
-                return;
-            if (out.indexOf(s) === -1)
-                out.push(s);
-        }
-
-        const id = root.desktopId();
-        add(id);
-        add(root.app?.exec);
-        add(root.app?.icon);
-
-        const extras = root.app?.match ?? [];
-        for (let i = 0; i < extras.length; i++)
-            add(extras[i]);
-
-        const entry = root.resolveEntry();
-        if (entry) {
-            add(entry.id);
-            add(entry.startupClass);
-            add(entry.icon);
-        }
-
-        return out;
+        return DockEntries.matchCandidates(root.app, DesktopEntries);
     }
 
     function matchesWindow(w: var): bool {
-        const appId = String(w?.app_id ?? "").toLowerCase();
-        if (!appId)
-            return false;
-
-        const candidates = root.matchCandidates();
-        for (let i = 0; i < candidates.length; i++) {
-            if (appId === candidates[i])
-                return true;
-        }
-
-        for (let i = 0; i < candidates.length; i++) {
-            const c = candidates[i];
-            if (!c || c.length < 3)
-                continue;
-            if (appId.endsWith("." + c) || c.endsWith("." + appId))
-                return true;
-            if (c.length >= 4 && (appId.includes(c) || c.includes(appId)))
-                return true;
-        }
-
-        return false;
+        return DockEntries.matchesWindow(root.app, w, DesktopEntries);
     }
 
     function matchedWindows(): list<var> {
@@ -233,10 +188,14 @@ Item {
         anchors.topMargin: -10
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+        acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
         preventStealing: true
 
         onClicked: mouse => {
+            if (mouse.button === Qt.RightButton) {
+                root.rightClicked();
+                return;
+            }
             if (mouse.button === Qt.MiddleButton) {
                 root.launchApp();
                 return;

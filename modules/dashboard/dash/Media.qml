@@ -10,10 +10,11 @@ import QtQuick.Shapes
 Item {
     id: root
 
-    property real playerProgress: {
-        const active = Players.active;
-        return active?.length ? active.position / active.length : 0;
-    }
+    // Per-track timing, read from the session-wide clock in Players. Keeping the
+    // state there is what stops this ring restarting every time the dashboard is
+    // opened — and it is where the accumulation fix has to live, because raw
+    // MPRIS Position/Length count the whole queue on some players.
+    property real playerProgress: Players.activeProgress
 
     anchors.top: parent.top
     anchors.bottom: parent.bottom
@@ -23,14 +24,6 @@ Item {
         Anim {
             duration: Appearance.anim.durations.large
         }
-    }
-
-    Timer {
-        running: Players.active?.isPlaying ?? false
-        interval: Config.dashboard.mediaUpdateInterval
-        triggeredOnStart: true
-        repeat: true
-        onTriggered: Players.active?.positionChanged()
     }
 
     ServiceRef {

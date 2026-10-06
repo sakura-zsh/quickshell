@@ -20,10 +20,11 @@ Item {
 
     required property PersistentProperties visibilities
 
-    property real playerProgress: {
-        const active = Players.active;
-        return active?.length ? active.position / active.length : 0;
-    }
+    // Per-track timing, read from the session-wide clock in Players. Keeping the
+    // state there is what stops this widget starting from zero every time the
+    // dashboard is opened — and it is where the accumulation fix has to live,
+    // because raw MPRIS Position/Length count the whole queue on some players.
+    property real playerProgress: Players.activeProgress
 
     function lengthStr(length: int): string {
         if (length < 0)
@@ -45,14 +46,6 @@ Item {
         Anim {
             duration: Appearance.anim.durations.large
         }
-    }
-
-    Timer {
-        running: Players.active?.isPlaying ?? false
-        interval: Config.dashboard.mediaUpdateInterval
-        triggeredOnStart: true
-        repeat: true
-        onTriggered: Players.active?.positionChanged()
     }
 
     ServiceRef {
@@ -290,8 +283,17 @@ Item {
 
             onMoved: {
                 const active = Players.active;
-                if (active?.canSeek && active?.positionSupported)
-                    active.position = value * active.length;
+                if (!active?.canSeek || !active?.positionSupported)
+                    return;
+
+                // Seek by delta instead of assigning value * length: on a player
+                // whose Position runs over the whole queue, an absolute value
+                // would land somewhere on the queue scale rather than inside the
+                // current track.
+                const delta = value * Players.activeDuration - Players.activeElapsed;
+                Qt.callLater(() => {
+                    active.position = Math.max(0, active.position + delta);
+                });
             }
 
             Binding {
@@ -328,7 +330,7 @@ Item {
 
                 anchors.left: parent.left
 
-                text: root.lengthStr(Players.active?.position ?? -1)
+                text: root.lengthStr(Players.active ? Players.activeElapsed : -1)
                 color: Colours.palette.m3onSurfaceVariant
                 font.pointSize: Appearance.font.size.labelLarge
             }
@@ -338,7 +340,7 @@ Item {
 
                 anchors.right: parent.right
 
-                text: root.lengthStr(Players.active?.length ?? -1)
+                text: root.lengthStr(Players.active ? Players.activeDuration : -1)
                 color: Colours.palette.m3onSurfaceVariant
                 font.pointSize: Appearance.font.size.labelLarge
             }

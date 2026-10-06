@@ -22,6 +22,13 @@ Item {
     readonly property bool shouldBeVisible: Config.bar.persistent || visibilities.bar || isHovered
     property bool isHovered
 
+    // ── Dynamic island ──────────────────────────────────────────────────────
+    // The expanded media controller hangs below the bar strip, so the window
+    // input mask (Drawers.qml) has to include it, and wheel events have to
+    // reach it even though they land outside the bar's own height.
+    readonly property Item islandInputItem: content.item?.islandInputItem ?? null
+    readonly property bool islandHovered: content.item?.islandHovered ?? false
+
     function checkPopout(x: real): void {
         content.item?.checkPopout(x);
     }

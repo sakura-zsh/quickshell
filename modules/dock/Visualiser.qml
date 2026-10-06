@@ -21,10 +21,12 @@ PanelWindow {
     readonly property int maxBarCount: Config.dock.visualiser.maxBarCount ?? 96
     readonly property bool autoHide: Config.dock.visualiser.autoHide ?? true
 
-    // True while an MPRIS player is registered with an actual track.
-    // Some environments keep a placeholder player around without a track,
-    // so "active player" alone is not enough for auto-hide.
-    readonly property bool hasMedia: !!Players.active && !!Players.active.trackTitle
+    // True while there is media worth visualising: the island's selected
+    // source when it has a track, or any player that is actually playing.
+    // Reading Players.active alone was fragile — an idle player registered
+    // under Config.services.defaultPlayer (e.g. Spotify in the tray) masked
+    // the playing Cider, so Cava was never started and the bars stayed at zero.
+    readonly property bool hasMedia: Players.hasAudibleMedia
 
     // Left offset: flush against the screen edge. The top bar no longer
     // reserves any left-side space; config value is the only offset.

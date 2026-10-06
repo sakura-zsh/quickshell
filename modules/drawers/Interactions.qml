@@ -59,8 +59,12 @@ CustomMouseArea {
     // Dashboard summon zone: a thin hot strip along the very top screen edge
     // (the bar's upper boundary). Pushing the cursor to the screen edge is far
     // less prone to accidental triggering than the whole bar strip.
+    //
+    // Drawers.qml also lays an explicit hover surface over this strip, because
+    // modules that take hover (the dynamic island, tray icons) swallow the
+    // pointer moves this function is evaluated from.
     function inDashboardTrigger(panel: Item, x: real, y: real): bool {
-        return y < Math.max(6, Config.dashboard.hoverTriggerHeight) && withinPanelWidth(panel, x, y);
+        return Config.dashboard.topEdgeTrigger && y < Math.max(6, Config.dashboard.hoverTriggerHeight) && withinPanelWidth(panel, x, y);
     }
 
     // Retention zone: while the dashboard is open, any position within its
@@ -75,7 +79,8 @@ CustomMouseArea {
     }
 
     function onWheel(event: WheelEvent): void {
-        if (event.y < bar.implicitHeight) {
+        // The bar strip, plus the dynamic island once it has grown below it.
+        if (event.y < bar.implicitHeight || bar.islandHovered) {
             bar.handleWheel(event.x, event.angleDelta);
         }
     }

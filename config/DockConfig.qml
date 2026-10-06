@@ -9,6 +9,13 @@ JsonObject {
     property bool showSeparator: true
     property bool showDynamicApps: true
     property int settleDuration: 160
+
+    // Hover preview + right-click menu
+    property bool showThumbnails: true // capture window previews for the hover popup
+    property bool contextMenu: true
+    property int previewWidth: 220 // width of one window card in the preview
+    property int previewDelay: 320 // ms of hover before the preview opens
+
     property Sizes sizes: Sizes {}
     property Media media: Media {}
     property Visualiser visualiser: Visualiser {}
@@ -65,6 +72,10 @@ JsonObject {
         property int hPad: 16
         property int vPad: 10
         property int indicatorGap: 6
+
+        // Dock pill height: icon + both vertical paddings + indicator gap.
+        // Shared so the desktop lyrics band can match the dock exactly.
+        readonly property int barHeight: iconSize + vPad * 2 + indicatorGap
     }
 
     component Media: JsonObject {
@@ -73,7 +84,7 @@ JsonObject {
         property bool compact: false
         property bool showControls: true
         property bool showSecondary: true
-        property int width: 420
+        property int width: 500
         property int bottomMargin: 10
         property int rightMargin: 12
     }
@@ -88,7 +99,7 @@ JsonObject {
         property int maxBarCount: 96
         property int width: 0 // 0 = auto (screenWidth / autoWidthDivisor)
         property real autoWidthDivisor: 5.5
-        property int leftMargin: 10
+        property int leftMargin: 20
         property int bottomMargin: 10
         property int animDuration: 90
     }

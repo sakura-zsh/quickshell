@@ -232,7 +232,22 @@ Singleton {
             clock: {
                 background: bar.clock.background,
                 showDate: bar.clock.showDate,
-                showIcon: bar.clock.showIcon
+                showIcon: bar.clock.showIcon,
+                showSeconds: bar.clock.showSeconds,
+                offset: bar.clock.offset,
+                island: bar.clock.island,
+                islandArtwork: bar.clock.islandArtwork,
+                islandWaveform: bar.clock.islandWaveform,
+                islandCircleSize: bar.clock.islandCircleSize,
+                islandCircleGap: bar.clock.islandCircleGap,
+                islandExpandedGap: bar.clock.islandExpandedGap,
+                islandWidth: bar.clock.islandWidth,
+                islandHeight: bar.clock.islandHeight,
+                islandProgress: bar.clock.islandProgress,
+                islandSpinDuration: bar.clock.islandSpinDuration,
+                islandAutoCollapse: bar.clock.islandAutoCollapse,
+                islandWhitelistEnabled: bar.clock.islandWhitelistEnabled,
+                islandWhitelist: bar.clock.islandWhitelist
             },
             popouts: {
                 tray: bar.popouts.tray,
@@ -259,6 +274,10 @@ Singleton {
             showSeparator: dock.showSeparator,
             showDynamicApps: dock.showDynamicApps,
             settleDuration: dock.settleDuration,
+            showThumbnails: dock.showThumbnails,
+            contextMenu: dock.contextMenu,
+            previewWidth: dock.previewWidth,
+            previewDelay: dock.previewDelay,
             sizes: {
                 iconSize: dock.sizes.iconSize,
                 iconGap: dock.sizes.iconGap,
@@ -305,6 +324,8 @@ Singleton {
         return {
             enabled: dashboard.enabled,
             showOnHover: dashboard.showOnHover,
+            topEdgeTrigger: dashboard.topEdgeTrigger,
+            hoverTriggerHeight: dashboard.hoverTriggerHeight,
             useWallpaperAvatar: dashboard.useWallpaperAvatar,
             mediaUpdateInterval: dashboard.mediaUpdateInterval,
             resourceUpdateInterval: dashboard.resourceUpdateInterval,

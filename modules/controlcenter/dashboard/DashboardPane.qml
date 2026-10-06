@@ -22,6 +22,7 @@ Item {
     // General Settings
     property bool enabled: Config.dashboard.enabled ?? true
     property bool showOnHover: Config.dashboard.showOnHover ?? true
+    property bool topEdgeTrigger: Config.dashboard.topEdgeTrigger ?? false
     property int updateInterval: Config.dashboard.updateInterval ?? 1000
     property int dragThreshold: Config.dashboard.dragThreshold ?? 50
     
@@ -45,6 +46,7 @@ Item {
     function saveConfig() {
         Config.dashboard.enabled = root.enabled;
         Config.dashboard.showOnHover = root.showOnHover;
+        Config.dashboard.topEdgeTrigger = root.topEdgeTrigger;
         Config.dashboard.updateInterval = root.updateInterval;
         Config.dashboard.dragThreshold = root.dragThreshold;
         Config.services.weatherLocation = root.weatherLocation;

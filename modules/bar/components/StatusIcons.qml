@@ -16,6 +16,11 @@ StyledRect {
     property color colour: Colours.palette.m3secondary
     readonly property alias items: iconColumn
 
+    // One glyph size for the whole status cluster. Material Symbols default to
+    // Appearance.font.size.bodyLarge, which does not follow innerWidth, so
+    // without this the icons stay put when the bar is made thicker.
+    readonly property int iconSize: Math.round(Appearance.font.size.bodyLarge * Config.bar.sizes.iconScale)
+
     color: Colours.tPalette.m3surfaceContainer
     radius: Appearance.rounding.full
 
@@ -55,6 +60,7 @@ StyledRect {
 
                         text: "keyboard_capslock_badge"
                         color: root.colour
+                        font.pointSize: root.iconSize
 
                         Behavior on opacity {
                             Anim {}
@@ -86,6 +92,7 @@ StyledRect {
 
                         text: "looks_one"
                         color: root.colour
+                        font.pointSize: root.iconSize
 
                         Behavior on opacity {
                             Anim {}
@@ -103,15 +110,19 @@ StyledRect {
             }
         }
 
-        // Audio icon
+        // Audio icon. This is the bar's only wheel target: scrolling over it
+        // adjusts the sink volume, and nowhere else on the bar does.
         WrappedLoader {
             name: "audio"
             active: Config.bar.status.showAudio
+
+            readonly property bool scrollTarget: true
 
             sourceComponent: MaterialIcon {
                 animate: true
                 text: Icons.getVolumeIcon(Audio.volume, Audio.muted)
                 color: root.colour
+                font.pointSize: root.iconSize
             }
         }
 
@@ -124,6 +135,7 @@ StyledRect {
                 animate: true
                 text: Icons.getMicVolumeIcon(Audio.sourceVolume, Audio.sourceMuted)
                 color: root.colour
+                font.pointSize: root.iconSize
             }
         }
 
@@ -137,6 +149,7 @@ StyledRect {
                 text: Niri.kbLayout
                 color: root.colour
                 font.family: Appearance.font.family.mono
+                font.pointSize: root.iconSize
             }
         }
 
@@ -149,6 +162,7 @@ StyledRect {
                 animate: true
                 text: Network.active ? Icons.getNetworkIcon(Network.active.strength ?? 0) : "wifi_off"
                 color: root.colour
+                font.pointSize: root.iconSize
             }
         }
 
@@ -173,6 +187,7 @@ StyledRect {
                         return "bluetooth";
                     }
                     color: root.colour
+                    font.pointSize: root.iconSize
                 }
 
                 // Connected bluetooth devices
@@ -190,6 +205,7 @@ StyledRect {
                         text: Icons.getBluetoothIcon(modelData.icon)
                         color: root.colour
                         fill: 1
+                        font.pointSize: root.iconSize
 
                         SequentialAnimation on opacity {
                             running: device.modelData.state !== BluetoothDeviceState.Connected
@@ -245,6 +261,7 @@ StyledRect {
                 }
                 color: !UPower.onBattery || UPower.displayDevice.percentage > 0.2 ? root.colour : Colours.palette.m3error
                 fill: 1
+                font.pointSize: root.iconSize
             }
         }
     }

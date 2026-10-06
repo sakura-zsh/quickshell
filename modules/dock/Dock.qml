@@ -2,11 +2,13 @@ pragma ComponentBehavior: Bound
 
 import qs.components
 import qs.components.effects
+import qs.modules.launcher.services
 import qs.services
 import qs.config
 import qs.utils
 import Quickshell
 import QtQuick
+import "DockEntries.js" as DockEntries
 
 Item {
     id: root
@@ -18,22 +20,172 @@ Item {
     readonly property int indicatorGap: Config.dock.sizes.indicatorGap ?? 6
     readonly property bool showSeparator: Config.dock.showSeparator ?? true
     readonly property bool showDynamicApps: Config.dock.showDynamicApps ?? true
-    readonly property int baseHeight: iconSize + vPad * 2 + indicatorGap
+    readonly property bool showThumbnails: Config.dock.showThumbnails ?? true
+    readonly property bool showContextMenu: Config.dock.contextMenu ?? true
+    readonly property int previewDelay: Config.dock.previewDelay ?? 320
+    // Pill height, shared with the desktop lyrics band (Config.dock.sizes.barHeight).
+    readonly property int baseHeight: Config.dock.sizes.barHeight
+
+    // Space kept above the pill for the hover preview / context menu. Reserved
+    // up front so opening a popup never resizes the layer surface — a resize
+    // resets pointer state and would close the popup immediately.
+    readonly property int popupHeadroom: 360
 
     // Hover in stable root coordinates (must NOT depend on scaled layout)
     property real mouseRootX: hoverHandler.hovered ? hoverHandler.point.position.x : -1
     property bool dockHovered: hoverHandler.hovered
     property int hoveredIndex: -1
 
+    // Pointer inside the visible pill itself (the popup has its own hit area).
+    readonly property bool pillHovered: hoverHandler.hovered && hoverHandler.point.position.x >= pill.x
+        && hoverHandler.point.position.x <= pill.x + pill.width && hoverHandler.point.position.y >= pill.y
+
     // Visible pill — used by the wrapper as the window input mask
     readonly property Item clickTarget: pill
 
-    onMouseRootXChanged: root.updateHoveredIndex()
+    // The dock item is only as wide as the pill; popups may be wider, so they
+    // are clamped against the layer surface instead. `root.width` is read so
+    // the binding refreshes whenever the dock's own layout moves us.
+    readonly property real sceneLeft: root.width >= 0 ? root.mapToItem(null, 0, 0).x : 0
+    readonly property real surfaceWidth: root.parent ? root.parent.width : root.width
+
+    function popupX(popupWidth: real, anchorX: real): real {
+        const minX = 8 - root.sceneLeft;
+        const maxX = Math.max(minX, root.surfaceWidth - popupWidth - 8 - root.sceneLeft);
+        return Math.max(minX, Math.min(maxX, anchorX - popupWidth / 2));
+    }
+
+    // ---- hover preview / context menu state ----
+    property int popupIndex: -1
+    property bool popupIsMenu: false
+    readonly property bool popupOpen: root.popupIndex >= 0
+    readonly property var popupApp: root.popupOpen ? root.dockModel[root.popupIndex] : null
+    readonly property var popupWindows: root.popupOpen ? root.windowsFor(root.popupIndex) : []
+    readonly property bool popupHovered: (preview.visible && preview.hovered) || (menu.visible && menu.hovered)
+    // Item the wrapper mask must include so the popup receives clicks.
+    readonly property Item popupInputItem: root.popupOpen ? (root.popupIsMenu ? menu : preview) : null
+
+    function windowsFor(index: int): var {
+        const delegate = iconRepeater.itemAt(index);
+        return delegate ? delegate.appWindows : [];
+    }
+
+    function openPreview(index: int): void {
+        if (index < 0 || index >= root.dockModel.length || root.dockModel[index]?.separator)
+            return;
+        if (root.windowsFor(index).length === 0) {
+            root.scheduleClose();
+            return;
+        }
+        root.popupIsMenu = false;
+        root.popupIndex = index;
+    }
+
+    function openMenu(index: int): void {
+        if (!root.showContextMenu || index < 0 || index >= root.dockModel.length || root.dockModel[index]?.separator)
+            return;
+        previewTimer.stop();
+        closeTimer.stop();
+        root.popupIsMenu = true;
+        root.popupIndex = index;
+    }
+
+    function closePopup(): void {
+        root.popupIndex = -1;
+        root.popupIsMenu = false;
+        previewTimer.stop();
+    }
+
+    function scheduleClose(): void {
+        if (!root.popupOpen)
+            return;
+        closeTimer.restart();
+    }
+
+    function launchIndex(index: int): void {
+        const app = root.dockModel[index];
+        if (!app)
+            return;
+
+        const entry = DockEntries.resolveEntry(app, DesktopEntries);
+        if (entry) {
+            try {
+                Apps.launch(entry);
+                return;
+            } catch (e) {
+                // fall through to the raw exec line
+            }
+            if (entry.command && entry.command.length > 0) {
+                Quickshell.execDetached({
+                    command: [...entry.command],
+                    workingDirectory: entry.workingDirectory || ""
+                });
+                return;
+            }
+        }
+
+        const exec = String(app.exec ?? "");
+        if (exec)
+            Quickshell.execDetached([exec]);
+    }
+
+    onMouseRootXChanged: {
+        if (root.pillHovered)
+            root.updateHoveredIndex();
+    }
     onDockHoveredChanged: {
         if (dockHovered) {
             root.updateHoveredIndex();
         } else {
             hoveredIndex = -1;
+        }
+    }
+    onPillHoveredChanged: {
+        if (root.pillHovered) {
+            closeTimer.stop();
+            root.updateHoveredIndex();
+        } else {
+            root.scheduleClose();
+        }
+    }
+    onHoveredIndexChanged: {
+        // An open menu stays put until it is dismissed or another icon is
+        // right-clicked.
+        if (root.popupIsMenu)
+            return;
+        if (root.hoveredIndex < 0) {
+            root.scheduleClose();
+            return;
+        }
+        closeTimer.stop();
+        if (root.popupOpen && root.popupIndex === root.hoveredIndex)
+            return;
+        previewTimer.restart();
+    }
+    onPopupHoveredChanged: {
+        if (root.popupHovered)
+            closeTimer.stop();
+        else
+            root.scheduleClose();
+    }
+
+    Timer {
+        id: previewTimer
+
+        interval: root.previewDelay
+        onTriggered: {
+            if (root.pillHovered && root.hoveredIndex >= 0 && !root.popupIsMenu)
+                root.openPreview(root.hoveredIndex);
+        }
+    }
+
+    Timer {
+        id: closeTimer
+
+        interval: 220
+        onTriggered: {
+            if (!root.pillHovered && !root.popupHovered)
+                root.closePopup();
         }
     }
 
@@ -138,16 +290,14 @@ Item {
     }
 
     implicitWidth: pill.implicitWidth
-    // Extra headroom so the hover tooltip is not clipped
-    implicitHeight: baseHeight + 44
+    // Extra headroom so the hover tooltip and the popup are not clipped
+    implicitHeight: baseHeight + 44 + root.popupHeadroom
 
     function resolveName(app: var): string {
         if (app?.name)
             return String(app.name);
         const id = String(app?.id ?? "").replace(/\.desktop$/i, "");
-        const entry = DesktopEntries.byId(id)
-            || DesktopEntries.heuristicLookup(id)
-            || DesktopEntries.heuristicLookup(String(app?.exec ?? ""));
+        const entry = DockEntries.resolveEntry(app, DesktopEntries);
         return entry?.name || id || String(app?.exec ?? "App");
     }
 
@@ -169,38 +319,7 @@ Item {
     }
 
     function appMatchesId(app: var, appId: string): bool {
-        const target = String(appId ?? "").toLowerCase();
-        if (!target)
-            return false;
-
-        const candidates = [];
-        function add(v) {
-            const s = String(v ?? "").trim().toLowerCase();
-            if (s && candidates.indexOf(s) === -1)
-                candidates.push(s);
-        }
-
-        add(app?.id);
-        add(String(app?.id ?? "").replace(/\.desktop$/i, ""));
-        add(app?.exec);
-        add(app?.icon);
-        const extras = app?.match ?? [];
-        for (let i = 0; i < extras.length; i++)
-            add(extras[i]);
-
-        const entry = DesktopEntries.byId(String(app?.id ?? "").replace(/\.desktop$/i, ""))
-            || DesktopEntries.heuristicLookup(String(app?.id ?? "").replace(/\.desktop$/i, ""));
-        if (entry) {
-            add(entry.id);
-            add(entry.startupClass);
-            add(entry.icon);
-        }
-
-        for (let i = 0; i < candidates.length; i++) {
-            if (target === candidates[i])
-                return true;
-        }
-        return false;
+        return DockEntries.matchesAppId(app, appId, DesktopEntries);
     }
 
     // Icon centers in ROOT coordinates, using FIXED unscaled layout
@@ -248,6 +367,7 @@ Item {
         id: tooltipBox
 
         readonly property bool show: (Config.dock.showTooltip ?? true)
+            && !root.popupOpen
             && root.dockHovered
             && root.hoveredIndex >= 0
             && !(root.dockModel[root.hoveredIndex]?.separator)
@@ -358,6 +478,8 @@ Item {
             z: 1
 
             Repeater {
+                id: iconRepeater
+
                 model: root.dockModel
 
                 delegate: Item {
@@ -367,6 +489,8 @@ Item {
                     required property int index
 
                     readonly property bool isSeparator: !!modelData?.separator
+                    // Read by the preview / menu through Dock.windowsFor()
+                    readonly property var appWindows: item.windows
 
                     // FIXED layout cell — magnification is visual-only via scale
                     width: isSeparator ? 10 : root.iconSize
@@ -384,6 +508,8 @@ Item {
                     }
 
                     DockItem {
+                        id: item
+
                         visible: !delegateRoot.isSeparator
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom
@@ -392,6 +518,8 @@ Item {
                         iconSize: root.iconSize
                         indicatorGap: root.indicatorGap
                         highlighted: root.hoveredIndex === index
+
+                        onRightClicked: root.openMenu(delegateRoot.index)
                     }
                 }
             }
@@ -403,5 +531,59 @@ Item {
         radius: pill.radius
         level: 2
         z: -1
+    }
+
+    // ---- hover preview ----
+    DockPreviewPopup {
+        id: preview
+
+        readonly property real anchorX: root.popupIndex >= 0 ? root.baseCenterRootX(root.popupIndex) : root.width / 2
+
+        visible: root.popupOpen && !root.popupIsMenu && (root.showThumbnails || root.popupWindows.length === 0)
+        app: root.popupApp
+        windows: root.popupWindows
+        iconSize: root.iconSize
+        x: root.popupX(width, anchorX)
+        y: pill.y - height - 10
+        z: 30
+
+        onWindowActivated: win => {
+            if (win)
+                Niri.focusWindow(win.id);
+            root.closePopup();
+        }
+        onWindowClosed: win => {
+            if (win)
+                Niri.closeWindow(win.id);
+        }
+        onCloseAllRequested: {
+            const wins = root.popupWindows;
+            for (let i = 0; i < wins.length; i++) {
+                if (wins[i]?.id !== undefined)
+                    Niri.closeWindow(wins[i].id);
+            }
+            root.closePopup();
+        }
+        onLaunchRequested: {
+            root.launchIndex(root.popupIndex);
+            root.closePopup();
+        }
+        onDismissed: root.closePopup()
+    }
+
+    // ---- right-click menu ----
+    DockMenu {
+        id: menu
+
+        readonly property real anchorX: root.popupIndex >= 0 ? root.baseCenterRootX(root.popupIndex) : root.width / 2
+
+        visible: root.popupOpen && root.popupIsMenu
+        app: root.popupApp
+        windows: root.popupWindows
+        x: Math.max(8, Math.min(root.width - width - 8, anchorX - width / 2))
+        y: pill.y - height - 10
+        z: 30
+
+        onDismissed: root.closePopup()
     }
 }

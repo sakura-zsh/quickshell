@@ -22,6 +22,11 @@ Item {
     property bool clockShowIcon: Config.bar.clock.showIcon ?? true
     property bool clockBackground: Config.bar.clock.background ?? false
     property bool clockShowDate: Config.bar.clock.showDate ?? false
+    property bool islandEnabled: Config.bar.clock.island ?? true
+    property bool islandArtwork: Config.bar.clock.islandArtwork ?? true
+    property bool islandWaveform: Config.bar.clock.islandWaveform ?? false
+    property bool islandProgress: Config.bar.clock.islandProgress ?? true
+    property bool islandWhitelistEnabled: Config.bar.clock.islandWhitelistEnabled ?? false
     property bool persistent: Config.bar.persistent ?? true
     property bool showOnHover: Config.bar.showOnHover ?? true
     property int dragThreshold: Config.bar.dragThreshold ?? 20
@@ -69,6 +74,11 @@ Item {
         Config.bar.clock.showIcon = root.clockShowIcon;
         Config.bar.clock.background = root.clockBackground;
         Config.bar.clock.showDate = root.clockShowDate;
+        Config.bar.clock.island = root.islandEnabled;
+        Config.bar.clock.islandArtwork = root.islandArtwork;
+        Config.bar.clock.islandWaveform = root.islandWaveform;
+        Config.bar.clock.islandProgress = root.islandProgress;
+        Config.bar.clock.islandWhitelistEnabled = root.islandWhitelistEnabled;
         Config.bar.activeWindow.compact = root.activeWindowCompact;
         Config.bar.activeWindow.inverted = root.activeWindowInverted;
         Config.bar.persistent = root.persistent;
@@ -110,6 +120,55 @@ Item {
             });
         }
         Config.bar.entries = entries;
+        Config.markDirty("bar");
+    }
+
+    // The whitelist lives directly on Config: the settings pane only ever
+    // rewrites it when the list itself changes, so an unrelated toggle can
+    // never erase saved entries.
+    function islandWhitelistIds(): var {
+        const list = Config.bar.clock.islandWhitelist;
+        const out = [];
+        if (list) {
+            for (let i = 0; i < list.length; i++)
+                out.push(String(list[i]));
+        }
+        return out;
+    }
+
+    function islandWhitelistHas(id: string): bool {
+        return root.islandWhitelistIds().includes(String(id));
+    }
+
+    // The player the island would currently use as its media source, so the list
+    // can show exactly what to whitelist.
+    function currentMediaSource(): string {
+        const ids = root.islandWhitelistIds();
+        const list = Players.list;
+        if (root.islandWhitelistEnabled) {
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].isPlaying && ids.includes(Players.getIdentity(list[i])))
+                    return Players.getIdentity(list[i]);
+            }
+            for (let i = 0; i < list.length; i++) {
+                if (ids.includes(Players.getIdentity(list[i])))
+                    return Players.getIdentity(list[i]);
+            }
+            return "";
+        }
+        return Players.active ? Players.getIdentity(Players.active) : "";
+    }
+
+    function addIslandWhitelist(id: string): void {
+        const name = String(id ?? "").trim();
+        if (name.length === 0 || root.islandWhitelistHas(name))
+            return;
+        Config.bar.clock.islandWhitelist = root.islandWhitelistIds().concat([name]);
+        Config.markDirty("bar");
+    }
+
+    function removeIslandWhitelist(id: string): void {
+        Config.bar.clock.islandWhitelist = root.islandWhitelistIds().filter(v => v !== String(id));
         Config.markDirty("bar");
     }
 
@@ -545,6 +604,202 @@ Item {
                                 onToggled: checked => {
                                     root.clockShowIcon = checked;
                                     root.saveConfig();
+                                }
+                            }
+
+                            SwitchRow {
+                                label: qsTr("灵动岛（媒体控制器）")
+                                checked: root.islandEnabled
+                                onToggled: checked => {
+                                    root.islandEnabled = checked;
+                                    root.saveConfig();
+                                }
+                            }
+
+                            SwitchRow {
+                                label: qsTr("旋转唱片封面")
+                                checked: root.islandArtwork
+                                onToggled: checked => {
+                                    root.islandArtwork = checked;
+                                    root.saveConfig();
+                                }
+                            }
+
+                            SwitchRow {
+                                label: qsTr("显示波形圆钮")
+                                checked: root.islandWaveform
+                                onToggled: checked => {
+                                    root.islandWaveform = checked;
+                                    root.saveConfig();
+                                }
+                            }
+
+                            SwitchRow {
+                                label: qsTr("显示播放进度")
+                                checked: root.islandProgress
+                                onToggled: checked => {
+                                    root.islandProgress = checked;
+                                    root.saveConfig();
+                                }
+                            }
+
+                            SwitchRow {
+                                label: qsTr("仅白名单媒体源触发灵动岛")
+                                checked: root.islandWhitelistEnabled
+                                onToggled: checked => {
+                                    root.islandWhitelistEnabled = checked;
+                                    root.saveConfig();
+                                }
+                            }
+                        }
+
+                        SectionContainer {
+                            Layout.fillWidth: true
+                            alignTop: true
+                            visible: root.islandWhitelistEnabled
+
+                            StyledText {
+                                text: qsTr("灵动岛媒体源白名单")
+                                font.pointSize: Appearance.font.size.bodyMedium
+                            }
+
+                            StyledText {
+                                Layout.fillWidth: true
+                                text: qsTr("只有列表中的应用作为当前媒体源时，灵动岛才会展开显示媒体信息。")
+                                color: Colours.palette.m3onSurfaceVariant
+                                font.pointSize: Appearance.font.size.labelLarge
+                                wrapMode: Text.WordWrap
+                            }
+
+                            StyledRect {
+                                Layout.fillWidth: true
+                                implicitHeight: currentSourceRow.implicitHeight + Appearance.padding.sm * 2
+                                radius: Appearance.rounding.small
+                                color: Colours.layer(Colours.palette.m3surfaceContainer, 3)
+
+                                RowLayout {
+                                    id: currentSourceRow
+
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.margins: Appearance.padding.sm
+                                    spacing: Appearance.spacing.sm
+
+                                    StyledText {
+                                        Layout.fillWidth: true
+                                        text: qsTr("当前媒体源：%1").arg(root.currentMediaSource().length > 0 ? root.currentMediaSource() : qsTr("无"))
+                                        color: Colours.palette.m3onSurfaceVariant
+                                        font.pointSize: Appearance.font.size.labelLarge
+                                        elide: Text.ElideRight
+                                    }
+
+                                    IconButton {
+                                        icon: "add"
+                                        type: IconButton.Text
+                                        visible: root.currentMediaSource().length > 0 && !root.islandWhitelistHas(root.currentMediaSource())
+                                        onClicked: root.addIslandWhitelist(root.currentMediaSource())
+                                    }
+                                }
+                            }
+
+                            Repeater {
+                                model: Players.list
+
+                                delegate: StyledRect {
+                                    required property var modelData
+
+                                    Layout.fillWidth: true
+                                    implicitHeight: playerRow.implicitHeight + Appearance.padding.sm * 2
+                                    radius: Appearance.rounding.small
+                                    color: Colours.layer(Colours.palette.m3surfaceContainer, 2)
+
+                                    RowLayout {
+                                        id: playerRow
+
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.margins: Appearance.padding.sm
+                                        spacing: Appearance.spacing.sm
+
+                                        StyledText {
+                                            Layout.fillWidth: true
+                                            text: Players.getIdentity(modelData) + (modelData.isPlaying ? qsTr("（播放中）") : "")
+                                            elide: Text.ElideRight
+                                        }
+
+                                        IconButton {
+                                            icon: root.islandWhitelistHas(Players.getIdentity(modelData)) ? "check" : "add"
+                                            type: IconButton.Text
+                                            disabled: root.islandWhitelistHas(Players.getIdentity(modelData))
+                                            onClicked: root.addIslandWhitelist(Players.getIdentity(modelData))
+                                        }
+                                    }
+                                }
+                            }
+
+                            Repeater {
+                                model: Config.bar.clock.islandWhitelist
+
+                                delegate: StyledRect {
+                                    required property var modelData
+
+                                    Layout.fillWidth: true
+                                    implicitHeight: whitelistRow.implicitHeight + Appearance.padding.sm * 2
+                                    radius: Appearance.rounding.small
+                                    color: Colours.layer(Colours.palette.m3surfaceContainer, 2)
+
+                                    RowLayout {
+                                        id: whitelistRow
+
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.margins: Appearance.padding.sm
+                                        spacing: Appearance.spacing.sm
+
+                                        StyledText {
+                                            Layout.fillWidth: true
+                                            text: String(modelData)
+                                            elide: Text.ElideRight
+                                        }
+
+                                        IconButton {
+                                            icon: "close"
+                                            type: IconButton.Text
+                                            onClicked: root.removeIslandWhitelist(modelData)
+                                        }
+                                    }
+                                }
+                            }
+
+                            StyledRect {
+                                Layout.fillWidth: true
+                                implicitHeight: 40
+                                radius: Appearance.rounding.small
+                                color: islandWhitelistField.activeFocus ? Colours.layer(Colours.palette.m3surfaceContainer, 3) : Colours.layer(Colours.palette.m3surfaceContainer, 2)
+                                border.width: 1
+                                border.color: islandWhitelistField.activeFocus ? Colours.palette.m3primary : Qt.alpha(Colours.palette.m3outline, 0.3)
+
+                                Behavior on color {
+                                    CAnim {}
+                                }
+                                Behavior on border.color {
+                                    CAnim {}
+                                }
+
+                                StyledTextField {
+                                    id: islandWhitelistField
+
+                                    anchors.centerIn: parent
+                                    width: parent.width - Appearance.padding.md
+                                    horizontalAlignment: TextInput.AlignLeft
+                                    placeholderText: qsTr("手动添加播放器标识，回车确认")
+                                    onAccepted: {
+                                        root.addIslandWhitelist(text);
+                                        text = "";
+                                    }
                                 }
                             }
                         }

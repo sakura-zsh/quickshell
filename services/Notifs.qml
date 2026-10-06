@@ -113,6 +113,16 @@ Singleton {
         persistenceSupported: true
 
         onNotification: notification => {
+            // Window thumbnails for the dock come from niri's screenshot
+            // action, and niri announces every screenshot on the desktop bus.
+            // Those popups are our own doing, not something the user asked
+            // for, so drop them before they reach the popup or the history.
+            if (root.isDockThumbnailAnnouncement(notification)) {
+                notification.tracked = true;
+                notification.dismiss();
+                return;
+            }
+
             notification.tracked = true;
 
             const newNotif = notifComp.createObject(root, {
@@ -200,6 +210,24 @@ Singleton {
     /** Reset the unread counter. */
     function markAllRead(): void {
         root.unread = 0;
+    }
+
+    /**
+     * Is this niri announcing a screenshot the dock took for a thumbnail?
+     * The dock's window previews are captured through niri's screenshot action
+     * and niri puts the saved path on the bus as the notification icon, so a
+     * niri screenshot whose icon is one of our own cache files is definitely
+     * ours. A screenshot arriving while a capture is in flight is ours too.
+     */
+    function isDockThumbnailAnnouncement(notification: var): bool {
+        if (!notification || notification.appName !== "niri")
+            return false;
+
+        const icon = String(notification.appIcon ?? "");
+        if (icon.length > 0 && icon.indexOf(DockPreview.cacheDir) !== -1)
+            return true;
+
+        return DockPreview.suppressScreenshotNotifications && String(notification.summary ?? "").toLowerCase().includes("screenshot");
     }
 
     /**

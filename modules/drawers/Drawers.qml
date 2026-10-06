@@ -42,7 +42,18 @@ Variants {
                 height: win.height - bar.implicitHeight - Config.border.thickness
                 intersection: Intersection.Xor
 
-                regions: regions.instances
+                // Panels, plus the bar's dynamic island while it is expanded.
+                // Both are subtracted from the region above, which the XOR then
+                // turns back into "bar strip + whatever grew out of it".
+                regions: {
+                    const out = [];
+                    const lists = [regions.instances, islandRegions.instances];
+                    for (let l = 0; l < lists.length; l++) {
+                        for (let i = 0; i < lists[l].length; i++)
+                            out.push(lists[l][i]);
+                    }
+                    return out;
+                }
             }
 
             anchors.top: true
@@ -62,6 +73,19 @@ Variants {
                     y: modelData.y + bar.implicitHeight
                     width: modelData.width
                     height: modelData.height
+                    intersection: Intersection.Subtract
+                }
+            }
+
+            Variants {
+                id: islandRegions
+
+                model: bar.islandInputItem ? [bar.islandInputItem] : []
+
+                Region {
+                    required property Item modelData
+
+                    item: modelData
                     intersection: Intersection.Subtract
                 }
             }
@@ -145,6 +169,36 @@ Variants {
                     popouts: panels.popouts
 
                     Component.onCompleted: Visibilities.bars.set(scope.modelData, this)
+                }
+
+                // Top-edge dashboard trigger.
+                //
+                // It needs its own hover surface above the bar: modules that
+                // take hover (the dynamic island's disc and clock, tray icons)
+                // swallow the pointer moves the bar's hover logic runs on, so
+                // pushing the cursor to the top edge stopped reaching it.
+                // A HoverHandler is enough — hover is all this gesture needs,
+                // and unlike a MouseArea it never eats bar clicks.
+                Item {
+                    id: dashboardEdge
+
+                    readonly property real triggerHeight: Math.max(6, Config.dashboard.hoverTriggerHeight)
+
+                    anchors.top: parent.top
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: panels.dashboard.width
+                    height: dashboardEdge.triggerHeight
+                    visible: Config.dashboard.enabled && Config.dashboard.showOnHover && Config.dashboard.topEdgeTrigger
+                    z: 100
+
+                    HoverHandler {
+                        id: dashboardEdgeHover
+
+                        onHoveredChanged: {
+                            if (dashboardEdgeHover.hovered)
+                                visibilities.dashboard = true;
+                        }
+                    }
                 }
             }
         }

@@ -31,7 +31,7 @@ PanelWindow {
     margins.right: 12
 
     // Auto-size to dock content (macOS pill, not full-width strip)
-    // Include hover growth + tooltip headroom so magnification is not clipped
+    // Include the fixed popup headroom so a preview/menu is never clipped
     implicitWidth: dock.implicitWidth
     implicitHeight: dock.implicitHeight
 
@@ -65,8 +65,15 @@ PanelWindow {
 
     color: "transparent"
 
+    // Only the pill (or the hover grab strip) plus any open popup takes input;
+    // the reserved popup headroom stays click-through.
     mask: Region {
-        item: root.showOnHover && !root.expanded ? grab : dock.clickTarget
+        Region {
+            item: root.showOnHover && !root.expanded ? grab : dock.clickTarget
+        }
+        Region {
+            item: dock.popupInputItem
+        }
     }
 
     // Collapse back after the mouse leaves the dock

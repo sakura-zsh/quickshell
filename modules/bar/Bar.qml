@@ -17,6 +17,15 @@ RowLayout {
     required property BarPopouts.Wrapper popouts
     readonly property int hPadding: Appearance.padding.xl
 
+    // ── Dynamic island ──────────────────────────────────────────────────────
+    // The clock module registers itself here (expanded or not). Only the grown
+    // controller needs window input beyond the bar strip, so `islandInputItem`
+    // is what Drawers.qml adds to its input mask; `islandHovered` lets wheel
+    // events through to the island while it hangs below the bar.
+    property Item islandItem: null
+    readonly property Item islandInputItem: root.islandItem && root.islandItem.expanded ? root.islandItem : null
+    readonly property bool islandHovered: root.islandItem ? root.islandItem.hovered : false
+
     // Handle Workspace Popouts for Niri
 
     Connections {
@@ -72,11 +81,43 @@ RowLayout {
         }
     }
 
+    // True only over the speaker icon inside the status cluster. The wheel used
+    // to fall through to the volume action anywhere on the bar, which both
+    // hijacked scrolling over unrelated modules and fought the dynamic island.
+    function isOverVolumeIcon(statusIcons: var, x: real): bool {
+        const items = statusIcons?.items;
+        if (!items)
+            return false;
+
+        const icon = items.childAt(root.mapToItem(items, x, 0).x, items.height / 2);
+        return !!icon?.scrollTarget;
+    }
+
     function handleWheel(x: real, angleDelta: point): void {
+        // The dynamic island eats the wheel while the pointer is over it: down
+        // grows the media controller out of the clock, up collapses it.
+        const island = root.islandItem;
+        if (island) {
+            const left = island.mapToItem(null, 0, 0).x;
+            if (x >= left && x <= left + island.width) {
+                island.handleWheel(angleDelta.y);
+                return;
+            }
+        }
+
         const ch = childAt(x, height / 2) as WrappedLoader;
+
+        if (ch?.id === "clock" && ch.item?.islandItem) {
+            ch.item.islandItem.handleWheel(angleDelta.y);
+            return;
+        }
+
         if (ch?.id === "workspaces" && Config.bar.scrollActions.workspaces) {
             Niri.switchToWorkspaceUpDown(angleDelta.y > 0 ? "up" : "down");
-        } else if (Config.bar.scrollActions.volume) {
+            return;
+        }
+
+        if (ch?.id === "statusIcons" && Config.bar.scrollActions.volume && root.isOverVolumeIcon(ch.item, x)) {
             if (angleDelta.y > 0)
                 Audio.incrementVolume();
             else if (angleDelta.y < 0)
@@ -131,7 +172,9 @@ RowLayout {
                 delegate: WrappedLoader {
                     sourceComponent: Rectangle {
                         implicitWidth: 1
-                        implicitHeight: Appearance.padding.md
+                        // Grown with the bar so the dividers do not shrink
+                        // next to the icons they separate.
+                        implicitHeight: Math.round(Appearance.padding.md * Config.bar.sizes.iconScale)
                         color: Colours.palette.m3outlineVariant
                     }
                 }
@@ -200,21 +243,35 @@ RowLayout {
                     Layout.preferredWidth: clockSlot.pinned ? 0 : implicitWidth
                     Layout.preferredHeight: Config.bar.sizes.innerWidth
 
-                    // The Clock sits inside a wrapper Item: the slot is zero-wide
-                    // when pinned, so the wrapper is too, but a child keeps its
-                    // own size (a Loader resizes only its direct item, never that
-                    // item's children). Without this the pill would collapse to
-                    // zero width.
+                    // The Island sits inside a wrapper Item: the slot is
+                    // zero-wide when pinned, so the wrapper is too, but a child
+                    // keeps its own size (a Loader resizes only its direct item,
+                    // never that item's children). Without this the pill would
+                    // collapse to zero width — and an expanding island could not
+                    // reach past the bar strip either.
                     sourceComponent: Item {
-                        implicitWidth: clockPill.implicitWidth
-                        implicitHeight: clockPill.implicitHeight
+                        // The row reserves the resting pill only, so growing the
+                        // island never reflows its neighbours.
+                        implicitWidth: island.restingWidth
+                        implicitHeight: island.barHeight
 
-                        Clock {
-                            id: clockPill
+                        // Exposed so the window input mask can follow the
+                        // expanded island.
+                        readonly property Item islandItem: island
+
+                        Island {
+                            id: island
 
                             // Pinned to the bar centre: depends on the bar width
                             // only, so nothing to the left or right can move it.
-                            x: clockSlot.pinned ? (root.width / 2 + Config.bar.clock.offset - clockSlot.x - width / 2) : 0
+                            x: clockSlot.pinned ? (root.width / 2 + Config.bar.clock.offset - clockSlot.x - island.centreAnchorX) : 0
+                            y: 0
+
+                            Component.onCompleted: root.islandItem = island
+                            Component.onDestruction: {
+                                if (root.islandItem === island)
+                                    root.islandItem = null;
+                            }
                         }
                     }
                 }

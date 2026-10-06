@@ -39,6 +39,23 @@ SectionContainer {
     }
 
     SwitchRow {
+        label: qsTr("顶栏边缘悬停触发")
+        checked: root.rootItem.topEdgeTrigger
+        onToggled: checked => {
+            root.rootItem.topEdgeTrigger = checked;
+            root.rootItem.saveConfig();
+        }
+    }
+
+    StyledText {
+        Layout.fillWidth: true
+        text: qsTr("关闭后请使用 Win 键开关 dashboard（niri 绑定 Super_L）。")
+        color: Colours.palette.m3onSurfaceVariant
+        font.pointSize: Appearance.font.size.labelLarge
+        wrapMode: Text.WordWrap
+    }
+
+    SwitchRow {
         label: qsTr("将壁纸用作头像")
         checked: root.rootItem.useWallpaperAvatar
         onToggled: checked => {
