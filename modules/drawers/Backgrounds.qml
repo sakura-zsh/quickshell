@@ -76,9 +76,8 @@ Shape {
     BarPopouts.Background {
         wrapper: root.panels.popouts
         invertBottomRounding: wrapper.y + wrapper.height + 1 >= root.height
-
-        startX: wrapper.x
-        startY: wrapper.y
+        // startX/startY come from the wrapper (the path also insets itself by
+        // its corner radius), so nothing is passed here.
     }
 
     Utilities.Background {

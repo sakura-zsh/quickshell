@@ -29,6 +29,11 @@ Singleton {
     // every panel that fuses into the frame. Config.border.colour overrides the
     // theme's surface colour when it is not empty.
     readonly property color shellSurface: (Config.border.colour ?? "") !== "" ? Config.border.colour : palette.m3surface
+    // Colour of a bar function block and of the popouts hanging below it when the
+    // frame is off. Same rule as above: an explicit frame colour wins, otherwise
+    // the tone the modules' own pills use, so switching the frame off keeps the
+    // bar's contrast instead of turning it into a row of bright blocks.
+    readonly property color barBlock: (Config.border.colour ?? "") !== "" ? shellSurface : tPalette.m3surfaceContainer
 
     property bool _updatePending: false
 

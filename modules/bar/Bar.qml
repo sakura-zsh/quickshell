@@ -345,7 +345,7 @@ RowLayout {
     // Follow an explicit frame colour when one is set, otherwise use the tone
     // the modules themselves used — the same grey the pills have with the frame
     // on, so switching the frame off does not change the bar's contrast.
-    readonly property color zoneColour: (Config.border.colour ?? "") !== "" ? Colours.shellSurface : Colours.tPalette.m3surfaceContainer
+    readonly property color zoneColour: Colours.barBlock
 
     component WrappedLoader: Item {
         id: wrapper
