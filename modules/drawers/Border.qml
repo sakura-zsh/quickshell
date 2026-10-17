@@ -12,11 +12,14 @@ Item {
     required property Item bar
 
     anchors.fill: parent
-    visible: Config.border.thickness > 0
+    // With the frame switched off nothing is painted here: the bar's modules
+    // draw their own islands (modules/bar/Bar.qml) and the wallpaper shows
+    // through everywhere the frame used to cover it.
+    visible: Config.border.enabled && Config.border.thickness > 0
 
     StyledRect {
         anchors.fill: parent
-        color: Colours.palette.m3surface
+        color: Colours.shellSurface
 
         layer.enabled: root.visible
         layer.effect: MultiEffect {

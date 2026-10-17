@@ -23,7 +23,7 @@ ShapePath {
     readonly property real sideRounding: 1
 
     strokeWidth: -1
-    fillColor: Colours.palette.m3surface
+    fillColor: Colours.shellSurface
 
     // Top edge — square, runs along the bottom of the bar
     PathLine {

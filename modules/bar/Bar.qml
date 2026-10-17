@@ -1,5 +1,6 @@
 pragma ComponentBehavior: Bound
 
+import qs.components
 import qs.services
 import qs.config
 import "popouts" as BarPopouts
@@ -325,19 +326,79 @@ RowLayout {
 
     Component.onCompleted: updateEnabledCache()
 
-    component WrappedLoader: Loader {
+    // ── Module islands ──────────────────────────────────────────────────────
+    // The screen frame (Config.border.enabled) paints the strip behind the bar.
+    // With it switched off there is nothing behind the modules any more, so one
+    // block is drawn here for every function area, and the modules stop
+    // painting their own pills (Tray / StatusIcons / ActiveWindow / Workspaces
+    // check Config.border.enabled for that) — otherwise an island would show as
+    // a bright rim around the pill inside it.
+    //
+    // Blocks are separated by the row spacing plus `zonePad` on each side; the
+    // pad is added to the *layout* (Layout.left/rightMargin) instead of being
+    // taken out of the spacing, so the gap between two blocks is deterministic.
+    // Spacers and dividers get neither, which leaves the area between them empty
+    // so the wallpaper shows through.
+    readonly property bool zones: !Config.border.enabled
+    readonly property int zonePad: zones ? Appearance.padding.md : 0
+
+    // Follow an explicit frame colour when one is set, otherwise use the tone
+    // the modules themselves used — the same grey the pills have with the frame
+    // on, so switching the frame off does not change the bar's contrast.
+    readonly property color zoneColour: (Config.border.colour ?? "") !== "" ? Colours.shellSurface : Colours.tPalette.m3surfaceContainer
+
+    component WrappedLoader: Item {
+        id: wrapper
+
         required property string id
         required property int index
 
+        // Loader API kept intact — checkPopout()/handleWheel() above walk the
+        // bar's children and expect every entry to be a loader.
+        property alias sourceComponent: loader.sourceComponent
+        property alias item: loader.item
+
+        readonly property bool isZone: wrapper.id !== "spacer" && wrapper.id !== "divider" && !root.isCentredModule(wrapper.index)
+        readonly property real pad: wrapper.isZone ? root.zonePad : 0
+
         onEnabledChanged: root.updateEnabledCache()
 
+        implicitWidth: loader.implicitWidth
+        implicitHeight: loader.implicitHeight
+
         Layout.alignment: Qt.AlignVCenter
+        Layout.fillWidth: wrapper.id === "spacer"
 
-        Layout.leftMargin: root.firstEnabled === this ? root.hPadding : 0
-        Layout.rightMargin: root.lastEnabled === this ? root.hPadding : 0
+        Layout.leftMargin: (root.firstEnabled === wrapper ? root.hPadding : 0) + wrapper.pad
+        Layout.rightMargin: (root.lastEnabled === wrapper ? root.hPadding : 0) + wrapper.pad
 
-        asynchronous: true
         visible: enabled
-        active: enabled
+
+        StyledRect {
+            id: zoneBg
+
+            // Declared first so the loader stacks on top of it, and sized to
+            // overflow the module by `pad` on each side — exactly the space the
+            // layout margins above reserve for it.
+            visible: wrapper.isZone && root.zones
+
+            x: -wrapper.pad
+            y: (wrapper.height - zoneBg.height) / 2
+            width: wrapper.width + wrapper.pad * 2
+            height: Config.bar.sizes.innerWidth
+            radius: Appearance.rounding.full
+            color: root.zoneColour
+            // Same treatment the frame gets in Drawers.qml, so a block is exactly
+            // as see-through as the strip it replaces.
+            opacity: Colours.transparency.enabled ? Colours.transparency.base : 1
+        }
+
+        Loader {
+            id: loader
+
+            anchors.fill: parent
+            asynchronous: true
+            active: wrapper.enabled
+        }
     }
 }

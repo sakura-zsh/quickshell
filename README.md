@@ -330,6 +330,42 @@ layer-rule {
 }
 ````
 
+### Stationary wallpaper in the overview
+
+By default niri draws a background layer per workspace, so the wallpaper zooms
+out and travels with the workspaces and the gaps between them fall back to the
+overview backdrop colour (black). To get one wallpaper that never moves, put the
+wallpaper surfaces into the overview backdrop instead:
+
+```kdl
+// The blurred base (drawn first, underneath)
+layer-rule {
+    match namespace="^quickshell:Backdrop$"
+    place-within-backdrop true
+}
+
+// The wallpaper itself (drawn on top of the blurred base)
+layer-rule {
+    match namespace="^caelestia-background$"
+    place-within-backdrop true
+}
+
+layout {
+    // Workspaces stop painting their own colour, which lets the wallpaper
+    // above show through everywhere, including in the overview.
+    background-color "transparent"
+}
+
+overview {
+    // Optional: with a stationary wallpaper the per-workspace shadows are
+    // what remains of the spatial model; drop them for a flat look.
+    // workspace-shadow { off }
+}
+```
+
+Both rules are needed: with only the sharp wallpaper in the backdrop the blurred
+`quickshell:Backdrop` surface still zooms with each workspace and covers it.
+
 <details><summary> <b> Example Niri config.kdl </b></summary>
 
 ```kdl
@@ -619,8 +655,10 @@ Config lives in:
         }
     },
     "border": {
+        "enabled": true,
         "rounding": 10,
-        "thickness": 10
+        "thickness": 10,
+        "colour": ""
     },
     "dashboard": {
         "enabled": true,

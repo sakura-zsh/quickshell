@@ -13,7 +13,7 @@ ShapePath {
     readonly property real realRounding: (wrapper?.width ?? 0) > 0 ? rounding : 0
 
     strokeWidth: -1
-    fillColor: Colours.palette.m3surface
+    fillColor: Colours.shellSurface
 
     // startX and startY are properties of ShapePath, set in Backgrounds.qml (sidebar edge)
     

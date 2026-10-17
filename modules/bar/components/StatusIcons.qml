@@ -21,7 +21,9 @@ StyledRect {
     // without this the icons stay put when the bar is made thicker.
     readonly property int iconSize: Math.round(Appearance.font.size.bodyLarge * Config.bar.sizes.iconScale)
 
-    color: Colours.tPalette.m3surfaceContainer
+    // With the frame off the bar draws one block per module instead; a pill here
+    // as well would show as a rim inside it.
+    color: Config.border.enabled ? Colours.tPalette.m3surfaceContainer : "transparent"
     radius: Appearance.rounding.full
 
     clip: true

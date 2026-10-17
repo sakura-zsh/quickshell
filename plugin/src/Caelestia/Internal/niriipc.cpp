@@ -392,6 +392,17 @@ void NiriIpc::fetchInitialState() {
         data[QStringLiteral("keyboard_layouts")] = result.value(QStringLiteral("KeyboardLayouts"));
         handleKeyboardLayoutsChanged(data);
     });
+
+    // Fetch overview state
+    // Fetch overview state: the event only fires on change, so a shell started
+    // while the overview is already open would otherwise report it as closed.
+    m_requestSocket.request("\"OverviewState\"", [this](bool ok, const QJsonObject& resp) {
+        if (!ok) return;
+        const auto result = resp.value(QStringLiteral("result")).toObject();
+        QJsonObject data;
+        data[QStringLiteral("is_open")] = result.value(QStringLiteral("OverviewState")).toObject().value(QStringLiteral("is_open"));
+        handleOverviewOpenedOrClosed(data);
+    });
 }
 
 // ── Event Handlers ───────────────────────────────────────────────────

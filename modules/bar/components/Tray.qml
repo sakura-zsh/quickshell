@@ -15,7 +15,9 @@ StyledRect {
     implicitHeight: Config.bar.sizes.innerWidth
     implicitWidth: layout.implicitWidth + (Config.bar.tray.background ? Appearance.padding.md : Appearance.padding.xs) * 2
 
-    color: Qt.alpha(Colours.tPalette.m3surfaceContainer, Config.bar.tray.background ? Colours.tPalette.m3surfaceContainer.a : 0)
+    // With the frame off the bar draws one block per module instead, so this
+    // pill (and the width it reserves) steps aside.
+    color: Qt.alpha(Colours.tPalette.m3surfaceContainer, Config.border.enabled && Config.bar.tray.background ? Colours.tPalette.m3surfaceContainer.a : 0)
     radius: Appearance.rounding.full
 
     Row {

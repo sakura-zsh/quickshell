@@ -315,8 +315,10 @@ Singleton {
 
     function serializeBorder(): var {
         return {
+            enabled: border.enabled,
             thickness: border.thickness,
-            rounding: border.rounding
+            rounding: border.rounding,
+            colour: border.colour
         };
     }
 

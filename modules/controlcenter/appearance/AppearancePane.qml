@@ -35,6 +35,8 @@ Item {
     property bool reduceTransparency: Config.appearance.transparency.reduceTransparency ?? false
     property real borderRounding: Config.border.rounding ?? 1
     property real borderThickness: Config.border.thickness ?? 1
+    property bool borderEnabled: Config.border.enabled ?? true
+    property string borderColour: Config.border.colour ?? ""
 
     property bool desktopClockEnabled: Config.background.desktopClock.enabled ?? false
     property real desktopClockScale: Config.background.desktopClock.scale ?? 1
@@ -93,6 +95,8 @@ Item {
 
         Config.border.rounding = root.borderRounding;
         Config.border.thickness = root.borderThickness;
+        Config.border.enabled = root.borderEnabled;
+        Config.border.colour = root.borderColour;
 
         Config.markDirty("appearance");
         Config.markDirty("background");

@@ -22,7 +22,9 @@ StyledRect {
     implicitHeight: Config.bar.sizes.innerWidth
     implicitWidth: layout.implicitWidth + Appearance.padding.xs * 2
 
-    color: Colours.tPalette.m3surfaceContainer
+    // With the frame off the bar draws one block per module instead; a pill here
+    // as well would show as a rim inside it.
+    color: Config.border.enabled ? Colours.tPalette.m3surfaceContainer : "transparent"
     radius: Appearance.rounding.full
 
     signal requestWindowPopout

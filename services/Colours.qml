@@ -25,6 +25,10 @@ Singleton {
     readonly property M3Palette preview: M3Palette {}
     readonly property Transparency transparency: Transparency {}
     property real wallLuminance
+    // Colour of the screen frame: the border ring, the strip behind the bar and
+    // every panel that fuses into the frame. Config.border.colour overrides the
+    // theme's surface colour when it is not empty.
+    readonly property color shellSurface: (Config.border.colour ?? "") !== "" ? Config.border.colour : palette.m3surface
 
     property bool _updatePending: false
 

@@ -71,8 +71,9 @@ StyledRect {
     implicitHeight: Config.bar.sizes.innerWidth
 
     // Same colour token as the clock / tray / status pills so every bar
-    // module shares one background colour.
-    color: Qt.alpha(Colours.tPalette.m3surfaceContainer, Config.bar.activeWindow.background ? Colours.tPalette.m3surfaceContainer.a : 0)
+    // module shares one background colour. With the frame off the bar draws one
+    // block per module instead, so this pill steps aside.
+    color: Qt.alpha(Colours.tPalette.m3surfaceContainer, Config.border.enabled && Config.bar.activeWindow.background ? Colours.tPalette.m3surfaceContainer.a : 0)
     radius: Appearance.rounding.full
 
     Row {

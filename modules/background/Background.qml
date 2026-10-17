@@ -9,6 +9,8 @@ import Quickshell.Wayland
 import QtQuick
 
 Loader {
+    id: root
+
     active: Config.background.enabled
 
     sourceComponent: Variants {
